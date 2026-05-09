@@ -694,25 +694,25 @@
       font-size:clamp(42px,3.15vw,62px)!important;
     }
     .intro-loader{
-      transition:opacity 2.45s cubic-bezier(.22,.61,.36,1),visibility 2.45s cubic-bezier(.22,.61,.36,1),transform 2.45s cubic-bezier(.22,.61,.36,1),filter 2.45s cubic-bezier(.22,.61,.36,1)!important;
+      transition:opacity 1.85s cubic-bezier(.22,.61,.36,1),visibility 1.85s cubic-bezier(.22,.61,.36,1),transform 1.85s cubic-bezier(.22,.61,.36,1),filter 1.85s cubic-bezier(.22,.61,.36,1)!important;
     }
     .intro-stage-chair{
       width:min(1080px,84vw)!important;
-      animation:chairRevealSlow 2.9s cubic-bezier(.22,.61,.36,1) forwards!important;
-      animation-delay:.45s!important;
+      animation:chairRevealSlow 2.35s cubic-bezier(.22,.61,.36,1) forwards!important;
+      animation-delay:.35s!important;
     }
     .intro-stage-chair img{
       filter:contrast(1.02) saturate(1.02);
     }
     .intro-name-chair{
-      animation-delay:1.75s!important;
+      animation-delay:1.18s!important;
       text-shadow:0 1px 28px rgba(255,255,255,.88);
     }
     .intro-chair-caption{
-      animation-delay:3.05s!important;
+      animation-delay:2.45s!important;
     }
     .skip-intro{
-      animation-delay:3.4s!important;
+      animation-delay:2.75s!important;
     }
     @keyframes chairRevealSlow{
       0%{opacity:0;filter:blur(18px) saturate(.82) contrast(.94);transform:translate(-50%,-43%) scale(.86)}
@@ -791,42 +791,158 @@
     }
 
 
-    /* INDEX LIMPIO: cierre breve después de las dos tarjetas principales */
-    .compact-contact{
-      padding:92px 46px 104px!important;
-      background:#fff!important;
-      border-top:1px solid var(--line);
+    /* AJUSTE UX: siluetas de productos dentro de cada universo */
+    .product-silhouettes{
+      position:absolute;
+      inset:0;
+      z-index:1;
+      pointer-events:none;
+      overflow:hidden;
     }
-    .compact-contact .cta-content{
-      max-width:920px;
-      margin:0 auto;
+    .product-silhouettes::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      z-index:3;
+      pointer-events:none;
     }
-    .compact-contact h2{
-      font-family:"Helvetica Neue", Helvetica, Arial, sans-serif!important;
-      font-size:clamp(38px,5vw,78px)!important;
-      line-height:1!important;
-      font-weight:320!important;
-      letter-spacing:-.055em!important;
-      text-transform:none!important;
-      max-width:900px!important;
+    .split-living .product-silhouettes::after{
+      background:linear-gradient(90deg,rgba(228,223,214,.96) 0%,rgba(228,223,214,.78) 48%,rgba(228,223,214,.34) 100%);
     }
-    .compact-contact p{
-      max-width:700px!important;
-      margin:28px auto 38px!important;
-      font-size:clamp(16px,1.05vw,19px)!important;
-      line-height:1.75!important;
-      color:rgba(17,19,20,.62)!important;
-      font-weight:330!important;
+    .split-author .product-silhouettes::after{
+      background:linear-gradient(90deg,rgba(25,25,25,.96) 0%,rgba(25,25,25,.82) 48%,rgba(25,25,25,.42) 100%);
     }
-    .compact-contact .cta-actions{
-      display:flex;
-      justify-content:center;
-      gap:14px;
-      flex-wrap:wrap;
+    .product-silhouette{
+      position:absolute;
+      display:block;
+      object-fit:contain;
+      object-position:center;
+      opacity:.16;
+      transform-origin:center;
+      transition:opacity .45s ease, transform .65s cubic-bezier(.22,.61,.36,1), filter .45s ease;
+      user-select:none;
+    }
+    .split-living .product-silhouette{
+      filter:grayscale(1) contrast(1.08) brightness(.78);
+      mix-blend-mode:multiply;
+    }
+    .split-author .product-silhouette{
+      opacity:.20;
+      filter:grayscale(1) contrast(1.18) brightness(1.35);
+      mix-blend-mode:screen;
+    }
+    .silhouette-main{
+      width:clamp(260px,24vw,440px);
+      height:clamp(280px,29vw,520px);
+      right:clamp(-88px,-4vw,-26px);
+      bottom:clamp(-86px,-5vw,-34px);
+      z-index:2;
+    }
+    .silhouette-secondary{
+      width:clamp(170px,15vw,290px);
+      height:clamp(180px,19vw,340px);
+      right:clamp(180px,15vw,300px);
+      top:clamp(32px,4vw,72px);
+      z-index:1;
+      opacity:.10;
+      transform:rotate(-5deg);
+    }
+    .silhouette-detail{
+      width:clamp(125px,10vw,210px);
+      height:clamp(125px,11vw,230px);
+      right:clamp(34px,4vw,82px);
+      top:clamp(42px,5vw,88px);
+      z-index:1;
+      opacity:.08;
+      transform:rotate(6deg);
+    }
+    .split-universe-card:hover .silhouette-main{
+      opacity:.23;
+      transform:translate(-8px,-8px) scale(1.035);
+    }
+    .split-universe-card:hover .silhouette-secondary{
+      opacity:.15;
+      transform:translate(8px,4px) rotate(-3deg) scale(1.02);
+    }
+    .split-universe-card:hover .silhouette-detail{
+      opacity:.13;
+      transform:translate(-6px,8px) rotate(4deg) scale(1.02);
+    }
+    .split-card-content{
+      position:relative;
+      z-index:4;
+    }
+    .split-living .split-card-content{
+      max-width:660px;
+    }
+    .split-author .split-card-content{
+      max-width:690px;
+    }
+    @media(max-width:1050px){
+      .silhouette-main{right:-70px;bottom:-72px;width:330px;height:390px;opacity:.12;}
+      .silhouette-secondary{right:180px;top:42px;width:210px;height:240px;opacity:.08;}
+      .silhouette-detail{right:38px;top:42px;width:150px;height:160px;opacity:.06;}
+      .split-living .product-silhouettes::after{background:linear-gradient(90deg,rgba(228,223,214,.98) 0%,rgba(228,223,214,.86) 58%,rgba(228,223,214,.52) 100%);}
+      .split-author .product-silhouettes::after{background:linear-gradient(90deg,rgba(25,25,25,.98) 0%,rgba(25,25,25,.88) 58%,rgba(25,25,25,.56) 100%);}
     }
     @media(max-width:640px){
-      .compact-contact{padding:70px 28px 82px!important;}
-      .compact-contact .cta-actions{flex-direction:column;}
+      .product-silhouettes{opacity:.65;}
+      .silhouette-main{width:250px;height:310px;right:-105px;bottom:-78px;}
+      .silhouette-secondary{display:none;}
+      .silhouette-detail{width:130px;height:140px;right:-16px;top:18px;opacity:.055;}
+      .split-living .product-silhouettes::after{background:linear-gradient(180deg,rgba(228,223,214,.97) 0%,rgba(228,223,214,.88) 58%,rgba(228,223,214,.74) 100%);}
+      .split-author .product-silhouettes::after{background:linear-gradient(180deg,rgba(25,25,25,.98) 0%,rgba(25,25,25,.90) 58%,rgba(25,25,25,.78) 100%);}
+    }
+
+
+    /* AJUSTE UX FINAL: intro más breve y desvanecido casi imperceptible */
+    .intro-loader{
+      transition:
+        opacity 2.1s cubic-bezier(.22,.61,.36,1),
+        visibility 2.1s cubic-bezier(.22,.61,.36,1),
+        transform 2.1s cubic-bezier(.22,.61,.36,1),
+        filter 2.1s cubic-bezier(.22,.61,.36,1)!important;
+    }
+    .intro-loader.is-hidden{
+      opacity:0!important;
+      visibility:hidden!important;
+      pointer-events:none!important;
+      transform:scale(1.006)!important;
+      filter:blur(2px)!important;
+    }
+    .page-shell{
+      transition:
+        opacity 1.85s cubic-bezier(.22,.61,.36,1),
+        transform 1.85s cubic-bezier(.22,.61,.36,1),
+        filter 1.85s cubic-bezier(.22,.61,.36,1)!important;
+    }
+    .intro-stage-chair{
+      animation:chairRevealShort 2.05s cubic-bezier(.22,.61,.36,1) forwards!important;
+      animation-delay:.24s!important;
+    }
+    .intro-name-chair .intro-word span{
+      animation-duration:.48s!important;
+      filter:blur(5px);
+      transform:translateY(10px);
+    }
+    .intro-name-chair .intro-word:nth-child(1) span:nth-child(1){animation-delay:.48s!important}
+    .intro-name-chair .intro-word:nth-child(1) span:nth-child(2){animation-delay:.53s!important}
+    .intro-name-chair .intro-word:nth-child(1) span:nth-child(3){animation-delay:.58s!important}
+    .intro-name-chair .intro-word:nth-child(1) span:nth-child(4){animation-delay:.63s!important}
+    .intro-name-chair .intro-word:nth-child(1) span:nth-child(5){animation-delay:.68s!important}
+    .intro-name-chair .intro-word:nth-child(1) span:nth-child(6){animation-delay:.73s!important}
+    .intro-name-chair .intro-word:nth-child(1) span:nth-child(7){animation-delay:.78s!important}
+    .intro-name-chair .intro-word:nth-child(2) span:nth-child(1){animation-delay:.94s!important}
+    .intro-name-chair .intro-word:nth-child(2) span:nth-child(2){animation-delay:.99s!important}
+    .intro-name-chair .intro-word:nth-child(2) span:nth-child(3){animation-delay:1.04s!important}
+    .intro-name-chair .intro-word:nth-child(2) span:nth-child(4){animation-delay:1.09s!important}
+    .intro-name-chair .intro-word:nth-child(2) span:nth-child(5){animation-delay:1.14s!important}
+    .intro-name-chair .intro-word:nth-child(2) span:nth-child(6){animation-delay:1.19s!important}
+    .skip-intro{animation-delay:2.35s!important;}
+    @keyframes chairRevealShort{
+      0%{opacity:0;filter:blur(14px) saturate(.86) contrast(.96);transform:translate(-50%,-44%) scale(.90)}
+      62%{opacity:1;filter:blur(0) saturate(1) contrast(1.02);transform:translate(-50%,-47%) scale(1.006)}
+      100%{opacity:1;filter:blur(0) saturate(1) contrast(1.02);transform:translate(-50%,-47%) scale(1)}
     }
 
   </style>
@@ -841,12 +957,11 @@
         <span class="intro-word"><span>A</span><span>B</span><span>R</span><span>A</span><span>H</span><span>A</span><span>M</span></span>
         <span class="intro-word"><span>P</span><span>E</span><span>Y</span><span>R</span><span>E</span><span>T</span></span>
       </div>
-      <p class="intro-chair-caption">Mueble estelar · Identidad Abraham Peyret</p>
     </div>
   </section>
 
   <div class="cursor-aura" id="cursorAura"></div><div class="cursor-dot" id="cursorDot"></div>
-  <header class="header"><a href="#" class="brand" aria-label="Inicio Abraham Peyret"><div class="brand-text"><strong>Abraham Peyret</strong></div></a><nav class="nav"><a href="living_contract_abraham.html">Living Contract</a><a href="diseno_autor_abraham.html">Diseño de autor</a><a href="#contacto" class="nav-button">Contacto</a></nav></header>
+  <header class="header"><a href="#" class="brand" aria-label="Inicio Abraham Peyret"><div class="brand-text"><strong>Abraham Peyret</strong></div></a><nav class="nav"><a href="living_contract_abraham.html">Living Contract</a><a href="diseno_autor_abraham.html">Diseño de autor</a><a href="#galeria">Galería</a><a href="#contacto" class="nav-button">Contacto</a></nav></header>
 
   <div class="page-shell"><main>
     <section class="hero">
@@ -869,6 +984,11 @@
       </div>
       <div class="hero-universes hero-choice-section" aria-label="Selección de universos Abraham Peyret">
         <article class="split-universe-card split-living reveal" id="living">
+          <div class="product-silhouettes" aria-hidden="true">
+            <img class="product-silhouette silhouette-main" src="./assets/images/living/mikado/mikado-01-frontal.jpg" alt="" />
+            <img class="product-silhouette silhouette-secondary" src="./assets/images/living/mikado/mikado-04-perfil.jpg" alt="" />
+            <img class="product-silhouette silhouette-detail" src="./assets/images/living/mikado/mikado-07-detalle-respaldo.jpg" alt="" />
+          </div>
           <div class="split-watermark split-watermark-ap" aria-hidden="true">AP</div>
           <div class="split-card-content">
             <div class="split-card-head">
@@ -887,6 +1007,11 @@
         </article>
 
         <article class="split-universe-card split-author reveal" id="autor">
+          <div class="product-silhouettes" aria-hidden="true">
+            <img class="product-silhouette silhouette-main" src="./assets/images/autor/grillo/grillo-03-lateral.jpeg" alt="" />
+            <img class="product-silhouette silhouette-secondary" src="./assets/images/autor/grillo/grillo-05-frontal.jpg" alt="" />
+            <img class="product-silhouette silhouette-detail" src="./assets/images/autor/grillo/grillo-02-detalle-ensamble.jpeg" alt="" />
+          </div>
           <div class="split-watermark split-watermark-signature" aria-hidden="true">Abraham Peyret</div>
           <div class="split-card-content">
             <div class="split-card-head">
@@ -906,11 +1031,12 @@
       </div>
       <div class="hero-footer"><span>HECHO EN MÉXICO</span><span>www.abrahampeyret.art</span><span>CIUDAD · EDICIÓN LIMITADA</span></div>
     </section>
-    <section class="cta compact-contact" id="contacto"><div class="cta-content reveal"><p class="eyebrow">Contacto estratégico</p><h2>¿Buscas un proyecto funcional o una pieza con firma?</h2><p>La página convierte desde la intención del visitante: solicitar mobiliario Living Contract o consultar piezas de Diseño de autor en edición limitada.</p><div class="cta-actions"><a href="living_contract_abraham.html" class="btn dark">Solicitar Living Contract</a><a href="diseno_autor_abraham.html" class="btn">Consultar Diseño de autor</a></div></div></section>
+    <section class="marquee" aria-label="Conceptos de marca"><div class="marquee-track"><span>Living Contract</span><span>Residential-grade contract furniture</span><span>Diseño de autor</span><span>Hecho en México</span><span>Ciudad</span><span>Edición Limitada</span><span>Materialidad</span><span>Living Contract</span><span>Residential-grade contract furniture</span><span>Diseño de autor</span><span>Hecho en México</span><span>Ciudad</span><span>Edición Limitada</span><span>Materialidad</span></div></section>
+    <section class="cta" id="contacto"><div class="cta-content reveal"><p class="eyebrow">Contacto estratégico</p><h2>¿Buscas un proyecto funcional o una pieza con firma?</h2><p>La página convierte desde la intención del visitante: solicitar mobiliario Living Contract o consultar piezas de Diseño de autor en edición limitada.</p><div class="cta-actions"><a href="living_contract_abraham.html" class="btn dark">Solicitar Living Contract</a><a href="diseno_autor_abraham.html" class="btn">Consultar Diseño de autor</a></div></div></section>
   </main><footer class="footer"><span>© Abraham Peyret</span><span>HECHO EN MÉXICO</span><span>www.abrahampeyret.art</span></footer></div>
 
   <script>
-    const introLoader=document.getElementById("introLoader"),skipIntro=document.getElementById("skipIntro");function enterSite(){introLoader.classList.add("is-hidden");document.body.classList.remove("loading");document.body.classList.add("site-ready");setTimeout(function(){introLoader.style.display="none"},1700)}window.addEventListener("load",function(){setTimeout(enterSite,7200)});skipIntro.addEventListener("click",enterSite);const aura=document.getElementById("cursorAura"),dot=document.getElementById("cursorDot");window.addEventListener("mousemove",function(e){aura.style.left=e.clientX+"px";aura.style.top=e.clientY+"px";dot.style.left=e.clientX+"px";dot.style.top=e.clientY+"px"});const revealElements=document.querySelectorAll(".reveal"),observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add("visible")}})},{threshold:.15});revealElements.forEach(function(el){observer.observe(el)});const cards=document.querySelectorAll(".universe-card");cards.forEach(function(card){card.addEventListener("mousemove",function(event){const rect=card.getBoundingClientRect(),x=event.clientX-rect.left,y=event.clientY-rect.top,rotateY=(x/rect.width-.5)*5,rotateX=(y/rect.height-.5)*-5;card.style.transform="translateY(-10px) rotateX("+rotateX+"deg) rotateY("+rotateY+"deg)"});card.addEventListener("mouseleave",function(){card.style.transform="translateY(0) rotateX(0) rotateY(0)"})});
+    const introLoader=document.getElementById("introLoader"),skipIntro=document.getElementById("skipIntro");function enterSite(){introLoader.classList.add("is-hidden");document.body.classList.remove("loading");document.body.classList.add("site-ready");setTimeout(function(){introLoader.style.display="none"},2300)}window.addEventListener("load",function(){setTimeout(enterSite,4400)});skipIntro.addEventListener("click",enterSite);const aura=document.getElementById("cursorAura"),dot=document.getElementById("cursorDot");window.addEventListener("mousemove",function(e){aura.style.left=e.clientX+"px";aura.style.top=e.clientY+"px";dot.style.left=e.clientX+"px";dot.style.top=e.clientY+"px"});const revealElements=document.querySelectorAll(".reveal"),observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add("visible")}})},{threshold:.15});revealElements.forEach(function(el){observer.observe(el)});const cards=document.querySelectorAll(".universe-card");cards.forEach(function(card){card.addEventListener("mousemove",function(event){const rect=card.getBoundingClientRect(),x=event.clientX-rect.left,y=event.clientY-rect.top,rotateY=(x/rect.width-.5)*5,rotateX=(y/rect.height-.5)*-5;card.style.transform="translateY(-10px) rotateX("+rotateX+"deg) rotateY("+rotateY+"deg)"});card.addEventListener("mouseleave",function(){card.style.transform="translateY(0) rotateX(0) rotateY(0)"})});
   </script>
 </body>
 </html>
