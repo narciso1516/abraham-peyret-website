@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diseño de autor | Grillo · Abraham Peyret</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#111314;
+      --panel:#181818;
+      --ink:#f7f4ee;
+      --muted:rgba(247,244,238,.66);
+      --soft:rgba(247,244,238,.10);
+      --line:rgba(247,244,238,.16);
+      --sand:#c8b9a7;
+      --brown:#8a735f;
+      --paper:#f7f4ee;
+      --dark:#0c0d0e;
+      --sans:"Helvetica Neue", Helvetica, Arial, sans-serif;
+      --serif:Georgia,"Times New Roman",serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--sans);background:var(--bg);color:var(--ink);overflow-x:hidden}
+    a{text-decoration:none;color:inherit}
+    ::selection{background:var(--paper);color:var(--dark)}
+
+    .topbar{
+      position:sticky;top:0;z-index:50;
+      min-height:78px;padding:0 48px;
+      display:flex;align-items:center;justify-content:space-between;
+      background:rgba(17,19,20,.88);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid var(--soft);
+    }
+    .brand{font-size:14px;font-weight:650;letter-spacing:.34em;text-transform:uppercase;color:var(--paper)}
+    .nav{display:flex;align-items:center;gap:42px;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:rgba(247,244,238,.72)}
+    .nav a{position:relative;padding-bottom:5px;white-space:nowrap}
+    .nav a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--paper);transition:width .35s ease}
+    .nav a:hover::after{width:100%}
+    .quote-btn{border:1px solid rgba(247,244,238,.45);padding:15px 22px;color:var(--paper)}
+    .quote-btn:hover{background:var(--paper);color:var(--dark)}
+
+    .hero{
+      min-height:calc(100vh - 78px);
+      display:grid;grid-template-columns:.82fr 1.18fr;
+      gap:54px;align-items:center;
+      padding:72px 56px 56px;
+      position:relative;overflow:hidden;
+      background:
+        radial-gradient(circle at 72% 20%,rgba(200,185,167,.10),transparent 36%),
+        linear-gradient(135deg,#111314 0%,#191919 58%,#0c0d0e 100%);
+    }
+    .hero::before{
+      content:"GRILLO";
+      position:absolute;left:42px;bottom:10px;
+      font-size:clamp(130px,18vw,310px);
+      letter-spacing:-.08em;font-weight:250;
+      color:rgba(247,244,238,.035);
+      pointer-events:none;line-height:.75;
+    }
+    .product-copy{position:relative;z-index:2;max-width:660px}
+    .eyebrow{font-size:12px;letter-spacing:.46em;text-transform:uppercase;color:var(--sand);font-weight:560;margin-bottom:32px}
+    h1{font-size:clamp(82px,8.7vw,156px);line-height:.82;font-weight:320;letter-spacing:-.105em;margin-bottom:34px;color:var(--paper)}
+    .author-word{font-family:var(--serif);font-style:italic;font-weight:600;letter-spacing:-.08em;color:var(--sand);display:block;margin-top:8px}
+    .lead{font-size:clamp(20px,1.55vw,28px);line-height:1.48;color:var(--muted);font-weight:300;letter-spacing:-.035em;margin-bottom:34px;max-width:720px}
+    .basic-info{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:42px 0 36px;border-top:1px solid var(--line);padding-top:20px}
+    .info-item small{display:block;font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--sand);margin-bottom:10px}
+    .info-item strong{font-size:16px;font-weight:360;color:rgba(247,244,238,.86);letter-spacing:-.02em}
+    .actions{display:flex;gap:14px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:58px;padding:0 28px;border:1px solid rgba(247,244,238,.58);font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:620;transition:.35s ease;color:var(--paper)}
+    .btn.primary{background:var(--paper);color:var(--dark);border-color:var(--paper)}
+    .btn.primary:hover{background:transparent;color:var(--paper)}
+    .btn.secondary:hover{background:var(--paper);color:var(--dark)}
+
+    .hero-media{position:relative;z-index:2;background:#fff;border:1px solid rgba(247,244,238,.10);box-shadow:0 34px 95px rgba(0,0,0,.34);overflow:hidden;min-height:620px;display:flex;align-items:center;justify-content:center}
+    .hero-media img{width:100%;height:100%;object-fit:contain;display:block;padding:34px;background:#fff}
+    .media-caption{position:absolute;left:28px;bottom:26px;right:28px;display:flex;justify-content:space-between;gap:24px;color:rgba(17,19,20,.58);font-size:10px;letter-spacing:.26em;text-transform:uppercase}
+
+    .section{padding:102px 56px;background:#151515;border-top:1px solid var(--soft)}
+    .section.alt{background:#0f1011}
+    .section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-bottom:34px}
+    .section-head h2{font-size:clamp(38px,4.6vw,76px);line-height:.94;font-weight:300;letter-spacing:-.055em;text-transform:uppercase;max-width:820px;color:var(--paper)}
+    .section-head p{max-width:480px;color:var(--muted);font-size:16px;line-height:1.7}
+
+    .gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+    .gallery-card{position:relative;background:#fff;border:1px solid rgba(247,244,238,.10);min-height:320px;overflow:hidden;transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease}
+    .gallery-card:hover{transform:translateY(-6px);box-shadow:0 25px 72px rgba(0,0,0,.32);border-color:rgba(200,185,167,.36)}
+    .gallery-card.large{grid-column:span 2;min-height:520px}
+    .gallery-card.wide{grid-column:span 2;min-height:390px}
+    .gallery-card img{width:100%;height:100%;object-fit:contain;display:block;padding:24px;background:#fff;transition:transform .55s ease,filter .35s ease}
+    .gallery-card.context img{object-fit:cover;padding:0}
+    .gallery-card.detail img{object-fit:cover;padding:0}
+    .gallery-card:hover img{transform:scale(1.025)}
+    .gallery-label{position:absolute;left:18px;bottom:18px;background:rgba(17,19,20,.72);backdrop-filter:blur(10px);border:1px solid rgba(247,244,238,.12);padding:10px 12px;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:rgba(247,244,238,.84)}
+
+    .details{display:grid;grid-template-columns:.78fr 1.22fr;gap:64px;align-items:start;background:#1a1a1a}
+    .detail-title h2{font-size:clamp(42px,5vw,84px);font-weight:300;line-height:.96;letter-spacing:-.06em;text-transform:uppercase;margin-bottom:22px;color:var(--paper)}
+    .detail-title p{font-size:17px;line-height:1.75;color:var(--muted);max-width:520px}
+    .specs{display:grid;gap:0;border-top:1px solid var(--line)}
+    .spec-row{display:grid;grid-template-columns:220px 1fr;gap:28px;padding:20px 0;border-bottom:1px solid var(--line)}
+    .spec-row small{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--sand)}
+    .spec-row span{font-size:17px;line-height:1.55;color:rgba(247,244,238,.74)}
+
+    .statement{padding:118px 56px;background:var(--paper);color:var(--dark);display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end}
+    .statement h2{font-family:var(--serif);font-size:clamp(52px,6.5vw,110px);line-height:.9;font-style:italic;letter-spacing:-.07em;color:#8a735f}
+    .statement p{font-size:20px;line-height:1.75;color:rgba(17,19,20,.68);max-width:720px}
+
+    .cta{padding:100px 56px;text-align:center;background:#0c0d0e;color:#f7f4ee}
+    .cta h2{font-size:clamp(42px,5.5vw,86px);font-weight:300;letter-spacing:-.06em;line-height:.96;margin-bottom:24px}
+    .cta p{max-width:720px;margin:0 auto 36px;color:rgba(247,244,238,.68);font-size:18px;line-height:1.75}
+    .cta .actions{justify-content:center}
+
+    footer{padding:30px 56px;display:flex;justify-content:space-between;gap:20px;background:#080909;color:rgba(247,244,238,.68);font-size:10px;letter-spacing:.24em;text-transform:uppercase;flex-wrap:wrap}
+
+    @media(max-width:1050px){
+      .topbar{padding:0 28px}.nav{gap:22px}.hero{grid-template-columns:1fr;padding:58px 28px}.hero-media{min-height:520px}.section,.details,.cta,.statement{padding-left:28px;padding-right:28px}.gallery{grid-template-columns:1fr 1fr}.details,.statement{grid-template-columns:1fr}.section-head{display:block}.section-head p{margin-top:18px}.spec-row{grid-template-columns:160px 1fr}
+    }
+    @media(max-width:680px){
+      .topbar{height:auto;min-height:76px;align-items:flex-start;flex-direction:column;justify-content:center;gap:14px}.nav{width:100%;overflow-x:auto;padding-bottom:8px}.quote-btn{display:none}.hero{padding-top:42px}.basic-info{grid-template-columns:1fr}.actions{flex-direction:column}.btn{width:100%}.hero-media{min-height:360px}.hero-media img{padding:18px}.gallery{grid-template-columns:1fr}.gallery-card.large,.gallery-card.wide{grid-column:span 1;min-height:360px}.spec-row{grid-template-columns:1fr;gap:8px}footer{padding:26px 28px}h1{font-size:clamp(68px,20vw,104px)}
+    }
+
+    /* AJUSTE UX/TIPOGRÁFICO PREMIUM: presentación limpia de Grillo */
+    :root{
+      --sans:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+      --display:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+      --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+    }
+    .brand{
+      font-family:var(--display);
+      font-weight:650;
+      letter-spacing:.36em;
+    }
+    .nav{
+      font-family:var(--display);
+      font-weight:500;
+      letter-spacing:.30em;
+    }
+    .product-copy{
+      max-width:690px;
+    }
+    .eyebrow{
+      font-family:var(--display);
+      font-size:11px;
+      letter-spacing:.52em;
+      font-weight:500;
+      color:rgba(200,185,167,.88);
+      margin-bottom:30px;
+    }
+    h1{
+      font-family:var(--display)!important;
+      font-size:clamp(78px,8.4vw,150px)!important;
+      line-height:.86!important;
+      font-weight:300!important;
+      letter-spacing:-.085em!important;
+      margin-bottom:34px!important;
+      color:#f7f4ee!important;
+      text-rendering:geometricPrecision;
+      -webkit-font-smoothing:antialiased;
+    }
+    .author-word{
+      font-family:var(--serif)!important;
+      display:block!important;
+      font-style:italic!important;
+      font-weight:400!important;
+      font-size:.66em!important;
+      line-height:.86!important;
+      letter-spacing:-.045em!important;
+      color:var(--sand)!important;
+      margin-top:18px!important;
+      max-width:760px;
+    }
+    .lead{
+      font-family:var(--sans)!important;
+      max-width:650px!important;
+      font-size:clamp(18px,1.28vw,22px)!important;
+      line-height:1.72!important;
+      font-weight:300!important;
+      letter-spacing:-.02em!important;
+      color:rgba(247,244,238,.62)!important;
+      margin-bottom:38px!important;
+    }
+    .basic-info{
+      margin-top:36px!important;
+      border-top-color:rgba(247,244,238,.18)!important;
+    }
+    .info-item small{
+      font-family:var(--display)!important;
+      letter-spacing:.34em!important;
+      font-weight:500!important;
+      color:rgba(200,185,167,.82)!important;
+    }
+    .info-item strong{
+      font-family:var(--sans)!important;
+      font-weight:300!important;
+      line-height:1.35!important;
+    }
+    .btn{
+      font-family:var(--display)!important;
+      font-size:10px!important;
+      letter-spacing:.28em!important;
+      font-weight:600!important;
+    }
+    .hero-media{
+      border-radius:0;
+      box-shadow:0 38px 110px rgba(0,0,0,.42), 0 0 0 1px rgba(247,244,238,.06);
+    }
+    .hero-media img{
+      padding:42px;
+    }
+    @media(max-width:1050px){
+      h1{font-size:clamp(70px,13vw,118px)!important;}
+      .author-word{font-size:.62em!important;}
+    }
+    @media(max-width:680px){
+      h1{font-size:clamp(58px,18vw,92px)!important;line-height:.9!important;}
+      .author-word{font-size:.58em!important;margin-top:12px!important;}
+      .lead{font-size:16px!important;line-height:1.68!important;}
+      .hero-media img{padding:22px;}
+    }
+
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">Abraham Peyret</a>
+    <nav class="nav" aria-label="Navegación principal">
+      <a href="index.html">Inicio</a>
+      <a href="living_contract_abraham.html">Living Contract</a>
+      <a href="diseno_autor_abraham.html">Diseño de autor</a>
+      <a class="quote-btn" href="mailto:contacto@abrahampeyret.art?subject=Consulta%20Grillo">Consultar</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="producto">
+      <div class="product-copy">
+        <p class="eyebrow">Diseño de autor · Pieza estelar</p>
+        <h1>Grillo<span class="author-word">pieza con postura.</span></h1>
+        <p class="lead">Una pieza de autor con presencia escultórica, estructura visible y lenguaje propio. Grillo funciona como objeto utilitario y como declaración formal dentro del espacio.</p>
+        <div class="basic-info" aria-label="Información básica de Grillo">
+          <div class="info-item"><small>Tipo</small><strong>Silla / pieza de autor</strong></div>
+          <div class="info-item"><small>Material</small><strong>Madera + ensamble visible</strong></div>
+          <div class="info-item"><small>Universo</small><strong>Diseño de autor</strong></div>
+        </div>
+        <div class="actions">
+          <a href="#galeria" class="btn primary">Ver obra</a>
+          <a href="mailto:contacto@abrahampeyret.art?subject=Consulta%20Grillo" class="btn secondary">Consultar pieza</a>
+        </div>
+      </div>
+      <figure class="hero-media">
+        <img src="./assets/images/autor/grillo/grillo-03-lateral.jpeg" alt="Silla Grillo de Abraham Peyret vista lateral" />
+        <figcaption class="media-caption"><span>Grillo</span><span>Diseño de autor</span></figcaption>
+      </figure>
+    </section>
+
+    <section class="section" id="galeria">
+      <div class="section-head">
+        <h2>Presentación de la pieza</h2>
+        <p>La galería combina contexto, vistas generales y detalles de construcción para mostrar la pieza como objeto funcional, material y narrativo.</p>
+      </div>
+      <div class="gallery" aria-label="Galería de imágenes de Grillo">
+        <figure class="gallery-card large context"><img src="./assets/images/autor/grillo/grillo-01-contexto.jpeg" alt="Grillo en contexto arquitectónico"><figcaption class="gallery-label">01 · Contexto</figcaption></figure>
+        <figure class="gallery-card large"><img src="./assets/images/autor/grillo/grillo-03-lateral.jpeg" alt="Grillo vista lateral"><figcaption class="gallery-label">02 · Lateral</figcaption></figure>
+        <figure class="gallery-card"><img src="./assets/images/autor/grillo/grillo-04-tres-cuartos.jpg" alt="Grillo vista tres cuartos"><figcaption class="gallery-label">03 · Tres cuartos</figcaption></figure>
+        <figure class="gallery-card"><img src="./assets/images/autor/grillo/grillo-05-frontal.jpg" alt="Grillo vista frontal"><figcaption class="gallery-label">04 · Frontal</figcaption></figure>
+        <figure class="gallery-card wide detail"><img src="./assets/images/autor/grillo/grillo-02-detalle-ensamble.jpeg" alt="Detalle de ensamble de Grillo"><figcaption class="gallery-label">05 · Ensamble</figcaption></figure>
+        <figure class="gallery-card detail"><img src="./assets/images/autor/grillo/grillo-06-detalle-madera.jpg" alt="Detalle de madera de Grillo"><figcaption class="gallery-label">06 · Material</figcaption></figure>
+        <figure class="gallery-card detail"><img src="./assets/images/autor/grillo/grillo-07-firma.jpg" alt="Detalle de firma Grillo Abraham Peyret"><figcaption class="gallery-label">07 · Firma</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="section details" id="detalles">
+      <div class="detail-title">
+        <p class="eyebrow">Ficha breve</p>
+        <h2>Información básica de la obra</h2>
+        <p>La ficha se mantiene limpia para no saturar al visitante. La intención es presentar la pieza, su carácter y su materialidad antes de llevar al contacto.</p>
+      </div>
+      <div class="specs">
+        <div class="spec-row"><small>Nombre</small><span>Grillo</span></div>
+        <div class="spec-row"><small>Categoría</small><span>Silla / pieza de autor</span></div>
+        <div class="spec-row"><small>Universo</small><span>Diseño de autor</span></div>
+        <div class="spec-row"><small>Lectura</small><span>Objeto funcional con presencia escultórica, ritmo estructural y puntos de unión visibles.</span></div>
+        <div class="spec-row"><small>Descripción</small><span>Grillo expresa una postura de diseño: equilibrio entre geometría, material, ensamble y narrativa. La pieza puede presentarse como objeto de colección, edición limitada o proyecto especial.</span></div>
+      </div>
+    </section>
+
+    <section class="statement">
+      <h2>Objeto con firma.</h2>
+      <p>En Diseño de autor, la pieza no solo resuelve una función: construye identidad. El valor está en su presencia, en su proporción y en la manera en que el detalle material comunica una postura estética.</p>
+    </section>
+
+    <section class="cta" id="contacto">
+      <h2>¿Quieres consultar Grillo?</h2>
+      <p>Solicita información sobre disponibilidad, edición, acabados o adaptación para una presentación especial.</p>
+      <div class="actions">
+        <a href="mailto:contacto@abrahampeyret.art?subject=Consulta%20Grillo" class="btn primary">Consultar pieza</a>
+        <a href="index.html" class="btn secondary">Volver al inicio</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>© Abraham Peyret</span>
+    <span>Diseño de autor</span>
+    <span>Grillo · Pieza estelar</span>
+  </footer>
+</body>
+</html>
