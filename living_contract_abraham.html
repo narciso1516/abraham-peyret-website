@@ -3,18 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Living Contract | Abraham Peyret</title>
+  <title>Living Contract | Mikado · Abraham Peyret</title>
   <style>
     :root{
       --bg:#f7f4ee;
       --paper:#fffdf8;
       --ink:#111314;
-      --muted:rgba(17,19,20,.64);
+      --muted:rgba(17,19,20,.66);
       --soft:rgba(17,19,20,.10);
       --line:rgba(17,19,20,.16);
       --brown:#8a735f;
-      --sand:#e4dfd6;
-      --dark:#111314;
       --white:#fff;
       --shadow:0 34px 85px rgba(17,19,20,.10);
       --sans:"Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -23,84 +21,135 @@
     html{scroll-behavior:smooth}
     body{font-family:var(--sans);background:var(--bg);color:var(--ink);overflow-x:hidden}
     a{text-decoration:none;color:inherit}
+    button{font-family:inherit}
     img{max-width:100%;display:block}
     ::selection{background:var(--ink);color:var(--bg)}
 
     .topbar{
-      position:sticky;top:0;z-index:90;
+      position:sticky;top:0;z-index:80;
       min-height:82px;padding:0 48px;
-      display:flex;align-items:center;justify-content:space-between;gap:34px;
-      background:rgba(247,244,238,.88);
+      display:grid;grid-template-columns:1fr auto;align-items:center;gap:42px;
+      background:rgba(247,244,238,.90);
       backdrop-filter:blur(18px);
       border-bottom:1px solid var(--soft);
     }
-    .brand{font-size:14px;font-weight:650;letter-spacing:.34em;text-transform:uppercase;white-space:nowrap}
-    .nav{display:flex;align-items:center;gap:42px;font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:rgba(17,19,20,.72)}
-    .nav a{position:relative;padding-bottom:7px;white-space:nowrap}
+    .brand{font-size:14px;font-weight:700;letter-spacing:.46em;text-transform:uppercase;white-space:nowrap}
+    .nav{display:flex;align-items:center;gap:48px;font-size:10px;letter-spacing:.44em;text-transform:uppercase;color:rgba(17,19,20,.72)}
+    .nav a{position:relative;padding-bottom:6px;white-space:nowrap}
     .nav a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--ink);transition:width .35s ease}
-    .nav a:hover::after{width:calc(100% - .32em)}
-    .quote-btn{border:1px solid var(--ink);padding:15px 22px;color:var(--ink);transition:.35s ease}
+    .nav a:hover::after{width:calc(100% - .44em)}
+    .quote-btn{border:1px solid var(--ink);padding:15px 24px;color:var(--ink);letter-spacing:.36em!important;transition:.35s ease}
     .quote-btn:hover{background:var(--ink);color:var(--bg);transform:translateY(-2px)}
 
-    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:58px;padding:0 28px;border:1px solid var(--ink);font-size:11px;letter-spacing:.28em;text-transform:uppercase;font-weight:620;transition:.35s ease;background:transparent;cursor:pointer;white-space:nowrap}
-    .btn.primary{background:var(--ink);color:var(--bg)}
-    .btn.primary:hover{background:transparent;color:var(--ink);transform:translateY(-3px)}
-    .btn.secondary:hover{background:var(--ink);color:var(--bg);transform:translateY(-3px)}
-    .btn.light{border-color:var(--bg);color:var(--bg)}
-    .btn.light:hover{background:var(--bg);color:var(--ink);transform:translateY(-3px)}
-
-    .hero-line{
+    .hero{
       min-height:calc(100vh - 82px);
-      padding:112px 56px 78px;
-      display:grid;align-items:end;
+      display:grid;grid-template-columns:.82fr 1.18fr;
+      gap:54px;align-items:center;
+      padding:74px 56px 64px;
       position:relative;overflow:hidden;
-      background:
-        radial-gradient(circle at 84% 20%,rgba(138,115,95,.12),transparent 34%),
-        linear-gradient(180deg,#fffdf8 0%,#f7f4ee 100%);
     }
-    .hero-line::before{
-      content:"LIVING";
-      position:absolute;left:42px;bottom:-4px;
-      font-size:clamp(120px,18vw,320px);
-      line-height:.72;letter-spacing:-.10em;font-weight:260;
-      color:rgba(17,19,20,.035);pointer-events:none;
+    .hero::before{
+      content:"MIKADO";
+      position:absolute;left:42px;bottom:8px;
+      font-size:clamp(130px,18vw,310px);
+      letter-spacing:-.08em;font-weight:250;
+      color:rgba(17,19,20,.030);
+      pointer-events:none;line-height:.75;
     }
-    .hero-inner{position:relative;z-index:2;max-width:1280px}
-    .eyebrow{font-size:12px;letter-spacing:.50em;text-transform:uppercase;color:var(--brown);font-weight:560;margin-bottom:32px}
-    .hero-line h1{font-size:clamp(70px,9vw,156px);line-height:.86;font-weight:360;letter-spacing:-.075em;margin-bottom:34px;max-width:1120px}
-    .hero-line h1 span{display:block;letter-spacing:-.055em}
-    .hero-copy{display:grid;grid-template-columns:1fr .72fr;gap:56px;align-items:end;max-width:1240px}
-    .hero-copy p{font-size:clamp(22px,1.8vw,34px);line-height:1.45;color:rgba(17,19,20,.72);font-weight:330;letter-spacing:-.045em;max-width:850px}
-    .hero-note{border-left:1px solid var(--line);padding-left:28px;color:rgba(17,19,20,.58);font-size:14px;line-height:1.8;letter-spacing:.02em}
+    .product-copy{
+      position:relative;z-index:2;
+      max-width:690px;
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+    }
+    .eyebrow{
+      font-size:12px;
+      letter-spacing:.54em;
+      text-transform:uppercase;
+      color:var(--brown);
+      font-weight:600;
+      margin-bottom:34px;
+      line-height:1.7;
+      text-align:left;
+      padding-left:0;
+    }
+    h1{
+      width:calc(100% + .10em);
+      font-size:clamp(72px,7.1vw,126px);
+      line-height:1.06;
+      font-weight:390;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      margin:0 0 36px 0;
+      padding:0;
+      text-indent:0;
+      text-align:left;
+      transform:translateX(-.035em);
+    }
+    .lead{
+      font-size:clamp(20px,1.55vw,28px);
+      line-height:1.52;
+      color:rgba(17,19,20,.72);
+      font-weight:330;
+      letter-spacing:-.032em;
+      margin:0 0 38px 0;
+      max-width:700px;
+      text-align:left;
+    }
+    .editorial-points{
+      width:100%;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px 34px;
+      margin:0 0 38px;
+      padding-top:24px;
+      border-top:1px solid var(--line);
+    }
+    .editorial-points span{
+      position:relative;
+      padding:0 0 14px 24px;
+      border-bottom:1px solid rgba(17,19,20,.12);
+      font-size:15px;
+      line-height:1.45;
+      color:rgba(17,19,20,.68);
+      letter-spacing:-.012em;
+      text-align:left;
+    }
+    .editorial-points span::before{
+      content:"";position:absolute;left:0;top:.70em;width:9px;height:1px;background:var(--brown);
+    }
+    .actions{display:flex;gap:14px;flex-wrap:wrap;justify-content:flex-start}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      min-height:58px;padding:0 30px;
+      border:1px solid var(--ink);
+      font-size:11px;letter-spacing:.30em;text-transform:uppercase;font-weight:650;
+      transition:.35s ease;background:transparent;cursor:pointer;white-space:nowrap;
+    }
+    .btn.primary{background:var(--ink);color:var(--bg)}
+    .btn.primary:hover{background:transparent;color:var(--ink);transform:translateY(-2px)}
+    .btn.secondary:hover{background:var(--ink);color:var(--bg);transform:translateY(-2px)}
 
-    .collection-nav{padding:24px 56px;background:#fffdf8;border-top:1px solid var(--soft);border-bottom:1px solid var(--soft);display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
-    .collection-nav small{font-size:10px;letter-spacing:.36em;text-transform:uppercase;color:var(--brown)}
-    .collection-links{display:flex;gap:14px;flex-wrap:wrap}
-    .collection-links a{border:1px solid rgba(17,19,20,.12);padding:13px 16px;font-size:10px;letter-spacing:.28em;text-transform:uppercase;transition:.35s ease;background:rgba(255,255,255,.48)}
-    .collection-links a:hover{background:var(--ink);color:var(--bg);transform:translateY(-2px)}
-
-    .product-section{display:grid;grid-template-columns:.9fr 1.1fr;gap:54px;align-items:center;padding:96px 56px;position:relative;overflow:hidden;border-bottom:1px solid var(--soft)}
-    .product-section.reverse{grid-template-columns:1.1fr .9fr;background:#fffdf8}
-    .product-section.reverse .product-copy{order:2}
-    .product-section.reverse .product-visual{order:1}
-    .product-copy{position:relative;z-index:2;max-width:650px}
-    .product-number{font-size:11px;letter-spacing:.46em;text-transform:uppercase;color:var(--brown);font-weight:560;margin-bottom:28px}
-    .product-copy h2{font-size:clamp(74px,8vw,142px);line-height:.9;font-weight:360;letter-spacing:.14em;text-transform:uppercase;margin-bottom:34px;text-indent:.14em}
-    .product-copy .category{font-size:15px;letter-spacing:.32em;text-transform:uppercase;color:rgba(17,19,20,.52);margin-bottom:24px}
-    .product-copy .lead{font-size:clamp(20px,1.45vw,28px);line-height:1.52;color:rgba(17,19,20,.72);font-weight:330;letter-spacing:-.035em;margin-bottom:34px;max-width:680px}
-    .editorial-points{display:grid;grid-template-columns:1fr 1fr;gap:16px 34px;margin:32px 0 36px;padding-top:24px;border-top:1px solid var(--line)}
-    .editorial-points span{position:relative;padding:0 0 13px 24px;border-bottom:1px solid rgba(17,19,20,.12);font-size:14px;line-height:1.45;color:rgba(17,19,20,.68);letter-spacing:-.01em}
-    .editorial-points span::before{content:"";position:absolute;left:0;top:.65em;width:9px;height:1px;background:var(--brown)}
-    .product-actions{display:flex;gap:14px;flex-wrap:wrap}
-
-    .product-visual{position:relative;z-index:2;background:#fff;border:1px solid var(--soft);box-shadow:var(--shadow);overflow:hidden;min-height:620px;display:flex;flex-direction:column}
-    .carousel-stage{position:relative;flex:1;min-height:540px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#fff;cursor:zoom-in}
-    .carousel-stage img{width:100%;height:100%;object-fit:contain;padding:44px;background:#fff;transition:transform .45s ease;transform-origin:center center;user-select:none;pointer-events:none}
-    .carousel-stage:hover img{transform:scale(1.55)}
-    .zoom-hint{position:absolute;top:24px;right:24px;z-index:3;background:rgba(255,255,255,.76);backdrop-filter:blur(10px);border:1px solid rgba(17,19,20,.08);padding:11px 14px;font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:rgba(17,19,20,.58);opacity:0;transform:translateY(-6px);transition:.35s ease}
-    .carousel-stage:hover .zoom-hint{opacity:1;transform:translateY(0)}
+    .hero-media{position:relative;z-index:2}
+    .carousel-shell{position:relative;width:100%}
+    .image-stage{
+      position:relative;background:#fff;border:1px solid var(--soft);box-shadow:var(--shadow);
+      overflow:hidden;min-height:620px;display:flex;align-items:center;justify-content:center;
+      cursor:zoom-in;isolation:isolate;
+    }
+    .image-stage::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 58%,rgba(138,115,95,.08),transparent 54%);z-index:0;pointer-events:none}
+    .image-stage img{
+      position:relative;z-index:1;width:100%;height:100%;min-height:620px;
+      object-fit:contain;display:block;padding:28px;background:transparent;
+      transition:transform .45s ease,opacity .25s ease;
+      transform-origin:center center;user-select:none;pointer-events:none;
+    }
+    .image-stage:hover img{transform:scale(1.45)}
+    .zoom-hint{position:absolute;right:24px;top:24px;z-index:4;background:rgba(255,255,255,.76);backdrop-filter:blur(12px);border:1px solid rgba(17,19,20,.09);padding:11px 13px;font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:rgba(17,19,20,.60);opacity:0;transform:translateY(-6px);transition:.35s ease;pointer-events:none}
+    .image-stage:hover .zoom-hint{opacity:1;transform:translateY(0)}
     .media-caption{position:absolute;left:28px;bottom:26px;right:28px;display:flex;justify-content:space-between;gap:24px;color:rgba(17,19,20,.62);font-size:10px;letter-spacing:.26em;text-transform:uppercase;z-index:3;pointer-events:none}
-    .carousel-controls{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px;border-top:1px solid var(--soft);background:#fffdf8}
+    .carousel-controls{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px;border:1px solid var(--soft);border-top:0;background:#fffdf8}
     .arrows{display:flex;gap:10px}
     .arrow{width:46px;height:46px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:24px;line-height:1;transition:.32s ease;color:var(--ink)}
     .arrow:hover{background:var(--ink);color:var(--bg);transform:translateY(-2px)}
@@ -109,38 +158,305 @@
     .thumb img{width:100%;height:100%;object-fit:contain;pointer-events:none}
     .thumb.active,.thumb:hover{opacity:1;border-color:var(--ink);transform:translateY(-2px)}
 
-    .sheet{display:none;padding:0 56px 96px;background:#fffdf8;border-bottom:1px solid var(--soft)}
-    .sheet.is-open{display:block}
-    .sheet-inner{max-width:1380px;margin:0 auto;display:grid;grid-template-columns:.82fr 1.18fr;gap:72px;padding-top:64px;border-top:1px solid var(--line)}
-    .sheet-heading h3{font-size:clamp(42px,4.8vw,82px);line-height:.96;font-weight:320;letter-spacing:-.055em;text-transform:uppercase;margin-bottom:24px}
+    .sheet{padding:96px 56px;background:#fffdf8;border-top:1px solid var(--soft)}
+    .sheet-inner{max-width:1380px;margin:0 auto;display:grid;grid-template-columns:.82fr 1.18fr;gap:72px;border-top:1px solid var(--line);padding-top:64px}
+    .sheet-heading h2{font-size:clamp(42px,4.8vw,82px);line-height:.96;font-weight:320;letter-spacing:-.055em;text-transform:uppercase;margin-bottom:24px}
     .sheet-heading p{font-size:17px;line-height:1.78;color:var(--muted);max-width:560px}
     .sheet-table{border-top:1px solid var(--line)}
     .sheet-row{display:grid;grid-template-columns:230px 1fr;gap:28px;padding:21px 0;border-bottom:1px solid var(--line)}
     .sheet-row small{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--brown);font-weight:560}
     .sheet-row span{font-size:17px;line-height:1.58;color:rgba(17,19,20,.74);letter-spacing:-.015em}
 
-    .cta{padding:104px 56px;text-align:center;background:#111314;color:#f7f4ee}
-    .cta .eyebrow{color:rgba(247,244,238,.54)}
-    .cta h2{font-size:clamp(42px,5.5vw,86px);font-weight:310;letter-spacing:-.06em;line-height:.96;margin-bottom:26px}
-    .cta p{max-width:760px;margin:0 auto 36px;color:rgba(247,244,238,.70);font-size:18px;line-height:1.75}
-    .cta .actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+    .cta{padding:100px 56px;text-align:center;background:#111314;color:#f7f4ee}
+    .cta h2{font-size:clamp(42px,5.5vw,86px);font-weight:310;letter-spacing:-.06em;line-height:.96;margin-bottom:24px}
+    .cta p{max-width:720px;margin:0 auto 36px;color:rgba(247,244,238,.68);font-size:18px;line-height:1.75}
+    .cta .btn{border-color:#f7f4ee;color:#f7f4ee}
+    .cta .btn.primary{background:#f7f4ee;color:#111314}
+    .cta .btn.primary:hover{background:transparent;color:#f7f4ee}
     footer{padding:30px 56px;display:flex;justify-content:space-between;gap:20px;background:#0c0d0e;color:rgba(247,244,238,.68);font-size:10px;letter-spacing:.24em;text-transform:uppercase;flex-wrap:wrap}
 
-    @media(max-width:1120px){
+    @media(max-width:1050px){
       .topbar{padding:0 28px}.nav{gap:22px}
-      .hero-copy,.product-section,.product-section.reverse,.sheet-inner{grid-template-columns:1fr}
-      .product-section.reverse .product-copy,.product-section.reverse .product-visual{order:initial}
-      .product-section,.hero-line,.sheet,.cta{padding-left:28px;padding-right:28px}
-      .product-visual{min-height:520px}.carousel-stage{min-height:460px}
+      .hero{grid-template-columns:1fr;padding:58px 28px}.image-stage,.image-stage img{min-height:520px}
+      .sheet,.cta{padding-left:28px;padding-right:28px}.sheet-inner{grid-template-columns:1fr;gap:42px}.sheet-row{grid-template-columns:180px 1fr}
     }
-    @media(max-width:760px){
-      .topbar{min-height:76px;align-items:flex-start;flex-direction:column;justify-content:center;gap:14px}.brand{font-size:12px;letter-spacing:.24em}.nav{width:100%;overflow-x:auto;padding-bottom:8px}.quote-btn{display:none}
-      .hero-line{padding-top:72px;padding-bottom:58px}.hero-line h1{font-size:clamp(58px,17vw,96px)}.hero-copy p{font-size:22px}.hero-note{border-left:0;border-top:1px solid var(--line);padding:20px 0 0}
-      .collection-nav{padding:20px 24px}.collection-links{width:100%}.collection-links a{width:100%;text-align:center}
-      .product-section{padding:70px 24px;gap:34px}.product-copy h2{font-size:clamp(58px,18vw,92px);letter-spacing:.11em;text-indent:.11em}.product-copy .lead{font-size:20px}.editorial-points{grid-template-columns:1fr;gap:14px}.product-actions{flex-direction:column}.btn{width:100%}
-      .product-visual{min-height:auto}.carousel-stage{min-height:360px}.carousel-stage img{padding:24px}.carousel-stage:hover img{transform:scale(1.25)}.media-caption{left:18px;right:18px;bottom:18px;font-size:9px;letter-spacing:.20em}.carousel-controls{flex-direction:column;align-items:stretch}.arrows{justify-content:space-between}.arrow{width:49%}
-      .sheet{padding:0 24px 70px}.sheet-inner{gap:38px}.sheet-row{grid-template-columns:1fr;gap:8px}.cta{padding:78px 24px}footer{padding:26px 24px;line-height:1.8}
+    @media(max-width:680px){
+      .topbar{height:auto;min-height:76px;align-items:flex-start;display:flex;flex-direction:column;justify-content:center;gap:14px}.brand{font-size:12px;letter-spacing:.26em}.nav{width:100%;overflow-x:auto;padding-bottom:8px;gap:28px}.quote-btn{display:none}
+      .hero{padding:42px 24px 54px;gap:36px}.eyebrow{font-size:10px;letter-spacing:.34em}.hero h1{font-size:clamp(54px,17vw,88px);letter-spacing:.08em;line-height:1.08;transform:translateX(-.025em);width:calc(100% + .08em)}.lead{font-size:20px}.editorial-points{grid-template-columns:1fr;gap:14px}.actions{width:100%;flex-direction:column}.btn{width:100%}
+      .image-stage,.image-stage img{min-height:360px}.image-stage img{padding:18px}.image-stage:hover img{transform:scale(1.25)}.media-caption{left:18px;right:18px;bottom:18px;font-size:9px;letter-spacing:.20em}.carousel-controls{flex-direction:column;align-items:stretch}.arrows{justify-content:space-between}.arrow{width:49%}
+      .sheet{padding:70px 24px}.sheet-row{grid-template-columns:1fr;gap:8px}.cta{padding:78px 24px}footer{padding:26px 24px;line-height:1.8}
     }
+
+
+    /* HERO SUPERIOR LIVING CONTRACT: presentación de línea y navegación de productos */
+    .living-line-hero{
+      position:relative;
+      min-height:520px;
+      padding:86px 56px 0;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      overflow:hidden;
+      background:linear-gradient(180deg,#fbfaf6 0%,#f7f4ee 100%);
+      border-bottom:1px solid var(--soft);
+      isolation:isolate;
+    }
+    .living-line-hero::before{
+      content:"LIVING";
+      position:absolute;
+      left:56px;
+      bottom:-34px;
+      z-index:-1;
+      font-size:clamp(150px,19vw,330px);
+      line-height:.72;
+      font-weight:250;
+      letter-spacing:-.08em;
+      color:rgba(17,19,20,.035);
+      pointer-events:none;
+    }
+    .living-line-content{
+      width:min(1480px,100%);
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:1fr;
+      gap:0;
+      align-items:end;
+    }
+    .living-line-kicker{
+      margin-bottom:34px;
+      font-size:12px;
+      line-height:1;
+      letter-spacing:.62em;
+      text-transform:uppercase;
+      color:var(--brown);
+      font-weight:650;
+    }
+    .living-line-title{
+      max-width:1040px;
+      font-size:clamp(58px,7.1vw,122px);
+      line-height:.94;
+      font-weight:300;
+      letter-spacing:-.075em;
+      color:var(--ink);
+      text-transform:none;
+      text-rendering:geometricPrecision;
+      margin:0;
+    }
+    .living-line-title span{display:block}
+    .living-collection-bar{
+      width:calc(100% + 112px);
+      margin:74px -56px 0;
+      padding:26px 56px;
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:32px;
+      align-items:center;
+      background:rgba(255,253,248,.86);
+      border-top:1px solid var(--soft);
+      backdrop-filter:blur(14px);
+    }
+    .living-collection-label{
+      font-size:10px;
+      line-height:1;
+      letter-spacing:.48em;
+      text-transform:uppercase;
+      color:rgba(138,115,95,.82);
+      font-weight:650;
+      white-space:nowrap;
+    }
+    .living-product-tabs{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+    .living-product-tab{
+      min-height:50px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:0 24px;
+      border:1px solid rgba(17,19,20,.12);
+      background:rgba(255,255,255,.54);
+      font-size:10px;
+      line-height:1;
+      letter-spacing:.36em;
+      text-transform:uppercase;
+      color:rgba(17,19,20,.82);
+      transition:background .35s ease,color .35s ease,border-color .35s ease,transform .35s ease;
+      white-space:nowrap;
+    }
+    .living-product-tab:hover,
+    .living-product-tab.active{
+      background:var(--ink);
+      color:var(--bg);
+      border-color:var(--ink);
+      transform:translateY(-2px);
+    }
+    @media(max-width:1050px){
+      .living-line-hero{padding:62px 28px 0;min-height:440px;}
+      .living-line-content{grid-template-columns:1fr;gap:0;align-items:start;}
+      .living-line-title{font-size:clamp(54px,10vw,104px);max-width:900px;}
+      .living-collection-bar{width:calc(100% + 56px);margin:56px -28px 0;padding:24px 28px;grid-template-columns:1fr;}
+      .living-product-tabs{justify-content:flex-start;}
+      .living-line-hero::before{left:28px;}
+    }
+    @media(max-width:680px){
+      .living-line-hero{padding:44px 24px 0;min-height:390px;}
+      .living-line-kicker{font-size:10px;letter-spacing:.38em;margin-bottom:26px;}
+      .living-line-title{font-size:clamp(46px,14vw,74px);line-height:1;letter-spacing:-.06em;}
+      .living-collection-bar{width:calc(100% + 48px);margin:44px -24px 0;padding:22px 24px;}
+      .living-product-tabs{display:grid;grid-template-columns:1fr;width:100%;}
+      .living-product-tab{width:100%;}
+      .living-line-hero::before{left:18px;bottom:-10px;font-size:112px;}
+    }
+
+
+    /* CORRECCIÓN UX: Living Contract hero ocupa mejor el ancho disponible */
+    .living-line-hero{
+      min-height:560px!important;
+      padding:74px 72px 0!important;
+      display:flex!important;
+      flex-direction:column!important;
+      justify-content:space-between!important;
+    }
+    .living-line-content{
+      width:100%!important;
+      max-width:1780px!important;
+      margin:0 auto!important;
+      display:block!important;
+    }
+    .living-line-main{
+      width:100%!important;
+    }
+    .living-line-kicker{
+      margin-bottom:38px!important;
+      letter-spacing:.64em!important;
+    }
+    .living-line-title{
+      width:100%!important;
+      max-width:1720px!important;
+      font-size:clamp(62px,6.8vw,118px)!important;
+      line-height:1.16!important;
+      letter-spacing:-.078em!important;
+      font-weight:300!important;
+    }
+    .living-line-title span{
+      display:block!important;
+      margin-top:.08em!important;
+    }
+    .living-collection-bar{
+      width:calc(100% + 144px)!important;
+      margin:72px -72px 0!important;
+      padding:28px 72px!important;
+    }
+
+    @media(max-width:1050px){
+      .living-line-hero{padding:62px 28px 0!important;min-height:480px!important;}
+      .living-line-content{max-width:100%!important;}
+      .living-line-title{font-size:clamp(54px,9.2vw,96px)!important;line-height:1.14!important;max-width:980px!important;}
+      .living-collection-bar{width:calc(100% + 56px)!important;margin:58px -28px 0!important;padding:24px 28px!important;}
+    }
+    @media(max-width:680px){
+      .living-line-hero{padding:44px 24px 0!important;min-height:410px!important;}
+      .living-line-kicker{margin-bottom:26px!important;letter-spacing:.38em!important;}
+      .living-line-title{font-size:clamp(44px,13.2vw,72px)!important;line-height:1.12!important;letter-spacing:-.064em!important;}
+      .living-collection-bar{width:calc(100% + 48px)!important;margin:42px -24px 0!important;padding:22px 24px!important;}
+    }
+
+  
+
+    /* UX FINAL: colección con Mikado + Cordón, carruseles editoriales */
+    .living-line-hero{
+      min-height:560px!important;
+      padding:92px 64px 0!important;
+      background:linear-gradient(180deg,#fbfaf6 0%,#f7f4ee 100%)!important;
+    }
+    .living-line-content{max-width:1640px!important;width:100%!important;margin:0 auto!important;}
+    .living-line-kicker{font-size:12px!important;letter-spacing:.52em!important;margin-bottom:34px!important;color:rgba(138,115,95,.88)!important;}
+    .living-line-title{
+      max-width:1120px!important;
+      font-size:clamp(56px,5.6vw,108px)!important;
+      line-height:1.22!important;
+      letter-spacing:.018em!important;
+      font-weight:285!important;
+      text-transform:none!important;
+    }
+    .living-line-title span{display:block!important;margin-top:.10em!important;}
+    .living-collection-bar{
+      width:calc(100% + 128px)!important;
+      margin:70px -64px 0!important;
+      padding:30px 64px!important;
+      grid-template-columns:minmax(260px,1fr) auto!important;
+      gap:34px!important;
+    }
+    .living-collection-label{letter-spacing:.44em!important;color:rgba(138,115,95,.82)!important;}
+    .living-product-tabs{gap:18px!important;}
+    .living-product-tab{
+      min-width:280px!important;
+      min-height:58px!important;
+      padding:0 28px!important;
+      letter-spacing:.34em!important;
+      background:rgba(255,253,248,.78)!important;
+      border-color:rgba(17,19,20,.16)!important;
+    }
+    .living-product-tab.active{background:#111314!important;color:#f7f4ee!important;border-color:#111314!important;}
+
+    .hero.product-hero{
+      min-height:calc(100vh - 82px);
+      grid-template-columns:.74fr 1.26fr;
+      align-items:start!important;
+      gap:64px;
+      padding:44px 56px 64px!important;
+    }
+    .hero.product-hero .product-copy{padding-top:0!important;max-width:720px;}
+    .hero.product-hero::before{bottom:10px;opacity:1;}
+    .hero.product-hero.cordon-hero::before{content:"CORDÓN";letter-spacing:-.08em;}
+    .hero.product-hero.cordon-hero{background:#fffdf8;}
+    .hero.product-hero h1{font-size:clamp(70px,6.6vw,118px)!important;letter-spacing:.12em!important;line-height:1!important;margin-bottom:42px!important;}
+    .hero.product-hero .eyebrow{margin-bottom:34px!important;}
+    .hero.product-hero .lead{font-size:clamp(20px,1.34vw,26px)!important;line-height:1.62!important;margin-bottom:44px!important;}
+
+    .image-stage{min-height:680px!important;background:#fff!important;}
+    .image-stage img{min-height:680px!important;width:100%!important;height:100%!important;transition:opacity .28s ease,transform .55s cubic-bezier(.22,.61,.36,1)!important;}
+    .image-stage.complete-view img{object-fit:contain!important;padding:54px!important;}
+    .image-stage.editorial-detail img{object-fit:cover!important;padding:0!important;}
+    .image-stage.wide-view img{object-fit:contain!important;padding:42px!important;}
+    .image-stage.portrait-detail img{object-fit:contain!important;padding:32px!important;}
+    .image-stage:hover img{transform:scale(1.035)!important;}
+    .image-stage.editorial-detail:hover img{transform:scale(1.08)!important;}
+    .carousel-badge-stack{position:absolute;left:32px;top:32px;z-index:5;display:flex;flex-direction:column;gap:10px;pointer-events:none;}
+    .view-counter,.view-type{display:inline-flex;min-height:40px;align-items:center;background:rgba(255,253,248,.82);backdrop-filter:blur(14px);border:1px solid rgba(17,19,20,.10);padding:0 16px;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:rgba(17,19,20,.66);width:max-content;}
+    .media-caption{letter-spacing:.34em!important;}
+    .carousel-controls{padding:18px 22px!important;gap:20px!important;}
+    .thumbs{display:grid!important;grid-template-columns:repeat(8, minmax(70px,1fr));gap:12px!important;overflow:visible!important;flex:1;}
+    .thumb{width:100%!important;height:74px!important;padding:0!important;background:#fff!important;border:1px solid rgba(17,19,20,.08)!important;position:relative;overflow:hidden;}
+    .thumb img{width:100%!important;height:100%!important;object-fit:cover!important;opacity:.68;transition:.3s ease;}
+    .thumb::after{content:attr(data-label);position:absolute;left:8px;bottom:7px;font-size:9px;letter-spacing:.18em;color:rgba(17,19,20,.52);background:rgba(255,253,248,.72);padding:3px 5px;}
+    .thumb.active{border-color:#111314!important;opacity:1!important;transform:none!important;}
+    .thumb.active img,.thumb:hover img{opacity:1;transform:scale(1.04);}
+    .arrows{flex:0 0 auto;}
+
+    @media(max-width:1200px){
+      .hero.product-hero{grid-template-columns:1fr!important;padding:40px 28px 58px!important;}
+      .thumbs{grid-template-columns:repeat(4,1fr)!important;}
+      .living-collection-bar{grid-template-columns:1fr!important;}
+      .living-product-tabs{justify-content:flex-start!important;}
+    }
+    @media(max-width:680px){
+      .living-line-hero{padding:58px 24px 0!important;min-height:440px!important;}
+      .living-line-title{font-size:clamp(42px,12vw,66px)!important;line-height:1.18!important;letter-spacing:.005em!important;}
+      .living-collection-bar{width:calc(100% + 48px)!important;margin:48px -24px 0!important;padding:22px 24px!important;}
+      .living-product-tab{min-width:0!important;width:100%!important;}
+      .hero.product-hero h1{font-size:clamp(50px,16vw,82px)!important;letter-spacing:.08em!important;}
+      .image-stage,.image-stage img{min-height:430px!important;}
+      .image-stage.complete-view img,.image-stage.wide-view img{padding:24px!important;}
+      .carousel-controls{flex-direction:column!important;}
+      .arrows{width:100%;}
+      .thumbs{grid-template-columns:repeat(2,1fr)!important;width:100%;}
+    }
+
   </style>
 </head>
 <body>
@@ -150,74 +466,78 @@
       <a href="index.html">Inicio</a>
       <a href="living_contract_abraham.html">Living Contract</a>
       <a href="diseno_autor_abraham.html">Diseño de autor</a>
-      <a class="quote-btn" href="mailto:contacto@abrahampeyret.art?subject=Cotización%20Living%20Contract">Cotizar</a>
+      <a class="quote-btn" href="mailto:contacto@abrahampeyret.art?subject=Cotización%20Mikado">Cotizar</a>
     </nav>
   </header>
 
   <main>
-    <section class="hero-line" id="inicio">
-      <div class="hero-inner">
-        <p class="eyebrow">Living Contract</p>
-        <h1>Mobiliario residencial <span>de alto desempeño.</span></h1>
-        <div class="hero-copy">
-          <p>Una línea pensada para espacios habitables, hospitality, Airbnb y proyectos donde el diseño debe resistir el uso real sin perder calidez, proporción ni presencia estética.</p>
-          <div class="hero-note">Colección inicial compuesta por piezas editables, repetibles y adaptables por proyecto. Cada producto puede cotizarse según acabado, cantidad y requerimientos del espacio.</div>
+
+    <section class="living-line-hero" aria-label="Presentación Living Contract">
+      <div class="living-line-content">
+        <div class="living-line-main">
+          <p class="living-line-kicker">Living Contract</p>
+          <h1 class="living-line-title">Mobiliario residencial<span>de alto desempeño.</span></h1>
         </div>
       </div>
-    </section>
 
-    <section class="collection-nav" aria-label="Navegación de productos Living Contract">
-      <small>Colección Living Contract</small>
-      <div class="collection-links">
-        <a href="#mikado">Producto 01 · Mikado</a>
-        <a href="#nodo">Producto 02 · Nodo</a>
-        <a href="#cotizar">Cotizar colección</a>
+      <div class="living-collection-bar" aria-label="Navegación de colección Living Contract">
+        <span class="living-collection-label">Colección Living Contract</span>
+        <nav class="living-product-tabs" aria-label="Productos Living Contract">
+          <a href="#producto" class="living-product-tab active">Producto 01 · Mikado</a>
+          <a href="#producto-cordon" class="living-product-tab">Producto 02 · Cordón</a>
+          <a href="#cotizar" class="living-product-tab">Cotizar colección</a>
+        </nav>
       </div>
     </section>
 
-    <section class="product-section" id="mikado" aria-label="Producto Mikado">
-      <article class="product-copy">
-        <p class="product-number">Producto 01 · Silla / Lounge chair</p>
-        <h2>Mikado</h2>
-        <p class="category">Estructura visible · Detalle textil · Uso intensivo</p>
+    <section class="hero product-hero" id="producto">
+      <div class="product-copy">
+        <p class="eyebrow">Producto 01 · Silla / Lounge chair</p>
+        <h1>Mikado</h1>
         <p class="lead">Silla de madera con estructura visible, ritmo modular y detalles textiles. Una pieza pensada para espacios residenciales, hospitality y proyectos donde la identidad del objeto también comunica diseño.</p>
-        <div class="editorial-points">
+        <div class="editorial-points" aria-label="Atributos editoriales de Mikado">
           <span>Presencia objetual sin perder funcionalidad</span>
           <span>Respaldo modular con lectura artesanal</span>
           <span>Acabados adaptables por proyecto</span>
           <span>Diseñada para uso residencial y hospitality</span>
         </div>
-        <div class="product-actions">
-          <button class="btn primary" type="button" data-sheet="sheet-mikado">Ver ficha técnica</button>
+        <div class="actions">
+          <a href="#ficha-tecnica" class="btn primary">Ver ficha técnica</a>
         </div>
-      </article>
+      </div>
 
-      <aside class="product-visual" aria-label="Carrusel de imágenes Mikado">
-        <div class="carousel-stage" data-carousel="mikado">
-          <span class="zoom-hint">Acerca el mouse para ver detalles</span>
-          <img src="./assets/images/living/mikado/mikado-01-frontal.jpg" alt="Silla Mikado vista frontal" />
-          <figcaption class="media-caption"><span data-caption>Mikado · Vista frontal</span><span>Living Contract</span></figcaption>
-        </div>
-        <div class="carousel-controls">
-          <div class="arrows">
-            <button class="arrow" type="button" data-prev="mikado" aria-label="Imagen anterior Mikado">‹</button>
-            <button class="arrow" type="button" data-next="mikado" aria-label="Imagen siguiente Mikado">›</button>
+      <aside class="hero-media" aria-label="Carrusel de imágenes Mikado">
+        <div class="carousel-shell" data-carousel="mikado">
+          <div class="image-stage complete-view">
+            <div class="carousel-badge-stack"><span class="view-counter">01 / 07</span><span class="view-type">Vista completa</span></div>
+            <span class="zoom-hint">Acerca el mouse para ver detalles</span>
+            <img class="main-carousel-image" src="./assets/images/living/mikado/mikado-01-frontal.jpg" alt="Silla Mikado vista frontal" />
+            <figcaption class="media-caption"><span class="image-caption-text">Mikado · Vista frontal</span><span>Living Contract</span></figcaption>
           </div>
-          <div class="thumbs" aria-label="Miniaturas Mikado">
-            <button class="thumb active" type="button" data-carousel-thumb="mikado" data-index="0"><img src="./assets/images/living/mikado/mikado-01-frontal.jpg" alt="Miniatura Mikado frontal"></button>
-            <button class="thumb" type="button" data-carousel-thumb="mikado" data-index="1"><img src="./assets/images/living/mikado/mikado-02-lateral.jpg" alt="Miniatura Mikado lateral"></button>
-            <button class="thumb" type="button" data-carousel-thumb="mikado" data-index="2"><img src="./assets/images/living/mikado/mikado-03-posterior.jpg" alt="Miniatura Mikado posterior"></button>
-            <button class="thumb" type="button" data-carousel-thumb="mikado" data-index="3"><img src="./assets/images/living/mikado/mikado-04-perfil.jpg" alt="Miniatura Mikado perfil"></button>
+          <div class="carousel-controls">
+            <div class="arrows">
+              <button class="arrow prevBtn" type="button" aria-label="Imagen anterior">‹</button>
+              <button class="arrow nextBtn" type="button" aria-label="Imagen siguiente">›</button>
+            </div>
+            <div class="thumbs" aria-label="Miniaturas de Mikado">
+              <button class="thumb active" type="button" data-index="0" data-label="01"><img src="./assets/images/living/mikado/mikado-01-frontal.jpg" alt="Miniatura frontal"></button>
+              <button class="thumb" type="button" data-index="1" data-label="02"><img src="./assets/images/living/mikado/mikado-02-lateral.jpg" alt="Miniatura lateral"></button>
+              <button class="thumb" type="button" data-index="2" data-label="03"><img src="./assets/images/living/mikado/mikado-03-posterior.jpg" alt="Miniatura posterior"></button>
+              <button class="thumb" type="button" data-index="3" data-label="04"><img src="./assets/images/living/mikado/mikado-04-perfil.jpg" alt="Miniatura perfil"></button>
+              <button class="thumb" type="button" data-index="4" data-label="05"><img src="./assets/images/living/mikado/mikado-05-detalle-brazo.jpg" alt="Miniatura detalle brazo"></button>
+              <button class="thumb" type="button" data-index="5" data-label="06"><img src="./assets/images/living/mikado/mikado-06-detalle-ensamble.jpg" alt="Miniatura detalle ensamble"></button>
+              <button class="thumb" type="button" data-index="6" data-label="07"><img src="./assets/images/living/mikado/mikado-07-detalle-respaldo.jpg" alt="Miniatura detalle respaldo"></button>
+            </div>
           </div>
         </div>
       </aside>
     </section>
 
-    <section class="sheet" id="sheet-mikado" aria-label="Ficha técnica Mikado">
+    <section class="sheet" id="ficha-tecnica" aria-label="Ficha técnica breve de Mikado">
       <div class="sheet-inner">
         <div class="sheet-heading">
           <p class="eyebrow">Ficha técnica breve</p>
-          <h3>Mikado</h3>
+          <h2>Mikado</h2>
           <p>Ficha rápida para clientes, interioristas y proyectos hospitality. Los datos pueden ajustarse cuando existan medidas finales del prototipo.</p>
         </div>
         <div class="sheet-table">
@@ -232,71 +552,74 @@
       </div>
     </section>
 
-    <section class="product-section reverse" id="nodo" aria-label="Producto Nodo">
-      <article class="product-copy">
-        <p class="product-number">Producto 02 · Mesa auxiliar / Side table</p>
-        <h2>Nodo</h2>
-        <p class="category">Base estructural · Proporción compacta · Apoyo flexible</p>
-        <p class="lead">Mesa auxiliar de madera con base estructural, proporción compacta y presencia arquitectónica. Una pieza pensada para acompañar salas, habitaciones, suites y proyectos hospitality donde cada elemento debe ser funcional, resistente y visualmente coherente.</p>
-        <div class="editorial-points">
-          <span>Formato compacto para espacios habitables</span>
-          <span>Base geométrica con ensamble visible</span>
-          <span>Cubierta resistente para uso frecuente</span>
-          <span>Personalizable por acabado y dimensión</span>
+    <section class="hero product-hero cordon-hero" id="producto-cordon">
+      <div class="product-copy">
+        <p class="eyebrow">Producto 02 · Banco / Bench</p>
+        <h1>Cordón</h1>
+        <p class="lead">Banco de madera con líneas diagonales incrustadas, estructura visible y presencia horizontal. Una pieza pensada para recibidores, áreas de espera, hospitality y proyectos residenciales donde el detalle constructivo funciona como identidad visual.</p>
+        <div class="editorial-points" aria-label="Atributos editoriales de Cordón">
+          <span>Presencia horizontal y proporción limpia</span>
+          <span>Detalle diagonal tipo cordón en cubierta</span>
+          <span>Contraste de maderas y ensamble visible</span>
+          <span>Ideal para residencial, lobby y hospitality</span>
         </div>
-        <div class="product-actions">
-          <button class="btn primary" type="button" data-sheet="sheet-nodo">Ver ficha técnica</button>
+        <div class="actions">
+          <a href="#ficha-cordon" class="btn primary">Ver ficha técnica</a>
         </div>
-      </article>
+      </div>
 
-      <aside class="product-visual" aria-label="Carrusel de imágenes Nodo">
-        <div class="carousel-stage" data-carousel="nodo">
-          <span class="zoom-hint">Acerca el mouse para ver detalles</span>
-          <img src="./assets/images/living/nodo/nodo-01-frontal.jpg" alt="Mesa auxiliar Nodo vista frontal" />
-          <figcaption class="media-caption"><span data-caption>Nodo · Vista frontal</span><span>Living Contract</span></figcaption>
-        </div>
-        <div class="carousel-controls">
-          <div class="arrows">
-            <button class="arrow" type="button" data-prev="nodo" aria-label="Imagen anterior Nodo">‹</button>
-            <button class="arrow" type="button" data-next="nodo" aria-label="Imagen siguiente Nodo">›</button>
+      <aside class="hero-media" aria-label="Carrusel de imágenes Cordón">
+        <div class="carousel-shell" data-carousel="cordon">
+          <div class="image-stage wide-view">
+            <div class="carousel-badge-stack"><span class="view-counter">01 / 08</span><span class="view-type">Vista tres cuartos</span></div>
+            <span class="zoom-hint">Acerca el mouse para ver detalles</span>
+            <img class="main-carousel-image" src="./assets/images/living/cordon/_MG_4298-Editar.jpg" alt="Banco Cordón vista tres cuartos" />
+            <figcaption class="media-caption"><span class="image-caption-text">Cordón · Vista tres cuartos</span><span>Living Contract</span></figcaption>
           </div>
-          <div class="thumbs" aria-label="Miniaturas Nodo">
-            <button class="thumb active" type="button" data-carousel-thumb="nodo" data-index="0"><img src="./assets/images/living/nodo/nodo-01-frontal.jpg" alt="Miniatura Nodo frontal"></button>
-            <button class="thumb" type="button" data-carousel-thumb="nodo" data-index="1"><img src="./assets/images/living/nodo/nodo-02-lateral.jpg" alt="Miniatura Nodo lateral"></button>
-            <button class="thumb" type="button" data-carousel-thumb="nodo" data-index="2"><img src="./assets/images/living/nodo/nodo-03-superior.jpg" alt="Miniatura Nodo superior"></button>
-            <button class="thumb" type="button" data-carousel-thumb="nodo" data-index="3"><img src="./assets/images/living/nodo/nodo-04-detalle-ensamble.jpg" alt="Miniatura Nodo detalle ensamble"></button>
+          <div class="carousel-controls">
+            <div class="arrows">
+              <button class="arrow prevBtn" type="button" aria-label="Imagen anterior">‹</button>
+              <button class="arrow nextBtn" type="button" aria-label="Imagen siguiente">›</button>
+            </div>
+            <div class="thumbs" aria-label="Miniaturas de Cordón">
+              <button class="thumb active" type="button" data-index="0" data-label="01"><img src="./assets/images/living/cordon/_MG_4298-Editar.jpg" alt="Miniatura vista tres cuartos"></button>
+              <button class="thumb" type="button" data-index="1" data-label="02"><img src="./assets/images/living/cordon/C1.jpeg" alt="Miniatura vista lateral"></button>
+              <button class="thumb" type="button" data-index="2" data-label="03"><img src="./assets/images/living/cordon/Copia de CORDON1.jpg" alt="Miniatura vista superior"></button>
+              <button class="thumb" type="button" data-index="3" data-label="04"><img src="./assets/images/living/cordon/Copia de CORDON2.jpg" alt="Miniatura detalle cubierta"></button>
+              <button class="thumb" type="button" data-index="4" data-label="05"><img src="./assets/images/living/cordon/Foto1.jpg" alt="Miniatura detalle extremo"></button>
+              <button class="thumb" type="button" data-index="5" data-label="06"><img src="./assets/images/living/cordon/practica2-189-Editar.jpg" alt="Miniatura detalle pata"></button>
+              <button class="thumb" type="button" data-index="6" data-label="07"><img src="./assets/images/living/cordon/practica2-179-Editar.jpg" alt="Miniatura detalle ensamble"></button>
+              <button class="thumb" type="button" data-index="7" data-label="08"><img src="./assets/images/living/cordon/_MG_6306-Editar.jpg" alt="Miniatura proceso en taller"></button>
+            </div>
           </div>
         </div>
       </aside>
     </section>
 
-    <section class="sheet" id="sheet-nodo" aria-label="Ficha técnica Nodo">
+    <section class="sheet" id="ficha-cordon" aria-label="Ficha técnica breve de Cordón">
       <div class="sheet-inner">
         <div class="sheet-heading">
           <p class="eyebrow">Ficha técnica breve</p>
-          <h3>Nodo</h3>
-          <p>Producto complementario de la línea Living Contract. Pensado para crear una colección más completa junto a Mikado.</p>
+          <h2>Cordón</h2>
+          <p>Ficha rápida para presentar el segundo producto de la colección Living Contract. Los datos pueden ajustarse cuando se definan medidas finales, acabados y disponibilidad.</p>
         </div>
         <div class="sheet-table">
-          <div class="sheet-row"><small>Producto</small><span>Nodo</span></div>
-          <div class="sheet-row"><small>Categoría</small><span>Mesa auxiliar / side table.</span></div>
-          <div class="sheet-row"><small>Medidas</small><span>45 cm alto × 42 cm ancho × 42 cm profundidad.</span></div>
-          <div class="sheet-row"><small>Materialidad</small><span>Madera sólida con base estructural, cubierta de alta resistencia y ensamble visible.</span></div>
-          <div class="sheet-row"><small>Aplicaciones</small><span>Residencias, suites, Airbnb premium, hoteles boutique, salas de espera y proyectos contract.</span></div>
-          <div class="sheet-row"><small>Acabados</small><span>Madera natural, nogal, encino oscuro, negro mate o acabado bajo especificación.</span></div>
-          <div class="sheet-row"><small>Personalización</small><span>Tono de madera, acabado superficial, dimensión y cantidad por proyecto.</span></div>
-          <div class="sheet-row"><small>Mantenimiento</small><span>Limpieza con paño seco o ligeramente húmedo. Acabado pensado para uso frecuente.</span></div>
+          <div class="sheet-row"><small>Producto</small><span>Cordón</span></div>
+          <div class="sheet-row"><small>Categoría</small><span>Banco / bench de uso residencial, hospitality y áreas de espera.</span></div>
+          <div class="sheet-row"><small>Lenguaje</small><span>Volumen horizontal, líneas diagonales incrustadas y contraste de maderas.</span></div>
+          <div class="sheet-row"><small>Materialidad</small><span>Madera sólida con ensambles visibles y detalle constructivo en cubierta.</span></div>
+          <div class="sheet-row"><small>Uso sugerido</small><span>Recibidores, salas, lobby, boutique hospitality, galerías y proyectos residenciales.</span></div>
+          <div class="sheet-row"><small>Producción</small><span>Bajo pedido. Acabados, dimensiones y cantidad según proyecto.</span></div>
         </div>
       </div>
     </section>
 
-    <section class="cta" id="cotizar">
-      <p class="eyebrow">Contacto estratégico</p>
-      <h2>¿Quieres cotizar Living Contract?</h2>
-      <p>Solicita información sobre producción, acabados, cantidades por proyecto o adaptación de Mikado y Nodo para espacios residenciales, hospitality o Airbnb premium.</p>
-      <div class="actions">
-        <a href="mailto:contacto@abrahampeyret.art?subject=Cotización%20Living%20Contract" class="btn light">Solicitar cotización</a>
-        <a href="index.html" class="btn light">Volver al inicio</a>
+<section class="cta" id="cotizar">
+      <h2>¿Quieres cotizar Mikado?</h2>
+      <p>Solicita información para producción, acabados, disponibilidad o adaptación por proyecto.</p>
+      <div class="actions" style="justify-content:center">
+        <a href="mailto:contacto@abrahampeyret.art?subject=Cotización%20Mikado" class="btn primary">Solicitar cotización</a>
+        <a href="index.html" class="btn secondary">Volver al inicio</a>
       </div>
     </section>
   </main>
@@ -304,84 +627,82 @@
   <footer>
     <span>© Abraham Peyret</span>
     <span>Living Contract</span>
-    <span>Mikado · Nodo</span>
+    <span>Mikado · Producto 01</span>
   </footer>
 
   <script>
     const placeholderSvg = (label) => {
-      const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='900' viewBox='0 0 1200 900'><rect width='1200' height='900' fill='%23fffdf8'/><rect x='72' y='72' width='1056' height='756' fill='none' stroke='%23d8d0c6' stroke-width='2'/><text x='600' y='420' text-anchor='middle' font-family='Helvetica, Arial, sans-serif' font-size='48' fill='%238a735f' letter-spacing='10'>${label}</text><text x='600' y='486' text-anchor='middle' font-family='Helvetica, Arial, sans-serif' font-size='18' fill='%23746a60' letter-spacing='5'>COLOCAR IMAGEN EN ASSETS</text></svg>`;
+      const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='900' viewBox='0 0 1200 900'><rect width='1200' height='900' fill='%23fffdf8'/><rect x='72' y='72' width='1056' height='756' fill='none' stroke='%23d8d0c6' stroke-width='2'/><text x='600' y='420' text-anchor='middle' font-family='Helvetica, Arial, sans-serif' font-size='48' fill='%238a735f' letter-spacing='10'>${label}</text><text x='600' y='486' text-anchor='middle' font-family='Helvetica, Arial, sans-serif' font-size='18' fill='%23746a60' letter-spacing='5'>VERIFICAR RUTA EN ASSETS</text></svg>`;
       return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
     };
 
-    const carousels = {
-      mikado: {
-        index: 0,
-        images: [
-          {src:'./assets/images/living/mikado/mikado-01-frontal.jpg', caption:'Mikado · Vista frontal', alt:'Silla Mikado vista frontal'},
-          {src:'./assets/images/living/mikado/mikado-02-lateral.jpg', caption:'Mikado · Vista lateral', alt:'Silla Mikado vista lateral'},
-          {src:'./assets/images/living/mikado/mikado-03-posterior.jpg', caption:'Mikado · Vista posterior', alt:'Silla Mikado vista posterior'},
-          {src:'./assets/images/living/mikado/mikado-04-perfil.jpg', caption:'Mikado · Perfil', alt:'Silla Mikado vista de perfil'}
-        ]
-      },
-      nodo: {
-        index: 0,
-        images: [
-          {src:'./assets/images/living/nodo/nodo-01-frontal.jpg', caption:'Nodo · Vista frontal', alt:'Mesa auxiliar Nodo vista frontal'},
-          {src:'./assets/images/living/nodo/nodo-02-lateral.jpg', caption:'Nodo · Vista lateral', alt:'Mesa auxiliar Nodo vista lateral'},
-          {src:'./assets/images/living/nodo/nodo-03-superior.jpg', caption:'Nodo · Vista superior', alt:'Mesa auxiliar Nodo vista superior'},
-          {src:'./assets/images/living/nodo/nodo-04-detalle-ensamble.jpg', caption:'Nodo · Detalle ensamble', alt:'Detalle de ensamble de mesa auxiliar Nodo'}
-        ]
-      }
+    const carouselData = {
+      mikado: [
+        {src:'./assets/images/living/mikado/mikado-01-frontal.jpg', caption:'Mikado · Vista frontal', type:'Vista completa', alt:'Silla Mikado vista frontal', mode:'complete-view'},
+        {src:'./assets/images/living/mikado/mikado-02-lateral.jpg', caption:'Mikado · Vista lateral', type:'Vista completa', alt:'Silla Mikado vista lateral', mode:'complete-view'},
+        {src:'./assets/images/living/mikado/mikado-03-posterior.jpg', caption:'Mikado · Vista posterior', type:'Vista completa', alt:'Silla Mikado vista posterior', mode:'complete-view'},
+        {src:'./assets/images/living/mikado/mikado-04-perfil.jpg', caption:'Mikado · Perfil', type:'Vista de perfil', alt:'Silla Mikado vista de perfil', mode:'complete-view'},
+        {src:'./assets/images/living/mikado/mikado-05-detalle-brazo.jpg', caption:'Mikado · Detalle de brazo', type:'Detalle editorial', alt:'Detalle del brazo de silla Mikado', mode:'editorial-detail'},
+        {src:'./assets/images/living/mikado/mikado-06-detalle-ensamble.jpg', caption:'Mikado · Detalle de ensamble', type:'Detalle editorial', alt:'Detalle de ensamble de silla Mikado', mode:'editorial-detail'},
+        {src:'./assets/images/living/mikado/mikado-07-detalle-respaldo.jpg', caption:'Mikado · Detalle de respaldo', type:'Detalle editorial', alt:'Detalle de respaldo de silla Mikado', mode:'editorial-detail'}
+      ],
+      cordon: [
+        {src:'./assets/images/living/cordon/_MG_4298-Editar.jpg', caption:'Cordón · Vista tres cuartos', type:'Vista tres cuartos', alt:'Banco Cordón vista tres cuartos', mode:'wide-view'},
+        {src:'./assets/images/living/cordon/C1.jpeg', caption:'Cordón · Vista lateral', type:'Vista lateral', alt:'Banco Cordón vista lateral completa', mode:'wide-view'},
+        {src:'./assets/images/living/cordon/Copia de CORDON1.jpg', caption:'Cordón · Vista superior', type:'Vista superior', alt:'Banco Cordón vista superior', mode:'wide-view'},
+        {src:'./assets/images/living/cordon/Copia de CORDON2.jpg', caption:'Cordón · Detalle de cubierta', type:'Detalle editorial', alt:'Detalle de cubierta de banco Cordón', mode:'editorial-detail'},
+        {src:'./assets/images/living/cordon/Foto1.jpg', caption:'Cordón · Detalle de extremo', type:'Detalle editorial', alt:'Detalle de extremo de banco Cordón', mode:'editorial-detail'},
+        {src:'./assets/images/living/cordon/practica2-189-Editar.jpg', caption:'Cordón · Detalle de pata', type:'Detalle vertical', alt:'Detalle de pata de banco Cordón', mode:'portrait-detail'},
+        {src:'./assets/images/living/cordon/practica2-179-Editar.jpg', caption:'Cordón · Detalle de ensamble', type:'Detalle vertical', alt:'Detalle de ensamble de banco Cordón', mode:'portrait-detail'},
+        {src:'./assets/images/living/cordon/_MG_6306-Editar.jpg', caption:'Cordón · Proceso en taller', type:'Proceso / taller', alt:'Banco Cordón en proceso dentro del taller', mode:'editorial-detail'}
+      ]
     };
 
-    function updateCarousel(name, index){
-      const carousel = carousels[name];
-      const total = carousel.images.length;
-      carousel.index = (index + total) % total;
-      const data = carousel.images[carousel.index];
-      const stage = document.querySelector(`[data-carousel="${name}"]`);
-      const img = stage.querySelector('img');
-      const caption = stage.querySelector('[data-caption]');
-      img.src = data.src;
-      img.alt = data.alt;
-      img.onerror = () => { img.onerror = null; img.src = placeholderSvg(data.caption); };
-      caption.textContent = data.caption;
-      document.querySelectorAll(`[data-carousel-thumb="${name}"]`).forEach((thumb) => {
-        thumb.classList.toggle('active', Number(thumb.dataset.index) === carousel.index);
-      });
-    }
-
-    Object.keys(carousels).forEach((name) => {
-      document.querySelector(`[data-prev="${name}"]`).addEventListener('click', () => updateCarousel(name, carousels[name].index - 1));
-      document.querySelector(`[data-next="${name}"]`).addEventListener('click', () => updateCarousel(name, carousels[name].index + 1));
-      document.querySelectorAll(`[data-carousel-thumb="${name}"]`).forEach((thumb) => {
-        thumb.addEventListener('click', () => updateCarousel(name, Number(thumb.dataset.index)));
+    document.querySelectorAll('[data-carousel]').forEach((carousel) => {
+      const key = carousel.dataset.carousel;
+      const images = carouselData[key] || [];
+      let currentIndex = 0;
+      const stage = carousel.querySelector('.image-stage');
+      const mainImage = carousel.querySelector('.main-carousel-image');
+      const caption = carousel.querySelector('.image-caption-text');
+      const counter = carousel.querySelector('.view-counter');
+      const type = carousel.querySelector('.view-type');
+      const thumbs = carousel.querySelectorAll('.thumb');
+      const setMode = (mode) => {
+        stage.classList.remove('complete-view','editorial-detail','wide-view','portrait-detail');
+        stage.classList.add(mode || 'complete-view');
+      };
+      const updateCarousel = (index) => {
+        currentIndex = (index + images.length) % images.length;
+        const data = images[currentIndex];
+        mainImage.style.opacity = '0';
+        setTimeout(() => {
+          mainImage.src = data.src;
+          mainImage.alt = data.alt;
+          mainImage.onerror = () => { mainImage.onerror = null; mainImage.src = placeholderSvg(data.caption); };
+          caption.textContent = data.caption;
+          counter.textContent = String(currentIndex + 1).padStart(2,'0') + ' / ' + String(images.length).padStart(2,'0');
+          type.textContent = data.type;
+          setMode(data.mode);
+          thumbs.forEach((thumb) => thumb.classList.toggle('active', Number(thumb.dataset.index) === currentIndex));
+          mainImage.style.opacity = '1';
+        }, 130);
+      };
+      carousel.querySelector('.prevBtn').addEventListener('click', () => updateCarousel(currentIndex - 1));
+      carousel.querySelector('.nextBtn').addEventListener('click', () => updateCarousel(currentIndex + 1));
+      thumbs.forEach((thumb) => {
+        thumb.addEventListener('click', () => updateCarousel(Number(thumb.dataset.index)));
         const thumbImg = thumb.querySelector('img');
-        thumbImg.onerror = () => { thumbImg.onerror = null; thumbImg.src = placeholderSvg(name.toUpperCase()); };
+        thumbImg.onerror = () => { thumbImg.onerror = null; thumbImg.src = placeholderSvg(key.toUpperCase()); };
       });
-      const stage = document.querySelector(`[data-carousel="${name}"]`);
-      const stageImg = stage.querySelector('img');
-      stageImg.onerror = () => { stageImg.onerror = null; stageImg.src = placeholderSvg(carousels[name].images[0].caption); };
       stage.addEventListener('mousemove', (event) => {
         const rect = stage.getBoundingClientRect();
         const x = ((event.clientX - rect.left) / rect.width) * 100;
         const y = ((event.clientY - rect.top) / rect.height) * 100;
-        stageImg.style.transformOrigin = `${x}% ${y}%`;
+        mainImage.style.transformOrigin = `${x}% ${y}%`;
       });
-      stage.addEventListener('mouseleave', () => { stageImg.style.transformOrigin = 'center center'; });
-    });
-
-    document.querySelectorAll('[data-sheet]').forEach((button) => {
-      button.addEventListener('click', () => {
-        const id = button.dataset.sheet;
-        const sheet = document.getElementById(id);
-        const isOpen = sheet.classList.contains('is-open');
-        document.querySelectorAll('.sheet').forEach((item) => item.classList.remove('is-open'));
-        if(!isOpen){
-          sheet.classList.add('is-open');
-          setTimeout(() => sheet.scrollIntoView({behavior:'smooth', block:'start'}), 40);
-        }
-      });
+      stage.addEventListener('mouseleave', () => { mainImage.style.transformOrigin = 'center center'; });
+      updateCarousel(0);
     });
   </script>
 </body>

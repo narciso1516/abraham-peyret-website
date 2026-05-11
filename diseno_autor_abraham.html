@@ -3,242 +3,325 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Diseño de autor | Grillo · Abraham Peyret</title>
+  <title>Diseño de Autor | Grillo · Abraham Peyret</title>
   <style>
     :root{
-      --black:#151515;
-      --black-soft:#1d1d1b;
-      --black-deep:#0c0d0e;
-      --bone:#f7f4ee;
-      --paper:#fffdf8;
-      --sand:#c8b9a7;
+      --bg:#151515;
+      --paper:#1d1d1b;
+      --panel:#0f1010;
+      --ink:#f7f4ee;
+      --ink-strong:#fffdf8;
+      --muted:rgba(247,244,238,.68);
+      --soft:rgba(247,244,238,.10);
+      --line:rgba(247,244,238,.16);
+      --gold:#c8b9a7;
       --brown:#8a735f;
-      --ink:#111314;
-      --muted-light:rgba(247,244,238,.68);
-      --muted-dark:rgba(17,19,20,.62);
-      --line-light:rgba(247,244,238,.16);
-      --line-dark:rgba(17,19,20,.12);
-      --shadow:0 40px 120px rgba(0,0,0,.38);
+      --shadow:0 34px 90px rgba(0,0,0,.32);
       --sans:"Helvetica Neue", Helvetica, Arial, sans-serif;
     }
-
     *{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
-    body{font-family:var(--sans);background:var(--black);color:var(--bone);overflow-x:hidden}
+    body{font-family:var(--sans);background:var(--bg);color:var(--ink);overflow-x:hidden}
     a{text-decoration:none;color:inherit}
-    img{display:block;max-width:100%}
-    ::selection{background:var(--bone);color:var(--black)}
+    button{font-family:inherit;color:inherit}
+    img{max-width:100%;display:block}
+    ::selection{background:var(--ink);color:var(--bg)}
 
     .topbar{
-      position:sticky;top:0;z-index:50;
-      min-height:82px;padding:0 48px;
+      position:sticky;top:0;z-index:80;
+      min-height:74px;padding:0 48px;
       display:grid;grid-template-columns:1fr auto;align-items:center;gap:42px;
       background:rgba(21,21,21,.90);
       backdrop-filter:blur(18px);
-      border-bottom:1px solid var(--line-light);
+      border-bottom:1px solid var(--soft);
     }
-    .brand{font-size:14px;font-weight:700;letter-spacing:.46em;text-transform:uppercase;white-space:nowrap;color:var(--bone)}
-    .nav{display:flex;align-items:center;gap:48px;font-size:10px;letter-spacing:.44em;text-transform:uppercase;color:rgba(247,244,238,.72)}
+    .brand{font-size:13px;font-weight:700;letter-spacing:.46em;text-transform:uppercase;white-space:nowrap;color:var(--ink)}
+    .nav{display:flex;align-items:center;gap:42px;font-size:10px;letter-spacing:.42em;text-transform:uppercase;color:rgba(247,244,238,.72)}
     .nav a{position:relative;padding-bottom:6px;white-space:nowrap}
-    .nav a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--sand);transition:width .35s ease}
-    .nav a:hover::after{width:calc(100% - .44em)}
-    .quote-btn{border:1px solid rgba(247,244,238,.52);padding:15px 24px;color:var(--bone);letter-spacing:.36em!important;transition:.35s ease}
-    .quote-btn:hover{background:var(--bone);color:var(--black);border-color:var(--bone)}
+    .nav a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--gold);transition:width .35s ease}
+    .nav a:hover::after{width:calc(100% - .42em)}
+    .quote-btn{border:1px solid rgba(247,244,238,.54);padding:13px 22px;letter-spacing:.36em!important;transition:.35s ease}
+    .quote-btn:hover{background:var(--ink);color:var(--bg);transform:translateY(-2px)}
 
-    .hero{
-      min-height:calc(100vh - 82px);
-      display:grid;grid-template-columns:.78fr 1.22fr;
-      gap:58px;align-items:center;
-      padding:70px 56px 58px;
-      position:relative;overflow:hidden;background:var(--black);
+    /* HERO SUPERIOR AUTOR: misma estructura que Living, paleta Autor */
+    .author-line-hero{
+      position:relative;
+      min-height:clamp(430px,52vh,560px);
+      padding:70px 56px 0;
+      display:flex;flex-direction:column;justify-content:space-between;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 78% 24%,rgba(200,185,167,.10),transparent 40%),
+        linear-gradient(180deg,#191919 0%,#151515 100%);
+      border-bottom:1px solid var(--soft);
       isolation:isolate;
     }
-    .hero::before{
-      content:"GRILLO";
-      position:absolute;left:42px;bottom:2px;
-      font-size:clamp(130px,18vw,310px);
-      letter-spacing:.12em;font-weight:250;
-      color:rgba(247,244,238,.035);
-      pointer-events:none;line-height:.75;z-index:-1;
+    .author-line-hero::before{
+      content:"AUTOR";
+      position:absolute;left:54px;bottom:-28px;z-index:-1;
+      font-size:clamp(130px,18vw,300px);
+      line-height:.72;font-weight:250;letter-spacing:-.08em;
+      color:rgba(247,244,238,.035);pointer-events:none;
     }
-    .hero::after{
-      content:"";
-      position:absolute;right:-220px;top:-220px;width:680px;height:680px;border-radius:50%;
-      background:radial-gradient(circle,rgba(200,185,167,.16),transparent 68%);
-      pointer-events:none;z-index:-1;
+    .author-line-content{width:100%;max-width:1780px;margin:0 auto;display:block}
+    .author-line-kicker{
+      margin-bottom:36px;
+      font-size:12px;line-height:1;letter-spacing:.64em;text-transform:uppercase;
+      color:var(--gold);font-weight:650;
     }
+    .author-line-title{
+      width:100%;max-width:1600px;
+      font-size:clamp(56px,6.15vw,106px);
+      line-height:1.18;
+      font-weight:290;
+      letter-spacing:.018em;
+      color:var(--ink-strong);
+      text-transform:none;
+      text-rendering:geometricPrecision;
+      margin:0;
+    }
+    .author-line-title span{display:block;margin-top:.10em}
+    .author-collection-bar{
+      width:calc(100% + 112px);margin:60px -56px 0;padding:24px 56px;
+      display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;
+      background:rgba(15,16,16,.78);border-top:1px solid var(--soft);backdrop-filter:blur(14px);
+    }
+    .author-collection-label{
+      font-size:10px;line-height:1;letter-spacing:.48em;text-transform:uppercase;
+      color:rgba(200,185,167,.88);font-weight:650;white-space:nowrap;
+    }
+    .author-product-tabs{display:flex;align-items:center;justify-content:flex-end;gap:14px;flex-wrap:wrap}
+    .author-product-tab{
+      min-height:48px;display:inline-flex;align-items:center;justify-content:center;padding:0 24px;
+      border:1px solid rgba(247,244,238,.16);background:rgba(247,244,238,.035);
+      font-size:10px;line-height:1;letter-spacing:.34em;text-transform:uppercase;color:rgba(247,244,238,.82);
+      transition:background .35s ease,color .35s ease,border-color .35s ease,transform .35s ease;white-space:nowrap;
+    }
+    .author-product-tab:hover,.author-product-tab.active{background:var(--ink);color:var(--bg);border-color:var(--ink);transform:translateY(-2px)}
 
-    .product-copy{position:relative;z-index:2;max-width:660px}
-    .eyebrow{font-size:12px;letter-spacing:.54em;text-transform:uppercase;color:var(--sand);font-weight:600;margin-bottom:34px;line-height:1.7}
-    h1{font-size:clamp(70px,7.4vw,132px);line-height:1.06;font-weight:380;letter-spacing:.095em;margin-bottom:34px;text-rendering:geometricPrecision;text-transform:uppercase;color:var(--bone)}
-    .lead{font-size:clamp(20px,1.55vw,28px);line-height:1.55;color:rgba(247,244,238,.74);font-weight:330;letter-spacing:-.026em;margin-bottom:34px;max-width:700px}
-    .hero-brief{max-width:680px;margin:0 0 34px;padding:24px 0;border-top:1px solid var(--line-light);border-bottom:1px solid var(--line-light);display:grid;gap:16px;color:rgba(247,244,238,.70)}
-    .hero-brief p{font-size:16px;line-height:1.75;font-weight:350;letter-spacing:-.015em}
-    .hero-brief strong{font-weight:520;color:var(--bone)}
-    .hero-brief-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:2px}
-    .hero-brief-tags span{border:1px solid rgba(247,244,238,.14);background:rgba(200,185,167,.07);padding:9px 12px;font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:rgba(247,244,238,.68)}
-    .actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:4px}
-    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:58px;padding:0 28px;border:1px solid rgba(247,244,238,.58);font-size:11px;letter-spacing:.30em;text-transform:uppercase;font-weight:650;transition:.35s ease;background:transparent;cursor:pointer;white-space:nowrap;color:var(--bone)}
-    .btn.primary{background:var(--bone);color:var(--black);border-color:var(--bone)}
-    .btn.primary:hover{background:transparent;color:var(--bone);transform:translateY(-2px)}
-    .btn.secondary:hover{background:var(--bone);color:var(--black);transform:translateY(-2px)}
+    /* Producto estilo Living, compactado para caber en una pantalla */
+    .product-screen{
+      min-height:calc(100vh - 74px);
+      display:grid;grid-template-columns:.78fr 1.22fr;gap:34px;align-items:start;
+      padding:34px 40px 32px;position:relative;overflow:hidden;
+      background:linear-gradient(90deg,#151515 0%,#181817 48%,#111212 100%);
+      border-bottom:1px solid var(--soft);
+    }
+    .product-screen::before{
+      content:attr(data-watermark);position:absolute;left:38px;bottom:-25px;
+      font-size:clamp(130px,16vw,260px);letter-spacing:-.08em;font-weight:240;
+      color:rgba(247,244,238,.035);pointer-events:none;line-height:.75;
+    }
+    .product-copy{position:relative;z-index:2;max-width:670px;display:flex;flex-direction:column;align-items:flex-start;padding-top:0}
+    .eyebrow{font-size:11px;letter-spacing:.52em;text-transform:uppercase;color:var(--gold);font-weight:650;margin-bottom:26px;line-height:1.5;text-align:left}
+    h1.product-title{
+      width:calc(100% + .08em);font-size:clamp(66px,6.15vw,118px);line-height:.98;font-weight:390;
+      letter-spacing:.11em;text-transform:uppercase;margin:0 0 30px 0;padding:0;text-indent:0;text-align:left;transform:translateX(-.035em);color:var(--ink-strong);
+    }
+    .lead{font-size:clamp(18px,1.28vw,24px);line-height:1.56;color:rgba(247,244,238,.73);font-weight:330;letter-spacing:-.028em;margin:0 0 30px 0;max-width:650px;text-align:left}
+    .editorial-points{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:14px 28px;margin:0 0 30px;padding-top:22px;border-top:1px solid var(--line)}
+    .editorial-points span{position:relative;padding:0 0 13px 24px;border-bottom:1px solid rgba(247,244,238,.13);font-size:14px;line-height:1.42;color:rgba(247,244,238,.66);letter-spacing:-.012em;text-align:left}
+    .editorial-points span::before{content:"";position:absolute;left:0;top:.70em;width:9px;height:1px;background:var(--gold)}
+    .actions{display:flex;gap:14px;flex-wrap:wrap;justify-content:flex-start}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:0 28px;border:1px solid rgba(247,244,238,.62);font-size:10px;letter-spacing:.30em;text-transform:uppercase;font-weight:650;transition:.35s ease;background:transparent;cursor:pointer;white-space:nowrap;color:var(--ink)}
+    .btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+    .btn.primary:hover{background:transparent;color:var(--ink);transform:translateY(-2px)}
+    .btn.secondary:hover{background:var(--ink);color:var(--bg);transform:translateY(-2px)}
 
-    .hero-media{position:relative;z-index:2}
-    .editorial-stage{position:relative;background:var(--paper);border:1px solid rgba(247,244,238,.10);box-shadow:var(--shadow);overflow:hidden;min-height:620px;display:flex;align-items:center;justify-content:center;isolation:isolate}
-    .editorial-stage::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 58%,rgba(138,115,95,.12),transparent 56%);z-index:0;pointer-events:none}
-    .editorial-stage img{position:relative;z-index:1;width:100%;height:100%;min-height:620px;object-fit:contain;display:block;padding:42px;background:transparent;transition:transform .7s ease;user-select:none}
-    .editorial-stage:hover img{transform:scale(1.025)}
-    .media-caption{position:absolute;left:28px;bottom:26px;right:28px;z-index:3;display:flex;justify-content:space-between;gap:24px;color:rgba(17,19,20,.62);font-size:10px;letter-spacing:.34em;text-transform:uppercase;pointer-events:none}
-    .image-note{margin-top:16px;color:rgba(247,244,238,.55);font-size:10px;line-height:1.6;letter-spacing:.20em;text-transform:uppercase}
+    .hero-media{position:relative;z-index:2;min-width:0}
+    .carousel-shell{position:relative;width:100%}
+    .image-stage{position:relative;background:#fff;border:1px solid rgba(247,244,238,.10);box-shadow:var(--shadow);overflow:hidden;height:calc(100vh - 245px);min-height:470px;max-height:620px;display:flex;align-items:center;justify-content:center;cursor:zoom-in;isolation:isolate}
+    .image-stage::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 58%,rgba(200,185,167,.12),transparent 54%);z-index:0;pointer-events:none}
+    .image-stage img{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;display:block;padding:24px;background:transparent;transition:transform .45s ease,opacity .25s ease;transform-origin:center center;user-select:none;pointer-events:none}
+    .image-stage.editorial-detail img{object-fit:contain;padding:24px}
+    .image-stage:hover img{transform:scale(1.22)}
+    .image-stage.editorial-detail:hover img{transform:scale(1.08)}
+    .counter-badge,.view-badge,.zoom-hint{position:absolute;z-index:4;background:rgba(255,255,255,.78);backdrop-filter:blur(12px);border:1px solid rgba(17,19,20,.09);padding:12px 14px;font-size:9px;letter-spacing:.30em;text-transform:uppercase;color:rgba(17,19,20,.64);pointer-events:none}
+    .counter-badge{left:24px;top:22px;min-width:82px;text-align:center}
+    .view-badge{left:24px;top:76px}
+    .zoom-hint{right:24px;top:22px;opacity:1}
+    .media-caption{position:absolute;left:28px;bottom:24px;right:28px;display:flex;justify-content:space-between;gap:24px;color:rgba(17,19,20,.62);font-size:10px;letter-spacing:.30em;text-transform:uppercase;z-index:3;pointer-events:none}
+    .carousel-controls{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:18px;padding:16px 18px;border:1px solid rgba(247,244,238,.10);border-top:0;background:#191919}
+    .arrows{display:flex;gap:10px}
+    .arrow{width:44px;height:44px;border:1px solid rgba(247,244,238,.18);background:#111314;cursor:pointer;font-size:23px;line-height:1;transition:.32s ease;color:var(--ink)}
+    .arrow:hover{background:var(--ink);color:var(--bg);transform:translateY(-2px)}
+    .thumbs{display:grid;grid-template-columns:repeat(7,minmax(64px,1fr));gap:10px;overflow:hidden}
+    .thumb{height:56px;border:1px solid rgba(247,244,238,.10);background:#fff;padding:0;cursor:pointer;opacity:.45;transition:.32s ease;position:relative;overflow:hidden}
+    .thumb img{width:100%;height:100%;object-fit:contain;pointer-events:none;filter:saturate(.90)}
+    .thumb span{position:absolute;left:6px;bottom:5px;background:rgba(255,255,255,.84);padding:3px 5px;font-size:8px;letter-spacing:.08em;color:rgba(17,19,20,.62)}
+    .thumb.active,.thumb:hover{opacity:1;border-color:var(--gold);transform:translateY(-2px)}
 
-    .section{padding:104px 56px;background:var(--bone);color:var(--ink);border-top:1px solid var(--line-dark)}
-    .section.dark{background:var(--black-soft);color:var(--bone);border-top:1px solid var(--line-light)}
-    .section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-bottom:34px}
-    .section-head h2{font-size:clamp(38px,4.6vw,76px);line-height:.94;font-weight:320;letter-spacing:-.055em;text-transform:uppercase;max-width:820px}
-    .section-head p{max-width:540px;color:var(--muted-dark);font-size:16px;line-height:1.7}
-    .dark .section-head p{color:var(--muted-light)}
+    .sheet{padding:84px 56px;background:#f7f4ee;color:#111314;border-top:1px solid rgba(247,244,238,.08)}
+    .sheet-inner{max-width:1380px;margin:0 auto;display:grid;grid-template-columns:.82fr 1.18fr;gap:72px;border-top:1px solid rgba(17,19,20,.16);padding-top:58px}
+    .sheet-heading h2{font-size:clamp(42px,4.8vw,82px);line-height:.96;font-weight:320;letter-spacing:-.055em;text-transform:uppercase;margin-bottom:24px}
+    .sheet-heading p{font-size:17px;line-height:1.78;color:rgba(17,19,20,.66);max-width:560px}
+    .sheet-table{border-top:1px solid rgba(17,19,20,.16)}
+    .sheet-row{display:grid;grid-template-columns:230px 1fr;gap:28px;padding:20px 0;border-bottom:1px solid rgba(17,19,20,.16)}
+    .sheet-row small{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--brown);font-weight:560}
+    .sheet-row span{font-size:17px;line-height:1.56;color:rgba(17,19,20,.74);letter-spacing:-.015em}
 
-    .gallery-grid{display:grid;grid-template-columns:1.18fr .82fr .82fr;gap:16px;align-items:stretch}
-    .gallery-card{position:relative;min-height:360px;background:#fff;overflow:hidden;border:1px solid rgba(17,19,20,.10);transition:transform .38s ease,box-shadow .38s ease}
-    .gallery-card.large{grid-row:span 2;min-height:740px}
-    .gallery-card.wide{grid-column:span 2;min-height:380px}
-    .gallery-card:hover{transform:translateY(-6px);box-shadow:0 26px 70px rgba(17,19,20,.14)}
-    .gallery-card img{width:100%;height:100%;object-fit:cover;transition:transform .68s ease;filter:saturate(.94) contrast(1.02)}
-    .gallery-card.fit img{object-fit:contain;background:#fff;padding:26px}
-    .gallery-card:hover img{transform:scale(1.035)}
-    .gallery-label{position:absolute;left:18px;bottom:18px;background:rgba(21,21,21,.82);backdrop-filter:blur(12px);color:var(--bone);padding:10px 12px;font-size:9px;letter-spacing:.25em;text-transform:uppercase;border:1px solid rgba(247,244,238,.12)}
-
-    .reading{display:grid;grid-template-columns:.78fr 1.22fr;gap:64px;align-items:start;background:var(--black-soft);color:var(--bone)}
-    .reading-title h2{font-size:clamp(42px,5vw,84px);font-weight:310;line-height:.96;letter-spacing:-.06em;text-transform:uppercase;margin-bottom:22px}
-    .reading-title p{font-size:17px;line-height:1.75;color:var(--muted-light);max-width:540px}
-    .reading-list{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-    .reading-card{border:1px solid var(--line-light);background:rgba(247,244,238,.035);padding:26px;min-height:188px;transition:.35s ease}
-    .reading-card:hover{transform:translateY(-4px);background:rgba(200,185,167,.08);border-color:rgba(200,185,167,.32)}
-    .reading-card small{display:block;font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--sand);margin-bottom:16px}
-    .reading-card p{font-size:16px;line-height:1.7;color:rgba(247,244,238,.72);font-weight:320}
-
-    .details{display:grid;grid-template-columns:.78fr 1.22fr;gap:64px;align-items:start;background:var(--black);color:var(--bone)}
-    .detail-title h2{font-size:clamp(42px,5vw,84px);font-weight:310;line-height:.96;letter-spacing:-.06em;text-transform:uppercase;margin-bottom:22px}
-    .detail-title p{font-size:17px;line-height:1.75;color:var(--muted-light);max-width:540px}
-    .specs{display:grid;gap:0;border-top:1px solid var(--line-light)}
-    .spec-row{display:grid;grid-template-columns:220px 1fr;gap:28px;padding:20px 0;border-bottom:1px solid var(--line-light)}
-    .spec-row small{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--sand);line-height:1.5}
-    .spec-row span{font-size:17px;line-height:1.55;color:rgba(247,244,238,.74)}
-
-    .cta{padding:100px 56px;text-align:center;background:var(--bone);color:var(--ink)}
+    .cta{padding:90px 56px;text-align:center;background:#0c0d0e;color:var(--ink)}
     .cta h2{font-size:clamp(42px,5.5vw,86px);font-weight:310;letter-spacing:-.06em;line-height:.96;margin-bottom:24px;text-transform:uppercase}
-    .cta p{max-width:720px;margin:0 auto 36px;color:var(--muted-dark);font-size:18px;line-height:1.75}
-    .cta .btn{border-color:var(--ink);color:var(--ink)}
-    .cta .btn.primary{background:var(--ink);color:var(--bone);border-color:var(--ink)}
-    .cta .btn.primary:hover{background:transparent;color:var(--ink)}
-    .cta .btn.secondary:hover{background:var(--ink);color:var(--bone)}
+    .cta p{max-width:720px;margin:0 auto 36px;color:rgba(247,244,238,.68);font-size:18px;line-height:1.75}
+    footer{padding:28px 56px;display:flex;justify-content:space-between;gap:20px;background:#080909;color:rgba(247,244,238,.68);font-size:10px;letter-spacing:.24em;text-transform:uppercase;flex-wrap:wrap}
 
-    footer{padding:30px 56px;display:flex;justify-content:space-between;gap:20px;background:var(--black-deep);color:rgba(247,244,238,.68);font-size:10px;letter-spacing:.28em;text-transform:uppercase;flex-wrap:wrap}
-
-    @media(max-width:1050px){
-      .topbar{padding:0 28px}.nav{gap:26px;letter-spacing:.32em}.hero{grid-template-columns:1fr;padding:58px 28px}.editorial-stage,.editorial-stage img{min-height:520px}.section,.reading,.details,.cta{padding-left:28px;padding-right:28px}.section-head{display:block}.section-head p{margin-top:18px}.gallery-grid{grid-template-columns:1fr 1fr}.gallery-card.large{grid-row:auto;grid-column:span 2;min-height:560px}.gallery-card.wide{grid-column:span 2}.reading,.details{grid-template-columns:1fr}.spec-row{grid-template-columns:160px 1fr}
+    @media(max-width:1100px){
+      .topbar{padding:0 28px}.nav{gap:22px}
+      .author-line-hero{padding:58px 28px 0}.author-line-title{font-size:clamp(50px,8.8vw,92px)}.author-collection-bar{width:calc(100% + 56px);margin:52px -28px 0;padding:22px 28px;grid-template-columns:1fr}.author-product-tabs{justify-content:flex-start}
+      .product-screen{grid-template-columns:1fr;min-height:auto;padding:42px 28px;gap:30px}.image-stage{height:560px;min-height:420px}.sheet,.cta{padding-left:28px;padding-right:28px}.sheet-inner{grid-template-columns:1fr;gap:42px}.sheet-row{grid-template-columns:180px 1fr}
     }
-    @media(max-width:760px){
-      .topbar{min-height:76px;display:flex;align-items:flex-start;flex-direction:column;justify-content:center;gap:14px;padding:16px 24px}.brand{font-size:12px;letter-spacing:.30em}.nav{width:100%;overflow-x:auto;padding-bottom:8px;gap:24px;font-size:9px;letter-spacing:.24em}.quote-btn{display:none}.hero{padding:42px 24px}.eyebrow{font-size:10px;letter-spacing:.32em}.actions{flex-direction:column}.btn{width:100%}.editorial-stage,.editorial-stage img{min-height:380px}.editorial-stage img{padding:20px}.media-caption{left:18px;right:18px;bottom:18px;font-size:9px;letter-spacing:.24em}.gallery-grid{grid-template-columns:1fr}.gallery-card.large,.gallery-card.wide{grid-column:span 1;min-height:420px}.reading-list{grid-template-columns:1fr}.spec-row{grid-template-columns:1fr;gap:8px}footer{padding:26px 28px;line-height:1.8}h1{letter-spacing:.055em!important;font-size:clamp(58px,17vw,94px)!important}
+    @media(max-width:680px){
+      .topbar{height:auto;min-height:76px;align-items:flex-start;display:flex;flex-direction:column;justify-content:center;gap:14px;padding:16px 24px}.brand{font-size:12px;letter-spacing:.26em}.nav{width:100%;overflow-x:auto;padding-bottom:8px;gap:28px}.quote-btn{display:none}
+      .author-line-hero{padding:44px 24px 0;min-height:390px}.author-line-kicker{font-size:10px;letter-spacing:.38em;margin-bottom:26px}.author-line-title{font-size:clamp(42px,12vw,68px);line-height:1.16;letter-spacing:.01em}.author-collection-bar{width:calc(100% + 48px);margin:42px -24px 0;padding:22px 24px}.author-product-tabs{display:grid;grid-template-columns:1fr;width:100%}.author-product-tab{width:100%}
+      .product-screen{padding:34px 24px;gap:26px}.eyebrow{font-size:10px;letter-spacing:.34em}.product-title{font-size:clamp(54px,17vw,88px)!important;letter-spacing:.08em!important;line-height:1.08!important}.lead{font-size:19px}.editorial-points{grid-template-columns:1fr;gap:12px}.actions{width:100%;flex-direction:column}.btn{width:100%}
+      .image-stage{height:420px;min-height:360px}.image-stage img{padding:18px}.image-stage:hover img{transform:scale(1.14)}.media-caption{left:18px;right:18px;bottom:18px;font-size:9px;letter-spacing:.20em}.zoom-hint{display:none}.carousel-controls{grid-template-columns:1fr}.arrows{justify-content:space-between}.arrow{width:49%}.thumbs{grid-template-columns:repeat(4,1fr);overflow:visible}.thumb{height:54px}
+      .sheet{padding:68px 24px}.sheet-row{grid-template-columns:1fr;gap:8px}.cta{padding:76px 24px}footer{padding:26px 24px;line-height:1.8}
     }
   </style>
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="index.html" aria-label="Ir al inicio">Abraham Peyret</a>
+    <a class="brand" href="index.html">Abraham Peyret</a>
     <nav class="nav" aria-label="Navegación principal">
       <a href="index.html">Inicio</a>
       <a href="living_contract_abraham.html">Living Contract</a>
       <a href="diseno_autor_abraham.html">Diseño de autor</a>
-      <a class="quote-btn" href="mailto:contacto@abrahampeyret.art?subject=Consulta%20Grillo%20Diseño%20de%20autor">Consultar</a>
+      <a class="quote-btn" href="mailto:contacto@abrahampeyret.art?subject=Consulta%20Diseño%20de%20Autor">Consultar</a>
     </nav>
   </header>
 
   <main>
-    <section class="hero" id="producto">
+    <section class="author-line-hero" aria-label="Presentación Diseño de Autor">
+      <div class="author-line-content">
+        <p class="author-line-kicker">Diseño de Autor</p>
+        <h1 class="author-line-title">Piezas con firma,<span>identidad y narrativa.</span></h1>
+      </div>
+      <div class="author-collection-bar" aria-label="Navegación de colección Diseño de Autor">
+        <span class="author-collection-label">Colección Diseño de Autor</span>
+        <nav class="author-product-tabs" aria-label="Productos Diseño de Autor">
+          <a href="#producto-grillo" class="author-product-tab active">Producto 01 · Grillo</a>
+          <a href="#producto-half" class="author-product-tab">Producto 02 · Half</a>
+          <a href="#contacto" class="author-product-tab">Consultar pieza</a>
+        </nav>
+      </div>
+    </section>
+
+    <section class="product-screen" id="producto-grillo" data-watermark="GRILLO">
       <div class="product-copy">
-        <p class="eyebrow">Diseño de autor · pieza estelar</p>
-        <h1>Grillo</h1>
-        <p class="lead">Una pieza de autor con postura escultórica, estructura visible y lenguaje propio. Grillo se presenta como objeto funcional, pero también como presencia: una silla que ocupa el espacio como obra.</p>
-        <div class="hero-brief" aria-label="Resumen editorial de Grillo">
-          <p><strong>Grillo</strong> no se muestra como catálogo, sino como pieza. Su valor está en la silueta, la tensión visual, el ensamble expuesto y la manera en que convierte una función cotidiana en gesto autoral.</p>
-          <div class="hero-brief-tags" aria-label="Atributos principales de Grillo">
-            <span>Pieza de autor</span>
-            <span>Postura escultórica</span>
-            <span>Ensamble visible</span>
-            <span>Edición consultable</span>
-          </div>
+        <p class="eyebrow">Producto 01 · Silla / pieza de autor</p>
+        <h1 class="product-title">Grillo</h1>
+        <p class="lead">Silla de autor con postura escultórica, estructura visible y lenguaje propio. Una pieza funcional que se presenta como objeto con presencia, diseñada para interiores, galerías y colecciones privadas.</p>
+        <div class="editorial-points" aria-label="Atributos editoriales de Grillo">
+          <span>Silueta escultórica y reconocible</span>
+          <span>Ensamble visible con lectura artesanal</span>
+          <span>Objeto funcional con presencia de pieza</span>
+          <span>Producción bajo consulta o edición limitada</span>
         </div>
         <div class="actions">
-          <a href="#galeria" class="btn primary">Ver pieza</a>
-          <a href="#lectura" class="btn secondary">Leer la pieza</a>
+          <a href="#ficha-tecnica" class="btn primary">Ver ficha técnica</a>
         </div>
       </div>
 
-      <aside class="hero-media" aria-label="Imagen principal de la pieza Grillo">
-        <figure class="editorial-stage">
-          <img src="./assets/images/autor/grillo/grillo-03-lateral.jpeg" alt="Grillo vista lateral como pieza de diseño de autor" />
-          <figcaption class="media-caption"><span>Grillo · Silueta</span><span>Diseño de autor</span></figcaption>
-        </figure>
-        <p class="image-note">Imagen hero fija para dar presencia de galería y diferenciar Diseño de Autor de Living Contract.</p>
+      <aside class="hero-media" aria-label="Carrusel de imágenes Grillo">
+        <div class="carousel-shell">
+          <div class="image-stage" id="grilloImageStage">
+            <span class="counter-badge" id="grilloImageCounter">01 / 07</span>
+            <span class="view-badge" id="grilloViewType">Vista editorial</span>
+            <span class="zoom-hint">Acerca el mouse para ver detalles</span>
+            <img id="grilloMainImage" src="./assets/images/autor/grillo/grillo-03-lateral.jpeg" alt="Grillo vista lateral" />
+            <figcaption class="media-caption"><span id="grilloImageCaption">Grillo · Vista lateral</span><span>Diseño de Autor</span></figcaption>
+          </div>
+          <div class="carousel-controls">
+            <div class="arrows">
+              <button class="arrow" id="grilloPrevBtn" type="button" aria-label="Imagen anterior">‹</button>
+              <button class="arrow" id="grilloNextBtn" type="button" aria-label="Imagen siguiente">›</button>
+            </div>
+            <div class="thumbs" id="grilloThumbs" aria-label="Miniaturas de Grillo"></div>
+          </div>
+        </div>
       </aside>
     </section>
 
-    <section class="section" id="galeria" aria-label="Galería editorial de Grillo">
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">Galería editorial</p>
-          <h2>El objeto como presencia.</h2>
+
+    <section class="product-screen" id="producto-half" data-watermark="HALF">
+      <div class="product-copy">
+        <p class="eyebrow">Producto 02 · Mesa / pieza de autor</p>
+        <h1 class="product-title">Half</h1>
+        <p class="lead">Pieza de autor con lectura geométrica, presencia contenida y detalle constructivo visible. Half se presenta como un objeto funcional de proporción precisa, pensado para espacios donde la forma, el material y el gesto estructural comunican identidad.</p>
+        <div class="editorial-points" aria-label="Atributos editoriales de Half">
+          <span>Proporción limpia con gesto geométrico</span>
+          <span>Estructura visible y lectura material</span>
+          <span>Objeto funcional con carácter de autor</span>
+          <span>Producción bajo consulta o edición limitada</span>
         </div>
-        <p>La galería muestra la pieza sin esconder sus vistas en un carrusel. El usuario puede leer la silueta, los detalles y la materialidad de forma inmediata, como en una exposición visual.</p>
+        <div class="actions">
+          <a href="#ficha-half" class="btn primary">Ver ficha técnica</a>
+        </div>
       </div>
 
-      <div class="gallery-grid">
-        <figure class="gallery-card large"><img src="./assets/images/autor/grillo/grillo-01-contexto.jpeg" alt="Grillo en contexto"><figcaption class="gallery-label">01 · Contexto</figcaption></figure>
-        <figure class="gallery-card fit"><img src="./assets/images/autor/grillo/grillo-03-lateral.jpeg" alt="Grillo vista lateral"><figcaption class="gallery-label">02 · Silueta</figcaption></figure>
-        <figure class="gallery-card"><img src="./assets/images/autor/grillo/grillo-02-detalle-ensamble.jpeg" alt="Detalle de ensamble de Grillo"><figcaption class="gallery-label">03 · Ensamble</figcaption></figure>
-        <figure class="gallery-card fit"><img src="./assets/images/autor/grillo/grillo-04-tres-cuartos.jpg" alt="Grillo vista tres cuartos"><figcaption class="gallery-label">04 · Tres cuartos</figcaption></figure>
-        <figure class="gallery-card fit"><img src="./assets/images/autor/grillo/grillo-05-frontal.jpg" alt="Grillo vista frontal"><figcaption class="gallery-label">05 · Frontal</figcaption></figure>
-        <figure class="gallery-card wide"><img src="./assets/images/autor/grillo/grillo-06-detalle-madera.jpg" alt="Detalle de madera de Grillo"><figcaption class="gallery-label">06 · Madera</figcaption></figure>
-        <figure class="gallery-card"><img src="./assets/images/autor/grillo/grillo-07-firma.jpg" alt="Firma o detalle autoral de Grillo"><figcaption class="gallery-label">07 · Firma</figcaption></figure>
+      <aside class="hero-media" aria-label="Carrusel de imágenes Half">
+        <div class="carousel-shell">
+          <div class="image-stage" id="halfImageStage">
+            <span class="counter-badge" id="halfImageCounter">01 / 07</span>
+            <span class="view-badge" id="halfViewType">Vista completa</span>
+            <span class="zoom-hint">Acerca el mouse para ver detalles</span>
+            <img id="halfMainImage" src="./assets/images/autor/HALF/half-01-frontal.jpg" alt="Half vista frontal" />
+            <figcaption class="media-caption"><span id="halfImageCaption">Half · Vista frontal</span><span>Diseño de Autor</span></figcaption>
+          </div>
+          <div class="carousel-controls">
+            <div class="arrows">
+              <button class="arrow" id="halfPrevBtn" type="button" aria-label="Imagen anterior">‹</button>
+              <button class="arrow" id="halfNextBtn" type="button" aria-label="Imagen siguiente">›</button>
+            </div>
+            <div class="thumbs" id="halfThumbs" aria-label="Miniaturas de Half"></div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="sheet" id="ficha-tecnica" aria-label="Ficha técnica breve de Grillo">
+      <div class="sheet-inner">
+        <div class="sheet-heading">
+          <p class="eyebrow">Ficha técnica breve</p>
+          <h2>Grillo</h2>
+          <p>Ficha rápida para presentar la pieza con claridad sin perder el carácter editorial de Diseño de Autor. Los datos pueden ajustarse cuando Abraham confirme medidas, edición y acabados.</p>
+        </div>
+        <div class="sheet-table">
+          <div class="sheet-row"><small>Producto</small><span>Grillo · Pieza de diseño de autor.</span></div>
+          <div class="sheet-row"><small>Categoría</small><span>Silla / objeto funcional con presencia escultórica.</span></div>
+          <div class="sheet-row"><small>Lenguaje</small><span>Estructura triangular, tensión visual, ensamble expuesto y silueta reconocible.</span></div>
+          <div class="sheet-row"><small>Materialidad</small><span>Madera aparente con detalles constructivos visibles. Acabado final sujeto a edición o encargo.</span></div>
+          <div class="sheet-row"><small>Uso sugerido</small><span>Interior residencial, galería, espacio editorial, colección privada o proyecto con enfoque autoral.</span></div>
+          <div class="sheet-row"><small>Producción</small><span>Disponibilidad, edición, acabados y documentación bajo consulta directa.</span></div>
+        </div>
       </div>
     </section>
 
-    <section class="section reading" id="lectura" aria-label="Lectura conceptual de la pieza Grillo">
-      <div class="reading-title">
-        <p class="eyebrow">Lectura de la pieza</p>
-        <h2>Diseño con carácter propio</h2>
-        <p>Esta sección traduce el valor autoral de Grillo en argumentos claros para el visitante: forma, construcción, materialidad y uso.</p>
-      </div>
-      <div class="reading-list">
-        <article class="reading-card"><small>Silueta</small><p>La vista lateral concentra la personalidad de la pieza: una postura ligera, tensa y reconocible, pensada para quedarse en la memoria visual.</p></article>
-        <article class="reading-card"><small>Estructura</small><p>El ensamble visible no se oculta; se vuelve parte del lenguaje. La construcción comunica honestidad material y oficio.</p></article>
-        <article class="reading-card"><small>Materialidad</small><p>La madera aparece como superficie, volumen y detalle. Su textura aporta calidez sin perder precisión formal.</p></article>
-        <article class="reading-card"><small>Presencia</small><p>Grillo funciona como silla, pero su intención es mayor: dialogar con interiores, galerías, residencias y colecciones privadas.</p></article>
-      </div>
-    </section>
 
-    <section class="section details" id="ficha-tecnica" aria-label="Ficha técnica breve de Grillo">
-      <div class="detail-title">
-        <p class="eyebrow">Ficha breve</p>
-        <h2>Información esencial</h2>
-        <p>Ficha breve para presentar la pieza con claridad sin romper la experiencia visual de Diseño de Autor. Los datos pueden ajustarse cuando Abraham confirme medidas, edición y acabados.</p>
-      </div>
-      <div class="specs">
-        <div class="spec-row"><small>Nombre</small><span>Grillo · Pieza de diseño de autor.</span></div>
-        <div class="spec-row"><small>Categoría</small><span>Silla / objeto funcional con presencia escultórica.</span></div>
-        <div class="spec-row"><small>Lenguaje</small><span>Estructura triangular, tensión visual, ensamble expuesto y silueta reconocible.</span></div>
-        <div class="spec-row"><small>Materialidad</small><span>Madera aparente con detalles constructivos visibles. Acabado final sujeto a edición o encargo.</span></div>
-        <div class="spec-row"><small>Uso sugerido</small><span>Interior residencial, galería, espacio editorial, colección privada o proyecto con enfoque autoral.</span></div>
-        <div class="spec-row"><small>Producción</small><span>Disponibilidad, edición, acabados y documentación bajo consulta directa.</span></div>
+
+    <section class="sheet" id="ficha-half" aria-label="Ficha técnica breve de Half">
+      <div class="sheet-inner">
+        <div class="sheet-heading">
+          <p class="eyebrow">Ficha técnica breve</p>
+          <h2>Half</h2>
+          <p>Ficha rápida para presentar Half dentro de la colección Diseño de Autor. Los datos pueden ajustarse cuando se confirmen medidas finales, acabados, edición y documentación de la pieza.</p>
+        </div>
+        <div class="sheet-table">
+          <div class="sheet-row"><small>Producto</small><span>Half · Pieza de diseño de autor.</span></div>
+          <div class="sheet-row"><small>Categoría</small><span>Mesa / objeto funcional con presencia escultórica y lectura geométrica.</span></div>
+          <div class="sheet-row"><small>Lenguaje</small><span>Proporción horizontal, contraste material, estructura visible y gesto constructivo reconocible.</span></div>
+          <div class="sheet-row"><small>Materialidad</small><span>Madera aparente con ensambles y detalles estructurales visibles. Acabado final sujeto a edición o encargo.</span></div>
+          <div class="sheet-row"><small>Uso sugerido</small><span>Interior residencial, galería, espacio editorial, colección privada o proyecto con enfoque autoral.</span></div>
+          <div class="sheet-row"><small>Producción</small><span>Disponibilidad, edición, acabados y documentación bajo consulta directa.</span></div>
+        </div>
       </div>
     </section>
 
     <section class="cta" id="contacto">
-      <h2>Consultar Grillo</h2>
-      <p>Solicita información sobre disponibilidad, edición, acabados, documentación de la pieza o adaptación para un proyecto específico.</p>
+      <h2>Consultar piezas</h2>
+      <p>Solicita información sobre disponibilidad, edición, acabados, documentación de Grillo, Half o adaptación para un proyecto específico.</p>
       <div class="actions" style="justify-content:center">
-        <a href="mailto:contacto@abrahampeyret.art?subject=Consulta%20Grillo%20Diseño%20de%20autor" class="btn primary">Solicitar información</a>
+        <a href="mailto:contacto@abrahampeyret.art?subject=Consulta%20Diseño%20de%20Autor" class="btn primary">Solicitar información</a>
         <a href="index.html" class="btn secondary">Volver al inicio</a>
       </div>
     </section>
@@ -246,8 +329,126 @@
 
   <footer>
     <span>© Abraham Peyret</span>
-    <span>Diseño de autor</span>
-    <span>Grillo · Pieza estelar</span>
+    <span>Diseño de Autor</span>
+    <span>Grillo · Producto 01 / Half · Producto 02</span>
   </footer>
+
+  <script>
+    const placeholderSvg = (label) => {
+      const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='900' viewBox='0 0 1200 900'><rect width='1200' height='900' fill='%23151515'/><rect x='72' y='72' width='1056' height='756' fill='none' stroke='%23c8b9a7' stroke-width='2' opacity='.45'/><text x='600' y='420' text-anchor='middle' font-family='Helvetica, Arial, sans-serif' font-size='48' fill='%23c8b9a7' letter-spacing='10'>${label}</text><text x='600' y='486' text-anchor='middle' font-family='Helvetica, Arial, sans-serif' font-size='18' fill='%23f7f4ee' opacity='.65' letter-spacing='5'>COLOCAR IMAGEN EN ASSETS</text></svg>`;
+      return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+    };
+
+    const galleries = {
+      grillo: {
+        label: 'GRILLO',
+        elements: {
+          stage: 'grilloImageStage', main: 'grilloMainImage', caption: 'grilloImageCaption',
+          counter: 'grilloImageCounter', type: 'grilloViewType', thumbs: 'grilloThumbs',
+          prev: 'grilloPrevBtn', next: 'grilloNextBtn'
+        },
+        images: [
+          {src:'./assets/images/autor/grillo/grillo-03-lateral.jpeg', caption:'Grillo · Vista lateral', alt:'Grillo vista lateral', type:'Vista completa'},
+          {src:'./assets/images/autor/grillo/grillo-04-tres-cuartos.jpg', caption:'Grillo · Vista tres cuartos', alt:'Grillo vista tres cuartos', type:'Vista completa'},
+          {src:'./assets/images/autor/grillo/grillo-05-frontal.jpg', caption:'Grillo · Vista frontal', alt:'Grillo vista frontal', type:'Vista completa'},
+          {src:'./assets/images/autor/grillo/grillo-01-contexto.jpeg', caption:'Grillo · Contexto', alt:'Grillo en contexto', type:'Vista editorial'},
+          {src:'./assets/images/autor/grillo/grillo-02-detalle-ensamble.jpeg', caption:'Grillo · Detalle de ensamble', alt:'Detalle de ensamble Grillo', type:'Detalle editorial'},
+          {src:'./assets/images/autor/grillo/grillo-06-detalle-madera.jpg', caption:'Grillo · Detalle de madera', alt:'Detalle de madera Grillo', type:'Detalle editorial'},
+          {src:'./assets/images/autor/grillo/grillo-07-firma.jpg', caption:'Grillo · Firma / detalle autoral', alt:'Firma o detalle autoral Grillo', type:'Detalle editorial'}
+        ]
+      },
+      half: {
+        label: 'HALF',
+        elements: {
+          stage: 'halfImageStage', main: 'halfMainImage', caption: 'halfImageCaption',
+          counter: 'halfImageCounter', type: 'halfViewType', thumbs: 'halfThumbs',
+          prev: 'halfPrevBtn', next: 'halfNextBtn'
+        },
+        images: [
+          {src:'./assets/images/autor/HALF/half-01-frontal.jpg', fallbacks:['./assets/images/autor/HALF/half-01-frontal.jpg'], caption:'Half · Vista frontal', alt:'Half vista frontal', type:'Vista completa'},
+          {src:'./assets/images/autor/HALF/half-02-lateral.jpg', fallbacks:['./assets/images/autor/HALF/half-02-lateral.jpg'], caption:'Half · Vista lateral', alt:'Half vista lateral', type:'Vista completa'},
+          {src:'./assets/images/autor/HALF/half-03-tres-cuartos.jpg', fallbacks:['./assets/images/autor/HALF/half-03-tres-cuartos.jpg'], caption:'Half · Vista tres cuartos', alt:'Half vista tres cuartos', type:'Vista completa'},
+          {src:'./assets/images/autor/HALF/half-04-superior.jpg', fallbacks:['./assets/images/autor/HALF/half-04-superior.jpg'], caption:'Half · Vista superior', alt:'Half vista superior', type:'Vista superior'},
+          {src:'./assets/images/autor/HALF/half-05-detalle.jpg', fallbacks:['./assets/images/autor/HALF/half-05-detalle.jpg','./assets/images/autor/HALF/half-05-detalle.jpeg','./assets/images/autor/HALF/half-05-detalle.JPG','./assets/images/autor/HALF/PRACTICA-3-317.jpg'], caption:'Half · Detalle de ensamble', alt:'Half detalle de ensamble', type:'Detalle editorial'},
+          {src:'./assets/images/autor/HALF/half-06-ensamble.jpg', fallbacks:['./assets/images/autor/HALF/half-06-ensamble.jpg','./assets/images/autor/HALF/half-06-ensamble.jpeg','./assets/images/autor/HALF/half-06-ensamble.JPG','./assets/images/autor/HALF/PRACTICA-3-298.jpg'], caption:'Half · Detalle de material', alt:'Half detalle de material', type:'Detalle editorial'},
+          {src:'./assets/images/autor/HALF/half-07-contexto.jpg', fallbacks:['./assets/images/autor/HALF/half-07-contexto.jpg'], caption:'Half · Vista posterior / detalle', alt:'Half vista posterior y detalle', type:'Vista editorial'}
+        ]
+      }
+    };
+
+    function initCarousel(config){
+      let currentIndex = 0;
+      const els = config.elements;
+      const mainImage = document.getElementById(els.main);
+      const imageCaption = document.getElementById(els.caption);
+      const imageCounter = document.getElementById(els.counter);
+      const viewType = document.getElementById(els.type);
+      const imageStage = document.getElementById(els.stage);
+      const thumbsWrap = document.getElementById(els.thumbs);
+
+      function candidatesFor(item){
+        return [item.src, ...(item.fallbacks || [])];
+      }
+
+      function applyImageWithFallback(img, item, fallbackLabel){
+        const candidates = candidatesFor(item);
+        let attempt = 0;
+        img.onerror = () => {
+          attempt += 1;
+          if(attempt < candidates.length){
+            img.src = candidates[attempt];
+          }else{
+            img.onerror = null;
+            img.src = placeholderSvg(fallbackLabel);
+          }
+        };
+        img.src = candidates[0];
+      }
+
+      config.images.forEach((item, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'thumb' + (index === 0 ? ' active' : '');
+        btn.type = 'button';
+        btn.dataset.index = String(index);
+        btn.innerHTML = `<img alt="Miniatura ${index + 1}"><span>${String(index + 1).padStart(2,'0')}</span>`;
+        btn.addEventListener('click', () => updateCarousel(index));
+        const img = btn.querySelector('img');
+        applyImageWithFallback(img, item, config.label);
+        thumbsWrap.appendChild(btn);
+      });
+      const thumbs = thumbsWrap.querySelectorAll('.thumb');
+
+      function updateCarousel(index){
+        currentIndex = (index + config.images.length) % config.images.length;
+        const data = config.images[currentIndex];
+        mainImage.style.opacity = '0';
+        setTimeout(() => {
+          mainImage.alt = data.alt;
+          applyImageWithFallback(mainImage, data, config.label);
+          imageCaption.textContent = data.caption;
+          imageCounter.textContent = `${String(currentIndex + 1).padStart(2,'0')} / ${String(config.images.length).padStart(2,'0')}`;
+          viewType.textContent = data.type;
+          imageStage.classList.toggle('editorial-detail', data.type.toLowerCase().includes('detalle') || data.type.toLowerCase().includes('contexto'));
+          thumbs.forEach((thumb) => thumb.classList.toggle('active', Number(thumb.dataset.index) === currentIndex));
+          mainImage.style.opacity = '1';
+        }, 120);
+      }
+
+      document.getElementById(els.prev).addEventListener('click', () => updateCarousel(currentIndex - 1));
+      document.getElementById(els.next).addEventListener('click', () => updateCarousel(currentIndex + 1));
+      applyImageWithFallback(mainImage, config.images[0], config.label);
+      imageStage.addEventListener('mousemove', (event) => {
+        const rect = imageStage.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width) * 100;
+        const y = ((event.clientY - rect.top) / rect.height) * 100;
+        mainImage.style.transformOrigin = `${x}% ${y}%`;
+      });
+      imageStage.addEventListener('mouseleave', () => { mainImage.style.transformOrigin = 'center center'; });
+      updateCarousel(0);
+    }
+
+    initCarousel(galleries.grillo);
+    initCarousel(galleries.half);
+  </script>
 </body>
 </html>
