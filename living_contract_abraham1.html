@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Living Contract | Abraham Peyret</title>
+  <style>
+    :root{
+      --bg:#f7f4ee;
+      --bg-deep:#eee8df;
+      --panel:#fffdf8;
+      --panel-soft:#f1ebe2;
+      --paper:#fffdf8;
+      --ink:#111314;
+      --ink-strong:#0c0d0e;
+      --muted:rgba(17,19,20,.66);
+      --muted-2:rgba(17,19,20,.48);
+      --line:rgba(17,19,20,.15);
+      --line-strong:rgba(17,19,20,.24);
+      --brown:#8a735f;
+      --sand:#c8b9a7;
+      --olive:#777060;
+      --shadow:0 44px 120px rgba(17,19,20,.12);
+      --sans:"Helvetica Neue", Helvetica, Arial, sans-serif;
+      --ease:cubic-bezier(.22,.61,.36,1);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;background:var(--bg)}
+    body{
+      font-family:var(--sans);
+      background:
+        radial-gradient(circle at 82% 12%,rgba(138,115,95,.10),transparent 34%),
+        linear-gradient(180deg,#fbfaf6 0%,#f7f4ee 44%,#eee8df 100%);
+      color:var(--ink);
+      overflow-x:hidden;
+      text-rendering:geometricPrecision;
+      -webkit-font-smoothing:antialiased;
+    }
+    a{text-decoration:none;color:inherit}
+    button{font-family:inherit;color:inherit}
+    img{max-width:100%;display:block}
+    ::selection{background:var(--ink);color:var(--bg)}
+
+    .topbar{
+      position:sticky;top:0;z-index:90;
+      min-height:74px;padding:0 46px;
+      display:grid;grid-template-columns:1fr auto;align-items:center;gap:42px;
+      background:rgba(247,244,238,.84);
+      backdrop-filter:blur(22px);
+      border-bottom:1px solid rgba(17,19,20,.09);
+    }
+    .brand{font-size:13px;font-weight:720;letter-spacing:.46em;text-transform:uppercase;white-space:nowrap;color:var(--ink)}
+    .nav{display:flex;align-items:center;gap:40px;font-size:10px;letter-spacing:.40em;text-transform:uppercase;color:rgba(17,19,20,.70)}
+    .nav a{position:relative;padding-bottom:7px;white-space:nowrap;transition:color .35s ease}
+    .nav a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--brown);transition:width .35s ease}
+    .nav a:hover{color:var(--ink-strong)}
+    .nav a:hover::after{width:calc(100% - .40em)}
+    .quote-btn{border:1px solid rgba(17,19,20,.48);padding:13px 22px;letter-spacing:.34em!important;transition:.35s ease}
+    .quote-btn:hover{background:var(--ink);color:var(--bg);transform:translateY(-2px)}
+
+    .living-hero{
+      min-height:calc(100vh - 74px);
+      position:relative;
+      padding:96px 56px 34px;
+      display:grid;
+      grid-template-columns:.82fr 1.18fr;
+      gap:80px;
+      align-items:end;
+      overflow:hidden;
+      border-bottom:1px solid var(--line);
+      isolation:isolate;
+    }
+    .living-hero::before{
+      content:"LIVING CONTRACT";
+      position:absolute;left:46px;bottom:-28px;z-index:-1;
+      font-size:clamp(88px,13vw,250px);line-height:.75;font-weight:220;letter-spacing:-.08em;
+      color:rgba(17,19,20,.035);pointer-events:none;
+    }
+    .living-hero::after{
+      content:"";position:absolute;inset:0;z-index:-2;
+      background:
+        radial-gradient(circle at 68% 42%,rgba(138,115,95,.12),transparent 34%),
+        radial-gradient(circle at 18% 72%,rgba(255,255,255,.50),transparent 30%),
+        linear-gradient(180deg,#fbfaf6 0%,#f7f4ee 100%);
+      pointer-events:none;
+    }
+    .hero-copy{max-width:820px;transform:translateY(18px)}
+    .kicker{font-size:11px;letter-spacing:.52em;text-transform:uppercase;color:var(--brown);font-weight:650;margin-bottom:32px;line-height:1.4}
+    .hero-title{font-size:clamp(58px,8vw,142px);line-height:.92;font-weight:300;letter-spacing:-.065em;color:var(--ink-strong);margin-bottom:34px}
+    .hero-title span{display:block;color:rgba(17,19,20,.82)}
+    .hero-lead{max-width:720px;font-size:clamp(18px,1.32vw,23px);line-height:1.74;color:var(--muted);font-weight:330;letter-spacing:-.025em}
+    .hero-visual{position:relative;min-height:580px;display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:end}
+    .hero-frame{position:relative;overflow:hidden;background:#fff;border:1px solid rgba(17,19,20,.11);box-shadow:0 38px 100px rgba(17,19,20,.13)}
+    .hero-frame img{width:100%;height:100%;object-fit:contain;padding:24px;filter:saturate(.92) contrast(1.03);transform:scale(1.01);animation:softFloat 8s ease-in-out infinite alternate;background:#fff}
+    .hero-frame.primary{height:560px}.hero-frame.secondary{height:420px;transform:translateY(-86px);opacity:.92}
+    .hero-note{position:absolute;right:0;bottom:0;padding:16px 20px;border:1px solid rgba(17,19,20,.14);background:rgba(255,253,248,.72);backdrop-filter:blur(14px);color:rgba(17,19,20,.66);font-size:10px;letter-spacing:.30em;text-transform:uppercase}
+    @keyframes softFloat{from{transform:scale(1.01) translateY(0)}to{transform:scale(1.035) translateY(-10px)}}
+
+    .collection-intro{
+      padding:82px 56px;display:grid;grid-template-columns:.9fr 1.1fr;gap:72px;align-items:end;
+      background:#f1ebe2;border-bottom:1px solid var(--line);position:relative;overflow:hidden;
+    }
+    .collection-intro::before{content:"RESIDENTIAL PERFORMANCE";position:absolute;right:40px;top:18px;font-size:clamp(56px,8vw,150px);line-height:.8;font-weight:230;letter-spacing:-.07em;color:rgba(17,19,20,.030);pointer-events:none}
+    .intro-title{font-size:clamp(36px,4vw,72px);line-height:1;font-weight:300;letter-spacing:-.045em;color:var(--ink-strong)}
+    .intro-copy{max-width:780px;font-size:18px;line-height:1.8;color:var(--muted);font-weight:330;letter-spacing:-.018em}
+    .product-tabs{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+    .product-tab{min-height:50px;display:inline-flex;align-items:center;justify-content:center;padding:0 24px;border:1px solid rgba(17,19,20,.16);background:rgba(255,253,248,.58);font-size:10px;line-height:1;letter-spacing:.34em;text-transform:uppercase;color:rgba(17,19,20,.82);transition:.35s ease;white-space:nowrap}
+    .product-tab:hover,.product-tab.active{background:var(--ink);color:var(--bg);border-color:var(--ink);transform:translateY(-2px)}
+
+    .product-chapter{
+      position:relative;min-height:calc(100vh - 74px);padding:92px 48px 72px;
+      display:grid;grid-template-columns:.76fr 1.24fr;gap:58px;align-items:center;overflow:hidden;border-bottom:1px solid var(--line);
+      background:radial-gradient(circle at 80% 46%,rgba(138,115,95,.08),transparent 34%),linear-gradient(90deg,#f7f4ee 0%,#fbfaf6 48%,#efe8dd 100%);
+      isolation:isolate;
+    }
+    .product-chapter.product-reverse{grid-template-columns:1.24fr .76fr;background:radial-gradient(circle at 20% 46%,rgba(138,115,95,.09),transparent 34%),linear-gradient(90deg,#efe8dd 0%,#fbfaf6 48%,#f7f4ee 100%)}
+    .product-chapter.product-reverse .hero-media{order:1}.product-chapter.product-reverse .product-copy{order:2}
+    .product-chapter::before{content:attr(data-watermark);position:absolute;left:34px;bottom:-30px;z-index:-1;font-size:clamp(130px,18vw,300px);letter-spacing:-.08em;font-weight:220;color:rgba(17,19,20,.032);pointer-events:none;line-height:.75}
+    .product-copy{position:relative;z-index:2;max-width:680px}
+    .product-eyebrow{font-size:11px;letter-spacing:.50em;text-transform:uppercase;color:var(--brown);font-weight:650;margin-bottom:30px;line-height:1.5}
+    .product-title{font-size:clamp(72px,7vw,132px);line-height:.94;font-weight:360;letter-spacing:.095em;text-transform:uppercase;color:var(--ink-strong);margin-bottom:34px;transform:translateX(-.04em)}
+    .product-lead{font-size:clamp(18px,1.32vw,24px);line-height:1.68;color:rgba(17,19,20,.74);font-weight:330;letter-spacing:-.028em;max-width:650px;margin-bottom:34px}
+    .editorial-points{display:grid;grid-template-columns:1fr 1fr;gap:14px 28px;padding-top:24px;border-top:1px solid var(--line);margin-bottom:34px}
+    .editorial-points span{position:relative;padding:0 0 14px 24px;border-bottom:1px solid rgba(17,19,20,.13);font-size:14px;line-height:1.45;color:rgba(17,19,20,.66);letter-spacing:-.012em}
+    .editorial-points span::before{content:"";position:absolute;left:0;top:.72em;width:9px;height:1px;background:var(--brown)}
+    .actions{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:56px;padding:0 28px;border:1px solid rgba(17,19,20,.58);font-size:10px;letter-spacing:.30em;text-transform:uppercase;font-weight:650;transition:.35s ease;background:transparent;cursor:pointer;white-space:nowrap;color:var(--ink)}
+    .btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+    .btn.primary:hover{background:transparent;color:var(--ink);transform:translateY(-2px)}
+    .btn.secondary:hover{background:var(--ink);color:var(--bg);transform:translateY(-2px)}
+
+    .hero-media{position:relative;z-index:2;min-width:0}.carousel-shell{position:relative;width:100%;transform:translateY(0);transition:transform .8s var(--ease)}.product-chapter.in-view .carousel-shell{transform:translateY(-8px)}
+    .image-stage{position:relative;height:min(66vh,690px);min-height:500px;background:#fff;border:1px solid rgba(17,19,20,.10);box-shadow:var(--shadow);overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:zoom-in;isolation:isolate}
+    .image-stage::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 56%,rgba(138,115,95,.12),transparent 56%);z-index:0;pointer-events:none}
+    .image-stage img{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;display:block;padding:28px;background:transparent;transition:transform .65s var(--ease),opacity .28s ease,filter .45s ease;transform-origin:center center;user-select:none;pointer-events:none;filter:saturate(.95) contrast(1.02)}
+    .image-stage:hover img{transform:scale(1.10);filter:saturate(1) contrast(1.04)}
+    .image-stage.editorial-detail:hover img,.image-stage.context-view:hover img{transform:scale(1.055)}
+    .counter-badge,.view-badge,.zoom-hint{position:absolute;z-index:4;background:rgba(255,253,248,.80);backdrop-filter:blur(12px);border:1px solid rgba(17,19,20,.09);padding:12px 14px;font-size:9px;letter-spacing:.30em;text-transform:uppercase;color:rgba(17,19,20,.64);pointer-events:none}
+    .counter-badge{left:26px;top:24px;min-width:82px;text-align:center}.view-badge{left:26px;top:78px}.zoom-hint{right:26px;top:24px}
+    .media-caption{position:absolute;left:30px;right:30px;bottom:26px;display:flex;justify-content:space-between;gap:24px;color:rgba(17,19,20,.62);font-size:10px;letter-spacing:.30em;text-transform:uppercase;z-index:3;pointer-events:none}
+    .carousel-controls{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:18px;padding:16px 18px;border:1px solid rgba(17,19,20,.10);border-top:0;background:rgba(255,253,248,.92);backdrop-filter:blur(14px)}
+    .arrows{display:flex;gap:10px}.arrow{width:46px;height:46px;border:1px solid rgba(17,19,20,.18);background:#fff;cursor:pointer;font-size:23px;line-height:1;transition:.32s ease;color:var(--ink)}.arrow:hover{background:var(--ink);color:var(--bg);transform:translateY(-2px)}
+    .thumbs{display:grid;grid-template-columns:repeat(8,minmax(64px,1fr));gap:10px;overflow:hidden}.thumb{height:58px;border:1px solid rgba(17,19,20,.11);background:#fff;padding:0;cursor:pointer;opacity:.48;transition:.32s ease;position:relative;overflow:hidden}.thumb img{width:100%;height:100%;object-fit:contain;pointer-events:none;filter:saturate(.90)}.thumb span{position:absolute;left:6px;bottom:5px;background:rgba(255,255,255,.86);padding:3px 5px;font-size:8px;letter-spacing:.08em;color:rgba(17,19,20,.62)}.thumb.active,.thumb:hover{opacity:1;border-color:var(--brown);transform:translateY(-2px)}
+
+    .chapter-divider{min-height:230px;padding:58px 56px;display:grid;grid-template-columns:1fr auto;gap:36px;align-items:center;background:#e8e0d4;border-bottom:1px solid var(--line);color:rgba(17,19,20,.58)}
+    .divider-kicker{font-size:10px;letter-spacing:.44em;text-transform:uppercase;color:var(--brown);margin-bottom:18px}.divider-text{max-width:760px;font-size:clamp(24px,3vw,48px);line-height:1.1;font-weight:300;letter-spacing:-.035em;color:rgba(17,19,20,.82)}.divider-number{font-size:clamp(82px,10vw,170px);line-height:.8;font-weight:220;color:rgba(17,19,20,.08);letter-spacing:-.08em}
+
+    .modal-overlay{position:fixed;inset:0;z-index:220;display:none;justify-content:flex-end;background:rgba(17,19,20,.38);backdrop-filter:blur(14px)}.modal-overlay.active{display:flex}.drawer{width:min(720px,100%);height:100%;background:#fffdf8;color:#111314;box-shadow:-38px 0 110px rgba(17,19,20,.22);padding:46px;overflow:auto;transform:translateX(100%);animation:drawerIn .55s var(--ease) forwards;position:relative}@keyframes drawerIn{to{transform:translateX(0)}}.modal-close{position:absolute;top:24px;right:24px;width:44px;height:44px;border:1px solid rgba(17,19,20,.16);background:#fffdf8;color:#111314;cursor:pointer;font-size:24px;line-height:1;transition:.3s ease}.modal-close:hover{background:#111314;color:#f7f4ee}.modal-kicker{font-size:10px;letter-spacing:.42em;text-transform:uppercase;color:#8a735f;font-weight:650;margin-bottom:24px;padding-right:64px}.modal-title{font-size:clamp(46px,5.2vw,82px);line-height:.95;font-weight:320;letter-spacing:-.04em;text-transform:uppercase;margin-bottom:20px;color:#111314}.modal-desc{max-width:580px;font-size:17px;line-height:1.72;color:rgba(17,19,20,.66);margin-bottom:36px}.tech-table{border-top:1px solid rgba(17,19,20,.16)}.tech-row{display:grid;grid-template-columns:170px 1fr;gap:24px;padding:20px 0;border-bottom:1px solid rgba(17,19,20,.16)}.tech-row small{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:#8a735f;font-weight:650}.tech-row span{font-size:17px;line-height:1.55;color:rgba(17,19,20,.74)}.drawer-note{margin-top:34px;padding-top:22px;border-top:1px solid rgba(17,19,20,.12);font-size:13px;line-height:1.7;color:rgba(17,19,20,.56)}
+
+    .cta{position:relative;padding:120px 56px;text-align:center;background:radial-gradient(circle at 50% 20%,rgba(138,115,95,.12),transparent 34%),#111314;color:#f7f4ee;overflow:hidden}.cta::before{content:"ABRAHAM PEYRET";position:absolute;left:50%;bottom:-22px;transform:translateX(-50%);font-size:clamp(80px,12vw,220px);line-height:.8;font-weight:220;letter-spacing:-.08em;color:rgba(247,244,238,.035);pointer-events:none}.cta h2{font-size:clamp(42px,5.5vw,92px);font-weight:310;letter-spacing:-.06em;line-height:.96;margin-bottom:26px;text-transform:uppercase;position:relative;z-index:2}.cta p{max-width:760px;margin:0 auto 40px;color:rgba(247,244,238,.68);font-size:18px;line-height:1.75;position:relative;z-index:2}.cta .actions{justify-content:center;position:relative;z-index:2}.cta .btn{border-color:rgba(247,244,238,.58);color:#f7f4ee}.cta .btn.primary{background:#f7f4ee;color:#111314;border-color:#f7f4ee}.cta .btn.primary:hover{background:transparent;color:#f7f4ee}
+    footer{padding:28px 56px;display:flex;justify-content:space-between;gap:20px;background:#070808;color:rgba(247,244,238,.62);font-size:10px;letter-spacing:.24em;text-transform:uppercase;flex-wrap:wrap}
+
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .85s ease,transform .85s var(--ease)}.in-view .reveal,.reveal.in-view{opacity:1;transform:translateY(0)}.delay-1{transition-delay:.08s}.delay-2{transition-delay:.16s}.delay-3{transition-delay:.24s}
+
+    @media(max-width:1180px){.living-hero{grid-template-columns:1fr;padding:84px 32px 42px}.hero-visual{min-height:auto;max-width:940px}.collection-intro{grid-template-columns:1fr;padding:70px 32px}.product-chapter,.product-chapter.product-reverse{grid-template-columns:1fr;min-height:auto;padding:72px 32px;gap:44px}.product-chapter.product-reverse .hero-media,.product-chapter.product-reverse .product-copy{order:initial}.image-stage{height:600px;min-height:460px}.chapter-divider{padding:52px 32px}.product-title{font-size:clamp(66px,12vw,122px)}}
+    @media(max-width:720px){.topbar{min-height:76px;align-items:flex-start;display:flex;flex-direction:column;justify-content:center;gap:14px;padding:16px 24px}.brand{font-size:12px;letter-spacing:.26em}.nav{width:100%;overflow-x:auto;padding-bottom:8px;gap:28px}.quote-btn{display:none}.living-hero{min-height:auto;padding:66px 24px 36px;gap:42px}.hero-title{font-size:clamp(48px,15vw,76px)}.hero-lead{font-size:18px}.hero-visual{grid-template-columns:1fr}.hero-frame.primary,.hero-frame.secondary{height:330px;transform:none}.hero-note{position:relative;right:auto;bottom:auto;width:100%;text-align:center}.collection-intro{padding:58px 24px}.product-tabs{display:grid;grid-template-columns:1fr}.product-tab{width:100%}.product-chapter{padding:56px 24px 64px}.product-eyebrow{font-size:10px;letter-spacing:.34em}.product-title{font-size:clamp(54px,17vw,88px);letter-spacing:.08em;line-height:1.08}.product-lead{font-size:19px}.editorial-points{grid-template-columns:1fr;gap:12px}.actions{width:100%;flex-direction:column}.btn{width:100%}.image-stage{height:430px;min-height:360px}.image-stage img{padding:18px}.image-stage:hover img{transform:scale(1.08)}.zoom-hint{display:none}.media-caption{left:18px;right:18px;bottom:18px;font-size:9px;letter-spacing:.20em}.carousel-controls{grid-template-columns:1fr}.arrows{justify-content:space-between}.arrow{width:49%}.thumbs{grid-template-columns:repeat(4,1fr);overflow:visible}.thumb{height:54px}.chapter-divider{grid-template-columns:1fr;padding:46px 24px}.divider-number{display:none}.drawer{padding:38px 24px}.tech-row{grid-template-columns:1fr;gap:8px}.cta{padding:88px 24px}footer{padding:26px 24px;line-height:1.8}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">Abraham Peyret</a>
+    <nav class="nav" aria-label="Navegación principal">
+      <a href="index.html">Inicio</a>
+      <a href="living_contract_abraham1.html">Living Contract</a>
+      <a href="diseno_autor_abraham_premium.html">Diseño de autor</a>
+      <a href="galeria_abraham.html">Galería</a>
+      <a class="quote-btn" href="mailto:contacto@abrahampeyret.art?subject=Cotización%20Living%20Contract">Cotizar</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="living-hero observe-section" aria-label="Presentación Living Contract">
+      <div class="hero-copy">
+        <p class="kicker reveal">Living Contract</p>
+        <h1 class="hero-title reveal delay-1">Mobiliario residencial<span>de alto desempeño.</span></h1>
+        <p class="hero-lead reveal delay-2">Una línea de piezas cálidas, funcionales y resistentes para espacios residenciales, hospitality y proyectos donde el uso intensivo exige diseño, ensamble y mantenimiento inteligente.</p>
+      </div>
+      <div class="hero-visual reveal delay-3" aria-label="Vista editorial Living Contract">
+        <figure class="hero-frame primary" data-parallax="0.08"><img src="./assets/images/living/mikado/mikado-01-frontal.jpg" alt="Silla Mikado vista frontal"></figure>
+        <figure class="hero-frame secondary" data-parallax="-0.06"><img src="./assets/images/living/cordon/cordon-04-cubierta.jpg" alt="Banco Cordón vista cubierta"></figure>
+        <span class="hero-note">Residential-grade furniture · Abraham Peyret</span>
+      </div>
+    </section>
+
+    <section class="collection-intro observe-section">
+      <div>
+        <p class="kicker reveal">Colección Living Contract</p>
+        <h2 class="intro-title reveal delay-1">Piezas pensadas para uso real, repetible y durable.</h2>
+      </div>
+      <p class="intro-copy reveal delay-2">Esta línea toma la estructura editorial de Diseño de Autor, pero la aterriza a un universo más cálido y comercial: primero la forma, después el detalle constructivo y finalmente la ficha técnica para cotización.</p>
+      <nav class="product-tabs reveal delay-3" aria-label="Productos Living Contract">
+        <a href="#producto-mikado" class="product-tab active">Producto 01 · Mikado</a>
+        <a href="#producto-cordon" class="product-tab">Producto 02 · Cordón</a>
+        <a href="#cotizar" class="product-tab">Cotizar colección</a>
+      </nav>
+    </section>
+
+    <section class="product-chapter observe-section" id="producto-mikado" data-watermark="MIKADO">
+      <div class="product-copy">
+        <p class="product-eyebrow reveal">Producto 01 · Silla / lounge chair</p>
+        <h2 class="product-title reveal delay-1">Mikado</h2>
+        <p class="product-lead reveal delay-2">Silla de madera con estructura visible, ritmo modular y detalles textiles. Una pieza pensada para espacios residenciales, hospitality y proyectos donde la identidad del objeto también comunica diseño.</p>
+        <div class="editorial-points reveal delay-3" aria-label="Atributos editoriales de Mikado">
+          <span>Presencia objetual sin perder funcionalidad</span>
+          <span>Respaldo modular con lectura artesanal</span>
+          <span>Acabados adaptables por proyecto</span>
+          <span>Diseñada para uso residencial y hospitality</span>
+        </div>
+        <div class="actions reveal delay-3">
+          <button class="btn primary open-tech" type="button" data-product="mikado">Ver ficha técnica</button>
+          <a class="btn secondary" href="#producto-cordon">Siguiente pieza</a>
+        </div>
+      </div>
+      <aside class="hero-media reveal delay-2" aria-label="Galería de imágenes Mikado">
+        <div class="carousel-shell" data-carousel="mikado">
+          <div class="image-stage" id="mikadoImageStage">
+            <span class="counter-badge">01 / 07</span><span class="view-badge">Vista completa</span><span class="zoom-hint">Acerca el mouse para ver detalles</span>
+            <img class="main-carousel-image" src="./assets/images/living/mikado/mikado-01-frontal.jpg" alt="Silla Mikado vista frontal">
+            <figcaption class="media-caption"><span class="image-caption-text">Mikado · Vista frontal</span><span>Living Contract</span></figcaption>
+          </div>
+          <div class="carousel-controls"><div class="arrows"><button class="arrow prevBtn" type="button" aria-label="Imagen anterior">‹</button><button class="arrow nextBtn" type="button" aria-label="Imagen siguiente">›</button></div><div class="thumbs" aria-label="Miniaturas de Mikado"></div></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="chapter-divider observe-section" aria-label="Transición a Cordón">
+      <div><p class="divider-kicker reveal">Siguiente capítulo</p><p class="divider-text reveal delay-1">De la silla modular a una pieza horizontal con detalle constructivo.</p></div>
+      <span class="divider-number reveal delay-2">02</span>
+    </section>
+
+    <section class="product-chapter product-reverse observe-section" id="producto-cordon" data-watermark="CORDÓN">
+      <div class="product-copy">
+        <p class="product-eyebrow reveal">Producto 02 · Banco / bench</p>
+        <h2 class="product-title reveal delay-1">Cordón</h2>
+        <p class="product-lead reveal delay-2">Banco de madera con líneas diagonales incrustadas, estructura visible y presencia horizontal. Una pieza pensada para recibidores, áreas de espera, hospitality y proyectos residenciales donde el detalle constructivo funciona como identidad visual.</p>
+        <div class="editorial-points reveal delay-3" aria-label="Atributos editoriales de Cordón">
+          <span>Presencia horizontal y proporción limpia</span>
+          <span>Detalle diagonal tipo cordón en cubierta</span>
+          <span>Contraste de maderas y ensamble visible</span>
+          <span>Ideal para residencial, lobby y hospitality</span>
+        </div>
+        <div class="actions reveal delay-3">
+          <button class="btn primary open-tech" type="button" data-product="cordon">Ver ficha técnica</button>
+          <a class="btn secondary" href="#cotizar">Cotizar colección</a>
+        </div>
+      </div>
+      <aside class="hero-media reveal delay-2" aria-label="Galería de imágenes Cordón">
+        <div class="carousel-shell" data-carousel="cordon">
+          <div class="image-stage" id="cordonImageStage">
+            <span class="counter-badge">01 / 08</span><span class="view-badge">Vista completa</span><span class="zoom-hint">Acerca el mouse para ver detalles</span>
+            <img class="main-carousel-image" src="./assets/images/living/cordon/cordon-01-frontal.jpg" alt="Banco Cordón vista frontal">
+            <figcaption class="media-caption"><span class="image-caption-text">Cordón · Vista frontal</span><span>Living Contract</span></figcaption>
+          </div>
+          <div class="carousel-controls"><div class="arrows"><button class="arrow prevBtn" type="button" aria-label="Imagen anterior">‹</button><button class="arrow nextBtn" type="button" aria-label="Imagen siguiente">›</button></div><div class="thumbs" aria-label="Miniaturas de Cordón"></div></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="cta observe-section" id="cotizar">
+      <h2 class="reveal">¿Buscas una pieza para proyecto?</h2>
+      <p class="reveal delay-1">Podemos revisar acabados, cantidades, tiempos de producción y requerimientos del espacio para cotizar una pieza o colección Living Contract.</p>
+      <div class="actions reveal delay-2">
+        <a href="mailto:contacto@abrahampeyret.art?subject=Cotización%20Living%20Contract" class="btn primary">Cotizar colección</a>
+        <a href="index.html" class="btn secondary">Volver al inicio</a>
+      </div>
+    </section>
+  </main>
+
+  <footer><span>© Abraham Peyret</span><span>Living Contract</span><span>Mikado · Cordón</span></footer>
+
+  <div class="modal-overlay" id="techModal" aria-hidden="true">
+    <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" type="button" aria-label="Cerrar ficha técnica">×</button>
+      <p class="modal-kicker">Ficha técnica breve</p>
+      <h2 class="modal-title" id="modalTitle">Producto</h2>
+      <p class="modal-desc" id="modalDescription">Ficha rápida para presentar la pieza con claridad.</p>
+      <div class="tech-table" id="modalTable"></div>
+      <p class="drawer-note">Nota editorial: ficha orientativa para presentación comercial. Medidas, acabados, disponibilidad y documentación pueden ajustarse bajo consulta directa.</p>
+    </aside>
+  </div>
+
+  <script>
+    const placeholderSvg = (label) => {
+      const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='900' viewBox='0 0 1200 900'><rect width='1200' height='900' fill='%23f7f4ee'/><rect x='72' y='72' width='1056' height='756' fill='none' stroke='%238a735f' stroke-width='2' opacity='.45'/><text x='600' y='420' text-anchor='middle' font-family='Helvetica, Arial, sans-serif' font-size='48' fill='%238a735f' letter-spacing='10'>${label}</text><text x='600' y='486' text-anchor='middle' font-family='Helvetica, Arial, sans-serif' font-size='18' fill='%23111314' opacity='.65' letter-spacing='5'>COLOCAR IMAGEN EN ASSETS</text></svg>`;
+      return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+    };
+
+    const galleries = {
+      mikado: {
+        label:'MIKADO',
+        images:[
+          {src:'./assets/images/living/mikado/mikado-01-frontal.jpg', caption:'Mikado · Vista frontal', alt:'Silla Mikado vista frontal', type:'Vista completa'},
+          {src:'./assets/images/living/mikado/mikado-02-lateral.jpg', caption:'Mikado · Vista lateral', alt:'Silla Mikado vista lateral', type:'Vista lateral'},
+          {src:'./assets/images/living/mikado/mikado-03-posterior.jpg', caption:'Mikado · Vista posterior', alt:'Silla Mikado vista posterior', type:'Vista posterior'},
+          {src:'./assets/images/living/mikado/mikado-04-perfil.jpg', caption:'Mikado · Perfil estructural', alt:'Silla Mikado vista de perfil', type:'Vista perfil'},
+          {src:'./assets/images/living/mikado/mikado-05-detalle-brazo.jpg', caption:'Mikado · Detalle de brazo', alt:'Detalle del brazo de la silla Mikado', type:'Detalle editorial'},
+          {src:'./assets/images/living/mikado/mikado-06-detalle-ensamble.jpg', caption:'Mikado · Detalle de ensamble', alt:'Detalle de ensamble de la silla Mikado', type:'Detalle editorial'},
+          {src:'./assets/images/living/mikado/mikado-07-detalle-respaldo.jpg', caption:'Mikado · Detalle de respaldo', alt:'Detalle de respaldo de la silla Mikado', type:'Detalle editorial'}
+        ]
+      },
+      cordon: {
+        label:'CORDÓN',
+        images:[
+          {src:'./assets/images/living/cordon/cordon-01-frontal.jpg', caption:'Cordón · Vista frontal', alt:'Banco Cordón vista frontal', type:'Vista completa'},
+          {src:'./assets/images/living/cordon/cordon-02-lateral.jpg', caption:'Cordón · Vista lateral', alt:'Banco Cordón vista lateral', type:'Vista lateral'},
+          {src:'./assets/images/living/cordon/cordon-03-superior.jpg', caption:'Cordón · Vista superior', alt:'Banco Cordón vista superior', type:'Vista superior'},
+          {src:'./assets/images/living/cordon/cordon-04-cubierta.jpg', caption:'Cordón · Detalle de cubierta', alt:'Detalle de cubierta del banco Cordón', type:'Detalle editorial'},
+          {src:'./assets/images/living/cordon/cordon-05-detalle-cordon.jpg', caption:'Cordón · Detalle cordón', alt:'Detalle cordón del banco Cordón', type:'Detalle editorial'},
+          {src:'./assets/images/living/cordon/cordon-06-detalle-pata.jpg', caption:'Cordón · Detalle de pata', alt:'Detalle de pata de banco Cordón', type:'Detalle vertical'},
+          {src:'./assets/images/living/cordon/cordon-07-detalle-ensamble.jpg', caption:'Cordón · Detalle de ensamble', alt:'Detalle de ensamble banco Cordón', type:'Detalle vertical'},
+          {src:'./assets/images/living/cordon/cordon-08-taller.jpg', caption:'Cordón · Proceso taller', alt:'Banco Cordón en proceso dentro del taller', type:'Proceso / taller'}
+        ]
+      }
+    };
+
+    function candidatesFor(item){return [item.src, ...(item.fallbacks || [])];}
+    function applyImageWithFallback(img,item,label){const candidates=candidatesFor(item);let attempt=0;img.onerror=()=>{attempt+=1;if(attempt<candidates.length){img.src=candidates[attempt];}else{img.onerror=null;img.src=placeholderSvg(label);}};img.src=candidates[0];}
+
+    function initCarousel(shell){
+      const key = shell.dataset.carousel;
+      const config = galleries[key];
+      let currentIndex = 0;
+      const mainImage = shell.querySelector('.main-carousel-image');
+      const imageCaption = shell.querySelector('.image-caption-text');
+      const imageCounter = shell.querySelector('.counter-badge');
+      const viewType = shell.querySelector('.view-badge');
+      const imageStage = shell.querySelector('.image-stage');
+      const thumbsWrap = shell.querySelector('.thumbs');
+      const prev = shell.querySelector('.prevBtn');
+      const next = shell.querySelector('.nextBtn');
+
+      config.images.forEach((item,index)=>{
+        const btn=document.createElement('button');
+        btn.className='thumb'+(index===0?' active':'');
+        btn.type='button';
+        btn.dataset.index=String(index);
+        btn.innerHTML=`<img alt="Miniatura ${index+1}"><span>${String(index+1).padStart(2,'0')}</span>`;
+        btn.addEventListener('click',()=>updateCarousel(index));
+        applyImageWithFallback(btn.querySelector('img'),item,config.label);
+        thumbsWrap.appendChild(btn);
+      });
+      const thumbs=thumbsWrap.querySelectorAll('.thumb');
+
+      function updateCarousel(index){
+        currentIndex=(index+config.images.length)%config.images.length;
+        const data=config.images[currentIndex];
+        mainImage.style.opacity='0';
+        setTimeout(()=>{
+          mainImage.alt=data.alt;
+          applyImageWithFallback(mainImage,data,config.label);
+          imageCaption.textContent=data.caption;
+          imageCounter.textContent=`${String(currentIndex+1).padStart(2,'0')} / ${String(config.images.length).padStart(2,'0')}`;
+          viewType.textContent=data.type;
+          const type=data.type.toLowerCase();
+          imageStage.classList.toggle('editorial-detail',type.includes('detalle'));
+          imageStage.classList.toggle('context-view',type.includes('contexto') || type.includes('proceso'));
+          thumbs.forEach((thumb)=>thumb.classList.toggle('active',Number(thumb.dataset.index)===currentIndex));
+          mainImage.style.opacity='1';
+        },150);
+      }
+      prev.addEventListener('click',()=>updateCarousel(currentIndex-1));
+      next.addEventListener('click',()=>updateCarousel(currentIndex+1));
+      imageStage.addEventListener('mousemove',(event)=>{const rect=imageStage.getBoundingClientRect();const x=((event.clientX-rect.left)/rect.width)*100;const y=((event.clientY-rect.top)/rect.height)*100;mainImage.style.transformOrigin=`${x}% ${y}%`;});
+      imageStage.addEventListener('mouseleave',()=>{mainImage.style.transformOrigin='center center';});
+      updateCarousel(0);
+    }
+    document.querySelectorAll('.carousel-shell').forEach(initCarousel);
+
+    const techData={
+      mikado:{title:'Mikado',description:'Ficha rápida para presentar la pieza con claridad. Los datos pueden ajustarse cuando Abraham confirme medidas, acabados y condiciones de producción.',rows:[['Producto','Mikado · Silla / lounge chair.'],['Categoría','Silla de madera con presencia objetual y lectura modular.'],['Lenguaje','Estructura visible, ritmo vertical, detalle textil y ensamble aparente.'],['Materialidad','Madera aparente y detalles textiles. Acabados sujetos a proyecto.'],['Uso sugerido','Residencial, hospitality, Airbnb, lobby o proyectos con identidad cálida.'],['Producción','Acabados, cantidades, tiempos y documentación bajo consulta directa.']]},
+      cordon:{title:'Cordón',description:'Ficha rápida para presentar el banco con claridad sin perder el carácter editorial de Living Contract.',rows:[['Producto','Cordón · Banco / bench.'],['Categoría','Banco de madera con presencia horizontal y detalle diagonal.'],['Lenguaje','Líneas diagonales incrustadas, contraste de maderas y ensamble visible.'],['Materialidad','Madera aparente con variaciones de tono. Acabado final sujeto a proyecto.'],['Uso sugerido','Recibidores, áreas de espera, hospitality, lobby y espacios residenciales.'],['Producción','Disponibilidad, edición, acabados y documentación bajo consulta directa.']]}
+    };
+    const modal=document.getElementById('techModal');
+    const modalTitle=document.getElementById('modalTitle');
+    const modalDescription=document.getElementById('modalDescription');
+    const modalTable=document.getElementById('modalTable');
+    const modalClose=modal.querySelector('.modal-close');
+    function openTechModal(product){const data=techData[product];if(!data)return;modalTitle.textContent=data.title;modalDescription.textContent=data.description;modalTable.innerHTML=data.rows.map(row=>`<div class="tech-row"><small>${row[0]}</small><span>${row[1]}</span></div>`).join('');modal.classList.add('active');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';}
+    function closeTechModal(){modal.classList.remove('active');modal.setAttribute('aria-hidden','true');document.body.style.overflow='';}
+    document.querySelectorAll('.open-tech').forEach(btn=>btn.addEventListener('click',()=>openTechModal(btn.dataset.product)));
+    modalClose.addEventListener('click',closeTechModal);modal.addEventListener('click',(event)=>{if(event.target===modal)closeTechModal();});document.addEventListener('keydown',(event)=>{if(event.key==='Escape')closeTechModal();});
+
+    const observer=new IntersectionObserver((entries)=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('in-view');}});},{threshold:.16});
+    document.querySelectorAll('.observe-section,.reveal').forEach(el=>observer.observe(el));
+    document.querySelectorAll('[data-parallax]').forEach(el=>{window.addEventListener('scroll',()=>{const speed=Number(el.dataset.parallax||0);const rect=el.getBoundingClientRect();if(rect.top<window.innerHeight&&rect.bottom>0){el.style.transform=`translateY(${rect.top*speed}px)`;}});});
+  </script>
+</body>
+</html>
