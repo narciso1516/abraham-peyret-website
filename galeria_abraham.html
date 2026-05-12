@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galería | Abraham Peyret</title>
+
+  <style>
+    :root{
+      --bg:#f7f4ee;
+      --paper:#fffdf8;
+      --ink:#111314;
+      --muted:rgba(17,19,20,.64);
+      --line:rgba(17,19,20,.14);
+      --soft:rgba(17,19,20,.08);
+      --brown:#8a735f;
+      --bone:#f7f4ee;
+      --dark:#141414;
+      --sans:"Akzidenz Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:var(--sans);
+      background:var(--bg);
+      color:var(--ink);
+      overflow-x:hidden;
+    }
+    a{text-decoration:none;color:inherit}
+    img{display:block;width:100%}
+    button{font-family:inherit}
+
+    /* =========================================================
+       HEADER
+       Mantiene el lenguaje visual del index:
+       navegación limpia, editorial y con enlaces relativos.
+       ========================================================= */
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:90;
+      min-height:82px;
+      padding:0 48px;
+      display:grid;
+      grid-template-columns:1fr auto;
+      align-items:center;
+      background:rgba(247,244,238,.92);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid var(--soft);
+    }
+
+    .brand{
+      font-size:14px;
+      font-weight:700;
+      letter-spacing:.46em;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      gap:42px;
+      font-size:10px;
+      letter-spacing:.34em;
+      text-transform:uppercase;
+      color:rgba(17,19,20,.72);
+    }
+
+    .nav a{
+      position:relative;
+      padding-bottom:7px;
+      white-space:nowrap;
+    }
+
+    .nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:0;
+      width:0;
+      height:1px;
+      background:var(--ink);
+      transition:width .35s ease;
+    }
+
+    .nav a:hover::after,
+    .nav a.active::after{
+      width:calc(100% - .34em);
+    }
+
+    .quote-btn{
+      border:1px solid var(--ink);
+      padding:14px 22px;
+      transition:.35s ease;
+    }
+
+    .quote-btn:hover{
+      background:var(--ink);
+      color:var(--bone);
+      transform:translateY(-2px);
+    }
+
+    /* =========================================================
+       HERO DE GALERÍA
+       UX: no debe sentirse como archivo de imágenes.
+       Debe sentirse como entrada editorial al mundo de objetos.
+       ========================================================= */
+    .gallery-hero{
+      min-height:72vh;
+      padding:110px 56px 64px;
+      display:grid;
+      grid-template-columns:.82fr 1.18fr;
+      gap:72px;
+      align-items:end;
+      position:relative;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 78% 28%, rgba(138,115,95,.12), transparent 42%),
+        linear-gradient(180deg,#fbfaf6 0%,#f7f4ee 100%);
+      border-bottom:1px solid var(--line);
+      isolation:isolate;
+    }
+
+    .gallery-hero::before{
+      content:"GALERÍA";
+      position:absolute;
+      left:42px;
+      bottom:-30px;
+      z-index:-1;
+      font-size:clamp(120px,18vw,310px);
+      line-height:.75;
+      letter-spacing:-.09em;
+      font-weight:250;
+      color:rgba(17,19,20,.035);
+      pointer-events:none;
+      user-select:none;
+    }
+
+    .eyebrow{
+      font-size:11px;
+      letter-spacing:.48em;
+      text-transform:uppercase;
+      color:var(--brown);
+      font-weight:650;
+      margin-bottom:34px;
+    }
+
+    .hero-copy h1{
+      font-size:clamp(56px,7.6vw,132px);
+      line-height:.94;
+      font-weight:360;
+      letter-spacing:-.065em;
+      margin-bottom:34px;
+      text-rendering:geometricPrecision;
+    }
+
+    .hero-copy p{
+      max-width:760px;
+      font-size:20px;
+      line-height:1.72;
+      color:var(--muted);
+      letter-spacing:-.018em;
+      font-weight:330;
+    }
+
+    .hero-panel{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+      align-items:end;
+    }
+
+    .hero-panel img{
+      height:360px;
+      object-fit:cover;
+      border:1px solid rgba(17,19,20,.10);
+      background:#fff;
+      filter:saturate(.92) contrast(1.02);
+    }
+
+    .hero-panel img:first-child{height:460px}
+    .hero-panel img:nth-child(2){transform:translateY(-44px)}
+
+    /* =========================================================
+       FILTROS
+       UX: permiten navegar por intención visual:
+       universo, detalle o contexto/proceso.
+       ========================================================= */
+    .gallery-toolbar{
+      position:sticky;
+      top:82px;
+      z-index:70;
+      padding:18px 56px;
+      background:rgba(255,253,248,.88);
+      backdrop-filter:blur(16px);
+      border-bottom:1px solid var(--soft);
+      display:flex;
+      justify-content:space-between;
+      gap:24px;
+      align-items:center;
+    }
+
+    .toolbar-label{
+      font-size:10px;
+      letter-spacing:.36em;
+      text-transform:uppercase;
+      color:var(--brown);
+      font-weight:650;
+      white-space:nowrap;
+    }
+
+    .filters{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:flex-end;
+    }
+
+    .filter-btn{
+      min-height:38px;
+      padding:0 16px;
+      border:1px solid rgba(17,19,20,.14);
+      background:rgba(255,255,255,.62);
+      font-size:9px;
+      letter-spacing:.28em;
+      text-transform:uppercase;
+      color:rgba(17,19,20,.72);
+      cursor:pointer;
+      transition:.3s ease;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active{
+      background:var(--ink);
+      color:var(--bone);
+      border-color:var(--ink);
+    }
+
+    /* =========================================================
+       GRID EDITORIAL
+       UX: composición asimétrica para que se sienta premium.
+       No todas las imágenes compiten con el mismo tamaño.
+       ========================================================= */
+    .gallery-section{
+      padding:78px 56px 110px;
+    }
+
+    .gallery-grid{
+      max-width:1560px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:18px;
+    }
+
+    .gallery-card{
+      position:relative;
+      overflow:hidden;
+      min-height:360px;
+      background:#fff;
+      border:1px solid rgba(17,19,20,.10);
+      cursor:pointer;
+      isolation:isolate;
+      transition:transform .45s ease, box-shadow .45s ease, opacity .35s ease;
+    }
+
+    .gallery-card.is-hidden{display:none}
+
+    .gallery-card:hover{
+      transform:translateY(-6px);
+      box-shadow:0 34px 90px rgba(17,19,20,.14);
+    }
+
+    .gallery-card.large{grid-column:span 7;min-height:540px}
+    .gallery-card.medium{grid-column:span 5;min-height:540px}
+    .gallery-card.small{grid-column:span 4;min-height:390px}
+    .gallery-card.wide{grid-column:span 8;min-height:390px}
+    .gallery-card.tall{grid-column:span 4;min-height:540px}
+
+    .gallery-card img{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      transition:transform .7s cubic-bezier(.22,.61,.36,1), filter .45s ease;
+      filter:saturate(.92) contrast(1.02);
+    }
+
+    .gallery-card.contain img{
+      object-fit:contain;
+      padding:34px;
+      background:#fff;
+    }
+
+    .gallery-card:hover img{
+      transform:scale(1.055);
+      filter:saturate(1) contrast(1.05);
+    }
+
+    .gallery-card::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      z-index:1;
+      background:linear-gradient(to top,rgba(17,19,20,.58),transparent 58%);
+      opacity:.86;
+      transition:.35s ease;
+    }
+
+    .gallery-card:hover::after{opacity:.72}
+
+    .card-info{
+      position:absolute;
+      left:24px;
+      right:24px;
+      bottom:22px;
+      z-index:2;
+      color:#fff;
+    }
+
+    .card-meta{
+      display:flex;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:12px;
+      font-size:9px;
+      letter-spacing:.28em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.72);
+    }
+
+    .card-info h3{
+      font-size:clamp(26px,2.5vw,44px);
+      line-height:1;
+      font-weight:420;
+      letter-spacing:.02em;
+      text-transform:uppercase;
+    }
+
+    .card-info p{
+      margin-top:12px;
+      max-width:520px;
+      font-size:14px;
+      line-height:1.55;
+      color:rgba(255,255,255,.78);
+    }
+
+    .gallery-cta{
+      margin:90px auto 0;
+      max-width:1200px;
+      padding:58px;
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:32px;
+      align-items:center;
+      border:1px solid rgba(17,19,20,.14);
+      background:#fffdf8;
+    }
+
+    .gallery-cta h2{
+      font-size:clamp(34px,4vw,68px);
+      line-height:1;
+      font-weight:360;
+      letter-spacing:-.045em;
+      margin-bottom:18px;
+    }
+
+    .gallery-cta p{
+      max-width:700px;
+      font-size:17px;
+      line-height:1.68;
+      color:var(--muted);
+    }
+
+    .gallery-cta a{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:58px;
+      padding:0 28px;
+      background:var(--ink);
+      color:var(--bone);
+      border:1px solid var(--ink);
+      font-size:10px;
+      letter-spacing:.28em;
+      text-transform:uppercase;
+      transition:.35s ease;
+      white-space:nowrap;
+    }
+
+    .gallery-cta a:hover{
+      background:transparent;
+      color:var(--ink);
+      transform:translateY(-3px);
+    }
+
+    /* =========================================================
+       LIGHTBOX
+       UX: al hacer clic, el usuario puede ver imagen + contexto
+       y decidir ir al producto completo.
+       ========================================================= */
+    .lightbox{
+      position:fixed;
+      inset:0;
+      z-index:200;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+      background:rgba(17,19,20,.86);
+      backdrop-filter:blur(12px);
+    }
+
+    .lightbox.active{display:flex}
+
+    .lightbox-inner{
+      width:min(1180px,100%);
+      max-height:90vh;
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      background:#fffdf8;
+      color:var(--ink);
+      overflow:hidden;
+      box-shadow:0 40px 120px rgba(0,0,0,.42);
+    }
+
+    .lightbox-image{
+      min-height:620px;
+      background:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .lightbox-image img{
+      width:100%;
+      height:100%;
+      max-height:90vh;
+      object-fit:contain;
+      padding:30px;
+    }
+
+    .lightbox-copy{
+      padding:46px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap:42px;
+    }
+
+    .lightbox-copy small{
+      font-size:10px;
+      letter-spacing:.34em;
+      text-transform:uppercase;
+      color:var(--brown);
+      font-weight:650;
+    }
+
+    .lightbox-copy h3{
+      font-size:clamp(42px,4vw,72px);
+      line-height:.96;
+      font-weight:360;
+      letter-spacing:-.04em;
+      text-transform:uppercase;
+      margin:22px 0;
+    }
+
+    .lightbox-copy p{
+      font-size:17px;
+      line-height:1.72;
+      color:var(--muted);
+    }
+
+    .lightbox-actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .lightbox-actions a,
+    .lightbox-close{
+      min-height:52px;
+      padding:0 22px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border:1px solid var(--ink);
+      background:transparent;
+      color:var(--ink);
+      font-size:10px;
+      letter-spacing:.24em;
+      text-transform:uppercase;
+      cursor:pointer;
+      transition:.3s ease;
+    }
+
+    .lightbox-actions a:hover,
+    .lightbox-close:hover{
+      background:var(--ink);
+      color:var(--bone);
+    }
+
+    footer{
+      padding:32px 56px;
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      background:#111314;
+      color:rgba(247,244,238,.68);
+      font-size:10px;
+      letter-spacing:.24em;
+      text-transform:uppercase;
+      flex-wrap:wrap;
+    }
+
+    @media(max-width:1100px){
+      .gallery-hero{
+        grid-template-columns:1fr;
+        padding:92px 32px 56px;
+      }
+
+      .hero-panel{max-width:860px}
+
+      .gallery-toolbar{
+        top:82px;
+        padding:18px 32px;
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .filters{justify-content:flex-start}
+
+      .gallery-section{padding:60px 32px 90px}
+
+      .gallery-card.large,
+      .gallery-card.medium,
+      .gallery-card.small,
+      .gallery-card.wide,
+      .gallery-card.tall{
+        grid-column:span 6;
+      }
+
+      .lightbox-inner{
+        grid-template-columns:1fr;
+        overflow:auto;
+      }
+
+      .lightbox-image{min-height:420px}
+
+      .gallery-cta{grid-template-columns:1fr}
+    }
+
+    @media(max-width:680px){
+      .topbar{
+        min-height:auto;
+        padding:20px 24px;
+        display:flex;
+        flex-direction:column;
+        align-items:flex-start;
+        gap:16px;
+      }
+
+      .brand{font-size:12px;letter-spacing:.26em}
+
+      .nav{
+        width:100%;
+        overflow-x:auto;
+        gap:28px;
+        padding-bottom:8px;
+      }
+
+      .quote-btn{display:none}
+
+      .gallery-hero{padding:72px 24px 46px}
+
+      .hero-copy h1{font-size:clamp(48px,14vw,72px)}
+
+      .hero-copy p{font-size:18px}
+
+      .hero-panel{grid-template-columns:1fr}
+
+      .hero-panel img,
+      .hero-panel img:first-child{height:300px}
+
+      .hero-panel img:nth-child(2){transform:none}
+
+      .gallery-toolbar{
+        position:relative;
+        top:auto;
+        padding:18px 24px;
+      }
+
+      .filters{
+        width:100%;
+        display:grid;
+        grid-template-columns:1fr 1fr;
+      }
+
+      .filter-btn{width:100%}
+
+      .gallery-section{padding:42px 24px 72px}
+
+      .gallery-grid{display:block}
+
+      .gallery-card,
+      .gallery-card.large,
+      .gallery-card.medium,
+      .gallery-card.small,
+      .gallery-card.wide,
+      .gallery-card.tall{
+        min-height:420px;
+        margin-bottom:18px;
+      }
+
+      .gallery-cta{padding:34px 24px}
+
+      .gallery-cta a{width:100%}
+
+      .lightbox{padding:16px}
+
+      .lightbox-copy{padding:30px 24px}
+
+      .lightbox-image{min-height:320px}
+
+      footer{padding:28px 24px;line-height:1.8}
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">Abraham Peyret</a>
+
+    <nav class="nav" aria-label="Navegación principal">
+      <a href="index.html">Inicio</a>
+      <a href="living_contract_abraham1.html">Living Contract</a>
+      <a href="diseno_autor_abraham_premium.html">Diseño de autor</a>
+      <a href="galeria_abraham.html" class="active">Galería</a>
+      <a class="quote-btn" href="mailto:contacto@abrahampeyret.art?subject=Consulta%20Abraham%20Peyret">Cotizar</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="gallery-hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Galería editorial</p>
+        <h1>Objetos que hablan desde la materia.</h1>
+        <p>
+          Una selección visual de productos, detalles, ensambles y procesos.
+          La galería no muestra solamente muebles: muestra decisiones de diseño.
+        </p>
+      </div>
+
+      <div class="hero-panel">
+        <img src="assets/images/living/mikado/mikado-05-detalle-brazo.jpg" alt="Detalle de brazo de Mikado">
+        <img src="assets/images/autor/ciudad/ciudad-03-contexto-persona.jpg" alt="Ciudad en contexto con escala humana">
+      </div>
+    </section>
+
+    <div class="gallery-toolbar">
+      <span class="toolbar-label">Explorar por universo</span>
+
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all">Todo</button>
+        <button class="filter-btn" data-filter="living">Living Contract</button>
+        <button class="filter-btn" data-filter="autor">Diseño de Autor</button>
+        <button class="filter-btn" data-filter="detalle">Detalles</button>
+        <button class="filter-btn" data-filter="contexto">Contexto</button>
+      </div>
+    </div>
+
+    <section class="gallery-section">
+      <div class="gallery-grid">
+
+        <!-- Selección curada: abre con pieza completa, sigue con materialidad y termina con proceso/contexto. -->
+        <article class="gallery-card large contain" data-category="living contexto" data-title="Mikado" data-meta="Living Contract · Vista frontal" data-desc="Imagen principal de Mikado: muestra proporción, postura, estructura visible y presencia de producto." data-link="living_contract_abraham1.html#producto-mikado">
+          <img src="assets/images/living/mikado/mikado-01-frontal.jpg" alt="Mikado vista frontal">
+          <div class="card-info">
+            <div class="card-meta"><span>Living Contract</span><span>Mikado</span></div>
+            <h3>Mikado</h3>
+            <p>La imagen de apertura ideal: clara, completa y fácil de entender.</p>
+          </div>
+        </article>
+
+        <article class="gallery-card medium" data-category="living detalle" data-title="Mikado" data-meta="Living Contract · Detalle de brazo" data-desc="Detalle fuerte de materialidad y ensamble. Funciona como imagen premium para comunicar calidad constructiva." data-link="living_contract_abraham1.html#producto-mikado">
+          <img src="assets/images/living/mikado/mikado-05-detalle-brazo.jpg" alt="Detalle de brazo Mikado">
+          <div class="card-info">
+            <div class="card-meta"><span>Detalle</span><span>Mikado</span></div>
+            <h3>Ensamble visible</h3>
+            <p>El acercamiento convierte la construcción en argumento visual.</p>
+          </div>
+        </article>
+
+        <article class="gallery-card small contain" data-category="autor contexto" data-title="Grillo" data-meta="Diseño de Autor · Vista lateral" data-desc="La silueta más reconocible de Grillo: escultórica, clara y con tensión visual." data-link="diseno_autor_abraham_premium.html#producto-grillo">
+          <img src="assets/images/autor/grillo/grillo-03-lateral.jpeg" alt="Grillo vista lateral">
+          <div class="card-info">
+            <div class="card-meta"><span>Diseño de Autor</span><span>Grillo</span></div>
+            <h3>Grillo</h3>
+            <p>Silueta icónica para representar el universo de autor.</p>
+          </div>
+        </article>
+
+        <article class="gallery-card small" data-category="autor detalle" data-title="Grillo" data-meta="Diseño de Autor · Detalle de ensamble" data-desc="Detalle de ensamble de Grillo: comunica autoría, oficio y materialidad." data-link="diseno_autor_abraham_premium.html#producto-grillo">
+          <img src="assets/images/autor/grillo/grillo-02-detalle-ensamble.jpeg" alt="Detalle de ensamble Grillo">
+          <div class="card-info">
+            <div class="card-meta"><span>Detalle</span><span>Grillo</span></div>
+            <h3>Oficio</h3>
+            <p>La firma de la pieza aparece en cómo se une la materia.</p>
+          </div>
+        </article>
+
+        <article class="gallery-card wide contain" data-category="living contexto" data-title="Cordón" data-meta="Living Contract · Cubierta" data-desc="La mejor imagen para Cordón: lectura horizontal, cubierta protagonista y detalle gráfico reconocible." data-link="living_contract_abraham1.html#producto-cordon">
+          <img src="assets/images/living/cordon/cordon-04-cubierta.jpg" alt="Cordón vista de cubierta">
+          <div class="card-info">
+            <div class="card-meta"><span>Living Contract</span><span>Cordón</span></div>
+            <h3>Cordón</h3>
+            <p>Una pieza horizontal donde la cubierta funciona como identidad visual.</p>
+          </div>
+        </article>
+
+        <article class="gallery-card tall" data-category="living detalle" data-title="Cordón" data-meta="Living Contract · Detalle de pata" data-desc="Detalle vertical de soporte, unión y lectura estructural. Aporta ritmo al grid." data-link="living_contract_abraham1.html#producto-cordon">
+          <img src="assets/images/living/cordon/cordon-06-detalle-pata.jpg" alt="Detalle de pata Cordón">
+          <div class="card-info">
+            <div class="card-meta"><span>Detalle</span><span>Cordón</span></div>
+            <h3>Soporte</h3>
+            <p>La estructura se vuelve parte del lenguaje de la pieza.</p>
+          </div>
+        </article>
+
+        <article class="gallery-card medium contain" data-category="autor contexto" data-title="Half" data-meta="Diseño de Autor · Vista frontal" data-desc="Half en vista frontal: forma limpia, geometría contenida y buena lectura comercial." data-link="diseno_autor_abraham_premium.html#producto-half">
+          <img src="assets/images/autor/HALF/half-01-frontal.jpg" alt="Half vista frontal">
+          <div class="card-info">
+            <div class="card-meta"><span>Diseño de Autor</span><span>Half</span></div>
+            <h3>Half</h3>
+            <p>Geometría contenida, objeto funcional y presencia autoral.</p>
+          </div>
+        </article>
+
+        <article class="gallery-card large" data-category="autor detalle" data-title="Half" data-meta="Diseño de Autor · Vista superior" data-desc="Imagen superior de Half: la más gráfica para mostrar composición, sombra y proporción." data-link="diseno_autor_abraham_premium.html#producto-half">
+          <img src="assets/images/autor/HALF/half-04-superior.jpg" alt="Half vista superior">
+          <div class="card-info">
+            <div class="card-meta"><span>Detalle</span><span>Half</span></div>
+            <h3>Geometría</h3>
+            <p>Una pieza que construye identidad desde proporción, sombra y estructura.</p>
+          </div>
+        </article>
+
+        <article class="gallery-card small" data-category="living detalle" data-title="Mikado" data-meta="Living Contract · Detalle respaldo" data-desc="Detalle de respaldo y ritmo vertical. Complementa la vista completa de Mikado con textura y repetición." data-link="living_contract_abraham1.html#producto-mikado">
+          <img src="assets/images/living/mikado/mikado-07-detalle-respaldo.jpg" alt="Detalle respaldo Mikado">
+          <div class="card-info">
+            <div class="card-meta"><span>Detalle</span><span>Mikado</span></div>
+            <h3>Ritmo</h3>
+            <p>Repetición, textura y lectura artesanal.</p>
+          </div>
+        </article>
+
+        <article class="gallery-card small" data-category="living contexto" data-title="Cordón" data-meta="Living Contract · Proceso taller" data-desc="Imagen de taller y proceso productivo de Cordón. Da confianza y muestra manufactura real." data-link="living_contract_abraham1.html#producto-cordon">
+          <img src="assets/images/living/cordon/cordon-08-taller.jpg" alt="Cordón proceso taller">
+          <div class="card-info">
+            <div class="card-meta"><span>Proceso</span><span>Cordón</span></div>
+            <h3>Taller</h3>
+            <p>El proceso también comunica valor.</p>
+          </div>
+        </article>
+
+        <article class="gallery-card wide contain" data-category="autor contexto" data-title="Ciudad" data-meta="Diseño de Autor · Vista frontal" data-desc="Ciudad en vista frontal: pieza híbrida con lectura escultórica y presencia editorial." data-link="diseno_autor_abraham_premium.html#producto-ciudad">
+          <img src="assets/images/autor/ciudad/ciudad-01-frontal.jpg" alt="Ciudad vista frontal">
+          <div class="card-info">
+            <div class="card-meta"><span>Diseño de Autor</span><span>Ciudad</span></div>
+            <h3>Ciudad</h3>
+            <p>Objeto funcional con fuerza escultórica y lectura de colección.</p>
+          </div>
+        </article>
+
+        <article class="gallery-card small" data-category="autor contexto" data-title="Ciudad" data-meta="Diseño de Autor · Escala humana" data-desc="Ciudad con escala humana: ayuda a entender tamaño, presencia y uso." data-link="diseno_autor_abraham_premium.html#producto-ciudad">
+          <img src="assets/images/autor/ciudad/ciudad-03-contexto-persona.jpg" alt="Ciudad con persona para mostrar escala">
+          <div class="card-info">
+            <div class="card-meta"><span>Contexto</span><span>Ciudad</span></div>
+            <h3>Escala</h3>
+            <p>La presencia de la pieza se entiende mejor cuando aparece en contexto.</p>
+          </div>
+        </article>
+
+        <article class="gallery-card small" data-category="autor detalle" data-title="Ciudad" data-meta="Diseño de Autor · Detalle material" data-desc="Detalle material de Ciudad: refuerza acabados, textura y valor de manufactura." data-link="diseno_autor_abraham_premium.html#producto-ciudad">
+          <img src="assets/images/autor/ciudad/ciudad-07-detalle-material.jpg" alt="Detalle material de Ciudad">
+          <div class="card-info">
+            <div class="card-meta"><span>Detalle</span><span>Ciudad</span></div>
+            <h3>Material</h3>
+            <p>Textura, acabado y detalle como parte de la narrativa de autor.</p>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="gallery-cta">
+        <div>
+          <h2>Explora las piezas completas.</h2>
+          <p>
+            La galería funciona como una primera lectura visual. Para revisar cada pieza,
+            sus vistas, detalles y ficha técnica, entra a su universo correspondiente.
+          </p>
+        </div>
+
+        <a href="living_contract_abraham1.html">Ver productos</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Abraham Peyret</span>
+    <span>Galería editorial · Living Contract · Diseño de Autor</span>
+  </footer>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox-inner">
+      <div class="lightbox-image">
+        <img id="lightboxImg" src="" alt="">
+      </div>
+
+      <div class="lightbox-copy">
+        <div>
+          <small id="lightboxMeta">Universo</small>
+          <h3 id="lightboxTitle">Producto</h3>
+          <p id="lightboxDesc">Descripción.</p>
+        </div>
+
+        <div class="lightbox-actions">
+          <a id="lightboxLink" href="#">Ver producto</a>
+          <button class="lightbox-close" type="button">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.gallery-card');
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const filter = button.dataset.filter;
+
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        cards.forEach(card => {
+          const categories = card.dataset.category;
+          const shouldShow = filter === 'all' || categories.includes(filter);
+          card.classList.toggle('is-hidden', !shouldShow);
+        });
+      });
+    });
+
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxMeta = document.getElementById('lightboxMeta');
+    const lightboxTitle = document.getElementById('lightboxTitle');
+    const lightboxDesc = document.getElementById('lightboxDesc');
+    const lightboxLink = document.getElementById('lightboxLink');
+    const closeButton = document.querySelector('.lightbox-close');
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const img = card.querySelector('img');
+
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        lightboxMeta.textContent = card.dataset.meta;
+        lightboxTitle.textContent = card.dataset.title;
+        lightboxDesc.textContent = card.dataset.desc;
+        lightboxLink.href = card.dataset.link;
+
+        lightbox.classList.add('active');
+        lightbox.setAttribute('aria-hidden','false');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closeLightbox(){
+      lightbox.classList.remove('active');
+      lightbox.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+    }
+
+    closeButton.addEventListener('click', closeLightbox);
+
+    lightbox.addEventListener('click', event => {
+      if(event.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', event => {
+      if(event.key === 'Escape') closeLightbox();
+    });
+  </script>
+</body>
+</html>

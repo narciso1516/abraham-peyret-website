@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Abraham Peyret | Living Contract & Diseño de autor</title>
+  <title>Abraham Peyret | Living Contract · Diseño de autor · Galería</title>
   <style>
     :root{--white:#fff;--living-bg:#f7f4ee;--author-bg:#f3f3f3;--ink:#111314;--brown:#8a735f;--sand:#c8b9a7;--bone:#f7f4ee;--line:rgba(17,19,20,.16);--soft-line:rgba(17,19,20,.08);--muted:rgba(17,19,20,.66);--dark-muted:rgba(247,244,238,.68);--sans:"Akzidenz Grotesk","Helvetica Neue",Helvetica,Arial,sans-serif}*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{background:var(--white);color:var(--ink);font-family:var(--sans);overflow-x:hidden}body.loading{overflow:hidden}a{color:inherit;text-decoration:none}::selection{background:var(--ink);color:var(--bone)}
 
@@ -945,6 +945,150 @@
       100%{opacity:1;filter:blur(0) saturate(1) contrast(1.02);transform:translate(-50%,-47%) scale(1)}
     }
 
+
+    /* =========================================================
+       UX / NUEVA SECCIÓN: Entrada editorial a Galería
+       Comentario para Narciso:
+       Esta sección NO intenta mostrar todo el catálogo en el Home.
+       Su función UX es abrir curiosidad y llevar al usuario a una
+       página nueva: galeria_abraham.html.
+       ========================================================= */
+    .gallery-entry-section{
+      padding:120px 46px;
+      background:#fff;
+      border-top:1px solid rgba(17,19,20,.10);
+      border-bottom:1px solid rgba(17,19,20,.10);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .gallery-entry-section::before{
+      content:"GALERÍA";
+      position:absolute;
+      left:40px;
+      bottom:-28px;
+      font-size:clamp(110px,16vw,280px);
+      line-height:.75;
+      letter-spacing:-.09em;
+      font-weight:250;
+      color:rgba(17,19,20,.032);
+      pointer-events:none;
+      user-select:none;
+    }
+
+    .gallery-entry-inner{
+      max-width:1480px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:.9fr 1.1fr;
+      gap:64px;
+      align-items:center;
+      position:relative;
+      z-index:2;
+    }
+
+    .gallery-entry-kicker{
+      font-size:10px;
+      letter-spacing:.42em;
+      text-transform:uppercase;
+      color:var(--brown);
+      margin-bottom:24px;
+      font-weight:600;
+    }
+
+    .gallery-entry-copy h2{
+      font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size:clamp(44px,6vw,92px);
+      line-height:.96;
+      font-weight:360;
+      letter-spacing:-.055em;
+      color:var(--ink);
+      margin-bottom:28px;
+    }
+
+    .gallery-entry-copy p{
+      max-width:620px;
+      font-size:18px;
+      line-height:1.75;
+      color:rgba(17,19,20,.66);
+      margin-bottom:38px;
+      font-weight:330;
+      letter-spacing:-.018em;
+    }
+
+    .gallery-entry-button{
+      display:inline-flex;
+      align-items:center;
+      gap:24px;
+      min-height:62px;
+      padding:0 32px;
+      background:var(--ink);
+      color:var(--bone);
+      border:1px solid var(--ink);
+      font-size:11px;
+      letter-spacing:.28em;
+      text-transform:uppercase;
+      font-weight:650;
+      transition:.35s ease;
+    }
+
+    .gallery-entry-button:hover{
+      background:transparent;
+      color:var(--ink);
+      transform:translateY(-3px);
+    }
+
+    .gallery-entry-button span{
+      font-size:22px;
+      letter-spacing:0;
+      transform:translateY(-1px);
+    }
+
+    .gallery-entry-visuals{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+    }
+
+    .gallery-entry-visuals img{
+      width:100%;
+      height:280px;
+      object-fit:cover;
+      background:var(--living-bg);
+      border:1px solid rgba(17,19,20,.08);
+      filter:saturate(.92) contrast(1.02);
+      transition:.45s ease;
+    }
+
+    .gallery-entry-visuals img:nth-child(2),
+    .gallery-entry-visuals img:nth-child(3){
+      transform:translateY(36px);
+    }
+
+    .gallery-entry-visuals img:hover{
+      transform:translateY(-4px) scale(.985);
+      filter:saturate(1) contrast(1.06);
+    }
+
+    .gallery-entry-visuals img:nth-child(2):hover,
+    .gallery-entry-visuals img:nth-child(3):hover{
+      transform:translateY(28px) scale(.985);
+    }
+
+    @media(max-width:900px){
+      .gallery-entry-inner{grid-template-columns:1fr;}
+      .gallery-entry-visuals img{height:220px;}
+    }
+
+    @media(max-width:620px){
+      .gallery-entry-section{padding:82px 24px;}
+      .gallery-entry-visuals{grid-template-columns:1fr;}
+      .gallery-entry-visuals img:nth-child(2),
+      .gallery-entry-visuals img:nth-child(3){transform:none;}
+      .gallery-entry-visuals img:nth-child(2):hover,
+      .gallery-entry-visuals img:nth-child(3):hover{transform:translateY(-4px) scale(.985);}
+    }
+
   </style>
 </head>
 
@@ -961,7 +1105,18 @@
   </section>
 
   <div class="cursor-aura" id="cursorAura"></div><div class="cursor-dot" id="cursorDot"></div>
-  <header class="header"><a href="#" class="brand" aria-label="Inicio Abraham Peyret"><div class="brand-text"><strong>Abraham Peyret</strong></div></a><nav class="nav"><a href="living_contract_abraham.html">Living Contract</a><a href="diseno_autor_abraham.html">Diseño de autor</a><a href="#galeria">Galería</a><a href="#contacto" class="nav-button">Contacto</a></nav></header>
+  <header class="header">
+    <a href="index.html" class="brand" aria-label="Inicio Abraham Peyret">
+      <div class="brand-text"><strong>Abraham Peyret</strong></div>
+    </a>
+    <nav class="nav">
+      <a href="living_contract_abraham1.html">Living Contract</a>
+      <a href="diseno_autor_abraham_premium.html">Diseño de autor</a>
+      <!-- UX: Galería ahora será una página nueva, no un ancla interna. -->
+      <a href="galeria_abraham.html">Galería</a>
+      <a href="#contacto" class="nav-button">Contacto</a>
+    </nav>
+  </header>
 
   <div class="page-shell"><main>
     <section class="hero">
@@ -1002,7 +1157,7 @@
               <span class="split-feature">Acabados fáciles de mantener</span>
               <span class="split-feature">Producción por proyecto</span>
             </div>
-            <a href="living_contract_abraham.html" class="split-btn split-btn-dark" aria-label="Ver Living Contract">Ver Living Contract <span>›</span></a>
+            <a href="living_contract_abraham1.html" class="split-btn split-btn-dark" aria-label="Ver Living Contract">Ver Living Contract <span>›</span></a>
           </div>
         </article>
 
@@ -1025,14 +1180,53 @@
               <span class="split-feature">Exploración material</span>
               <span class="split-feature">Narrativa de cada pieza</span>
             </div>
-            <a href="diseno_autor_abraham.html" class="split-btn split-btn-light" aria-label="Ver Diseño de autor">Ver Diseño de autor <span>›</span></a>
+            <a href="diseno_autor_abraham_premium.html" class="split-btn split-btn-light" aria-label="Ver Diseño de autor">Ver Diseño de autor <span>›</span></a>
           </div>
         </article>
       </div>
       <div class="hero-footer"><span>HECHO EN MÉXICO</span><span>www.abrahampeyret.art</span><span>CIUDAD · EDICIÓN LIMITADA</span></div>
     </section>
     <section class="marquee" aria-label="Conceptos de marca"><div class="marquee-track"><span>Living Contract</span><span>Residential-grade contract furniture</span><span>Diseño de autor</span><span>Hecho en México</span><span>Ciudad</span><span>Edición Limitada</span><span>Materialidad</span><span>Living Contract</span><span>Residential-grade contract furniture</span><span>Diseño de autor</span><span>Hecho en México</span><span>Ciudad</span><span>Edición Limitada</span><span>Materialidad</span></div></section>
-    <section class="cta" id="contacto"><div class="cta-content reveal"><p class="eyebrow">Contacto estratégico</p><h2>¿Buscas un proyecto funcional o una pieza con firma?</h2><p>La página convierte desde la intención del visitante: solicitar mobiliario Living Contract o consultar piezas de Diseño de autor en edición limitada.</p><div class="cta-actions"><a href="living_contract_abraham.html" class="btn dark">Solicitar Living Contract</a><a href="diseno_autor_abraham.html" class="btn">Consultar Diseño de autor</a></div></div></section>
+
+    <!-- =========================================================
+         UX / NUEVA ENTRADA A GALERÍA
+         Comentario:
+         Esta sección funciona como puente entre el Home y la futura
+         página galeria_abraham.html. Mantiene el Home limpio, pero
+         anticipa materialidad, forma, detalle y universo visual.
+         ========================================================= -->
+    <section class="gallery-entry-section" id="galeria">
+      <div class="gallery-entry-inner">
+        <div class="gallery-entry-copy reveal">
+          <p class="gallery-entry-kicker">Galería editorial</p>
+          <h2>Materialidad, forma y detalle.</h2>
+          <p>
+            Una selección visual de piezas, procesos y acercamientos para entender
+            la identidad de Abraham Peyret desde el objeto, el ensamble y la materia.
+          </p>
+          <a class="gallery-entry-button" href="galeria_abraham.html">
+            Ver galería
+            <span>→</span>
+          </a>
+        </div>
+
+        <div class="gallery-entry-visuals reveal" aria-label="Vista previa de galería Abraham Peyret">
+          <!-- UX: Mikado abre con detalle cálido y materialidad Living Contract. -->
+          <img src="assets/images/living/mikado/mikado-05-detalle-brazo.jpg" alt="Detalle de silla Mikado">
+
+          <!-- UX: Cordón muestra proporción horizontal y lenguaje constructivo. -->
+          <img src="assets/images/living/cordon/cordon-04-cubierta.jpg" alt="Detalle de banco Cordón">
+
+          <!-- UX: Grillo representa mejor el lenguaje escultórico de Diseño de Autor. -->
+          <img src="assets/images/autor/grillo/grillo-03-lateral.jpeg" alt="Silla Grillo vista lateral">
+
+          <!-- UX: Half agrega contraste formal y refuerza que Autor tiene más de una pieza. -->
+          <img src="assets/images/autor/HALF/half-01-frontal.jpg" alt="Half vista frontal">
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="contacto"><div class="cta-content reveal"><p class="eyebrow">Contacto estratégico</p><h2>¿Buscas un proyecto funcional o una pieza con firma?</h2><p>La página convierte desde la intención del visitante: solicitar mobiliario Living Contract o consultar piezas de Diseño de autor en edición limitada.</p><div class="cta-actions"><a href="living_contract_abraham1.html" class="btn dark">Solicitar Living Contract</a><a href="diseno_autor_abraham_premium.html" class="btn">Consultar Diseño de autor</a></div></div></section>
   </main><footer class="footer"><span>© Abraham Peyret</span><span>HECHO EN MÉXICO</span><span>www.abrahampeyret.art</span></footer></div>
 
   <script>

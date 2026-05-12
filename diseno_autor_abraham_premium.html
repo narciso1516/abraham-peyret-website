@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diseño de Autor | Abraham Peyret</title>
+
+  <style>
+    :root{
+      --bg:#111111;
+      --bg-deep:#090909;
+      --panel:#161615;
+      --panel-soft:#1d1c1a;
+      --paper:#f7f4ee;
+      --ink:#f7f4ee;
+      --ink-strong:#fffdf8;
+      --muted:rgba(247,244,238,.66);
+      --muted-2:rgba(247,244,238,.48);
+      --line:rgba(247,244,238,.14);
+      --line-strong:rgba(247,244,238,.26);
+      --gold:#c8b9a7;
+      --gold-soft:rgba(200,185,167,.28);
+      --brown:#8a735f;
+      --black:#0b0c0c;
+      --shadow:0 44px 120px rgba(0,0,0,.48);
+      --sans:"Helvetica Neue", Helvetica, Arial, sans-serif;
+      --ease:cubic-bezier(.22,.61,.36,1);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;background:var(--bg)}
+    body{
+      font-family:var(--sans);
+      background:
+        radial-gradient(circle at 82% 12%,rgba(200,185,167,.08),transparent 34%),
+        linear-gradient(180deg,#151515 0%,#0f0f0f 44%,#111 100%);
+      color:var(--ink);
+      overflow-x:hidden;
+      text-rendering:geometricPrecision;
+      -webkit-font-smoothing:antialiased;
+    }
+    a{text-decoration:none;color:inherit}
+    button{font-family:inherit;color:inherit}
+    img{max-width:100%;display:block}
+    ::selection{background:var(--ink);color:var(--bg)}
+
+    .topbar{
+      position:sticky;top:0;z-index:90;min-height:74px;padding:0 46px;
+      display:grid;grid-template-columns:1fr auto;align-items:center;gap:42px;
+      background:rgba(13,13,13,.72);backdrop-filter:blur(22px);
+      border-bottom:1px solid rgba(247,244,238,.09);
+    }
+    .brand{font-size:13px;font-weight:720;letter-spacing:.46em;text-transform:uppercase;white-space:nowrap;color:var(--ink)}
+    .nav{display:flex;align-items:center;gap:40px;font-size:10px;letter-spacing:.40em;text-transform:uppercase;color:rgba(247,244,238,.70)}
+    .nav a{position:relative;padding-bottom:7px;white-space:nowrap;transition:color .35s ease}
+    .nav a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--gold);transition:width .35s ease}
+    .nav a:hover{color:var(--ink-strong)}
+    .nav a:hover::after{width:calc(100% - .40em)}
+    .quote-btn{border:1px solid rgba(247,244,238,.48);padding:13px 22px;letter-spacing:.34em!important;transition:.35s ease}
+    .quote-btn:hover{background:var(--ink);color:var(--bg);transform:translateY(-2px)}
+
+    .author-hero{
+      min-height:calc(100vh - 74px);position:relative;padding:96px 56px 34px;
+      display:grid;grid-template-columns:.82fr 1.18fr;gap:80px;align-items:end;
+      overflow:hidden;border-bottom:1px solid var(--line);isolation:isolate;
+    }
+    .author-hero::before{
+      content:"DISEÑO DE AUTOR";position:absolute;left:46px;bottom:-28px;z-index:-1;
+      font-size:clamp(88px,13vw,250px);line-height:.75;font-weight:220;letter-spacing:-.08em;
+      color:rgba(247,244,238,.032);pointer-events:none;
+    }
+    .author-hero::after{
+      content:"";position:absolute;inset:0;z-index:-2;
+      background:
+        radial-gradient(circle at 68% 42%,rgba(200,185,167,.12),transparent 34%),
+        radial-gradient(circle at 18% 72%,rgba(255,255,255,.04),transparent 30%),
+        linear-gradient(180deg,#151515 0%,#111 100%);
+      pointer-events:none;
+    }
+    .hero-copy{max-width:820px;transform:translateY(18px)}
+    .kicker{font-size:11px;letter-spacing:.52em;text-transform:uppercase;color:var(--gold);font-weight:650;margin-bottom:32px;line-height:1.4}
+    .hero-title{font-size:clamp(58px,8vw,142px);line-height:.92;font-weight:300;letter-spacing:-.065em;color:var(--ink-strong);margin-bottom:34px}
+    .hero-title span{display:block;color:rgba(247,244,238,.86)}
+    .hero-lead{max-width:720px;font-size:clamp(18px,1.32vw,23px);line-height:1.74;color:var(--muted);font-weight:330;letter-spacing:-.025em}
+    .hero-visual{position:relative;min-height:580px;display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:end}
+    .hero-frame{position:relative;overflow:hidden;background:#fff;border:1px solid rgba(247,244,238,.14);box-shadow:0 38px 100px rgba(0,0,0,.34)}
+    .hero-frame img{width:100%;height:100%;object-fit:cover;filter:saturate(.92) contrast(1.03);transform:scale(1.03);animation:softFloat 8s ease-in-out infinite alternate}
+    .hero-frame.primary{height:560px}
+    .hero-frame.secondary{height:420px;transform:translateY(-86px);opacity:.86}
+    .hero-note{position:absolute;right:0;bottom:0;padding:16px 20px;border:1px solid rgba(247,244,238,.18);background:rgba(15,15,15,.72);backdrop-filter:blur(14px);color:rgba(247,244,238,.68);font-size:10px;letter-spacing:.30em;text-transform:uppercase}
+    @keyframes softFloat{from{transform:scale(1.03) translateY(0)}to{transform:scale(1.06) translateY(-10px)}}
+
+    .collection-intro{
+      padding:82px 56px;display:grid;grid-template-columns:.9fr 1.1fr;gap:72px;align-items:end;
+      background:#121212;border-bottom:1px solid var(--line);position:relative;overflow:hidden;
+    }
+    .collection-intro::before{content:"COLLECTIBLE OBJECTS";position:absolute;right:40px;top:18px;font-size:clamp(56px,8vw,150px);line-height:.8;font-weight:230;letter-spacing:-.07em;color:rgba(247,244,238,.028);pointer-events:none}
+    .intro-title{font-size:clamp(36px,4vw,72px);line-height:1;font-weight:300;letter-spacing:-.045em;color:var(--ink-strong)}
+    .intro-copy{max-width:780px;font-size:18px;line-height:1.8;color:var(--muted);font-weight:330;letter-spacing:-.018em}
+    .product-tabs{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+    .product-tab{min-height:50px;display:inline-flex;align-items:center;justify-content:center;padding:0 24px;border:1px solid rgba(247,244,238,.16);background:rgba(247,244,238,.035);font-size:10px;line-height:1;letter-spacing:.34em;text-transform:uppercase;color:rgba(247,244,238,.82);transition:.35s ease;white-space:nowrap}
+    .product-tab:hover,.product-tab.active{background:var(--ink);color:var(--bg);border-color:var(--ink);transform:translateY(-2px)}
+
+    .product-chapter{
+      position:relative;min-height:calc(100vh - 74px);padding:92px 48px 72px;
+      display:grid;grid-template-columns:.76fr 1.24fr;gap:58px;align-items:center;
+      overflow:hidden;border-bottom:1px solid var(--line);
+      background:
+        radial-gradient(circle at 80% 46%,rgba(200,185,167,.08),transparent 34%),
+        linear-gradient(90deg,#141414 0%,#171716 48%,#0f1010 100%);
+      isolation:isolate;
+    }
+    .product-chapter::before{content:attr(data-watermark);position:absolute;left:34px;bottom:-30px;z-index:-1;font-size:clamp(130px,18vw,300px);letter-spacing:-.08em;font-weight:220;color:rgba(247,244,238,.032);pointer-events:none;line-height:.75}
+    .product-chapter:nth-of-type(even){background:radial-gradient(circle at 76% 42%,rgba(255,255,255,.045),transparent 34%),linear-gradient(90deg,#111 0%,#151514 48%,#0c0d0d 100%)}
+    .product-copy{position:relative;z-index:2;max-width:680px}
+    .product-eyebrow{font-size:11px;letter-spacing:.50em;text-transform:uppercase;color:var(--gold);font-weight:650;margin-bottom:30px;line-height:1.5}
+    .product-title{font-size:clamp(72px,7vw,132px);line-height:.94;font-weight:360;letter-spacing:.095em;text-transform:uppercase;color:var(--ink-strong);margin-bottom:34px;transform:translateX(-.04em)}
+    .product-lead{font-size:clamp(18px,1.32vw,24px);line-height:1.68;color:rgba(247,244,238,.74);font-weight:330;letter-spacing:-.028em;max-width:650px;margin-bottom:34px}
+    .editorial-points{display:grid;grid-template-columns:1fr 1fr;gap:14px 28px;padding-top:24px;border-top:1px solid var(--line);margin-bottom:34px}
+    .editorial-points span{position:relative;padding:0 0 14px 24px;border-bottom:1px solid rgba(247,244,238,.13);font-size:14px;line-height:1.45;color:rgba(247,244,238,.66);letter-spacing:-.012em}
+    .editorial-points span::before{content:"";position:absolute;left:0;top:.72em;width:9px;height:1px;background:var(--gold)}
+    .actions{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:56px;padding:0 28px;border:1px solid rgba(247,244,238,.58);font-size:10px;letter-spacing:.30em;text-transform:uppercase;font-weight:650;transition:.35s ease;background:transparent;cursor:pointer;white-space:nowrap;color:var(--ink)}
+    .btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+    .btn.primary:hover{background:transparent;color:var(--ink);transform:translateY(-2px)}
+    .btn.secondary:hover{background:var(--ink);color:var(--bg);transform:translateY(-2px)}
+
+    .hero-media{position:relative;z-index:2;min-width:0}
+    .carousel-shell{position:relative;width:100%;transform:translateY(0);transition:transform .8s var(--ease)}
+    .product-chapter.in-view .carousel-shell{transform:translateY(-8px)}
+    .image-stage{position:relative;height:min(66vh,690px);min-height:500px;background:#fff;border:1px solid rgba(247,244,238,.10);box-shadow:var(--shadow);overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:zoom-in;isolation:isolate}
+    .image-stage::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 56%,rgba(200,185,167,.12),transparent 56%);z-index:0;pointer-events:none}
+    .image-stage img{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;display:block;padding:28px;background:transparent;transition:transform .65s var(--ease),opacity .28s ease,filter .45s ease;transform-origin:center center;user-select:none;pointer-events:none;filter:saturate(.95) contrast(1.02)}
+    .image-stage:hover img{transform:scale(1.15);filter:saturate(1) contrast(1.04)}
+    .image-stage.editorial-detail:hover img,.image-stage.context-view:hover img{transform:scale(1.06)}
+    .counter-badge,.view-badge,.zoom-hint{position:absolute;z-index:4;background:rgba(255,255,255,.80);backdrop-filter:blur(12px);border:1px solid rgba(17,19,20,.09);padding:12px 14px;font-size:9px;letter-spacing:.30em;text-transform:uppercase;color:rgba(17,19,20,.64);pointer-events:none}
+    .counter-badge{left:26px;top:24px;min-width:82px;text-align:center}
+    .view-badge{left:26px;top:78px}
+    .zoom-hint{right:26px;top:24px}
+    .media-caption{position:absolute;left:30px;right:30px;bottom:26px;display:flex;justify-content:space-between;gap:24px;color:rgba(17,19,20,.62);font-size:10px;letter-spacing:.30em;text-transform:uppercase;z-index:3;pointer-events:none}
+    .carousel-controls{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:18px;padding:16px 18px;border:1px solid rgba(247,244,238,.10);border-top:0;background:rgba(18,18,18,.92);backdrop-filter:blur(14px)}
+    .arrows{display:flex;gap:10px}
+    .arrow{width:46px;height:46px;border:1px solid rgba(247,244,238,.18);background:#101111;cursor:pointer;font-size:23px;line-height:1;transition:.32s ease;color:var(--ink)}
+    .arrow:hover{background:var(--ink);color:var(--bg);transform:translateY(-2px)}
+    .thumbs{display:grid;grid-template-columns:repeat(7,minmax(64px,1fr));gap:10px;overflow:hidden}
+    .thumb{height:58px;border:1px solid rgba(247,244,238,.11);background:#fff;padding:0;cursor:pointer;opacity:.42;transition:.32s ease;position:relative;overflow:hidden}
+    .thumb img{width:100%;height:100%;object-fit:contain;pointer-events:none;filter:saturate(.90)}
+    .thumb span{position:absolute;left:6px;bottom:5px;background:rgba(255,255,255,.86);padding:3px 5px;font-size:8px;letter-spacing:.08em;color:rgba(17,19,20,.62)}
+    .thumb.active,.thumb:hover{opacity:1;border-color:var(--gold);transform:translateY(-2px)}
+
+    .chapter-divider{min-height:230px;padding:58px 56px;display:grid;grid-template-columns:1fr auto;gap:36px;align-items:center;background:#0d0d0d;border-bottom:1px solid var(--line);color:rgba(247,244,238,.58)}
+    .divider-kicker{font-size:10px;letter-spacing:.44em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+    .divider-text{max-width:760px;font-size:clamp(24px,3vw,48px);line-height:1.1;font-weight:300;letter-spacing:-.035em;color:rgba(247,244,238,.82)}
+    .divider-number{font-size:clamp(82px,10vw,170px);line-height:.8;font-weight:220;color:rgba(247,244,238,.08);letter-spacing:-.08em}
+
+    .modal-overlay{position:fixed;inset:0;z-index:220;display:none;justify-content:flex-end;background:rgba(0,0,0,.62);backdrop-filter:blur(14px)}
+    .modal-overlay.active{display:flex}
+    .drawer{width:min(720px,100%);height:100%;background:#f7f4ee;color:#111314;box-shadow:-38px 0 110px rgba(0,0,0,.42);padding:46px;overflow:auto;transform:translateX(100%);animation:drawerIn .55s var(--ease) forwards;position:relative}
+    @keyframes drawerIn{to{transform:translateX(0)}}
+    .modal-close{position:absolute;top:24px;right:24px;width:44px;height:44px;border:1px solid rgba(17,19,20,.16);background:#fffdf8;color:#111314;cursor:pointer;font-size:24px;line-height:1;transition:.3s ease}
+    .modal-close:hover{background:#111314;color:#f7f4ee}
+    .modal-kicker{font-size:10px;letter-spacing:.42em;text-transform:uppercase;color:#8a735f;font-weight:650;margin-bottom:24px;padding-right:64px}
+    .modal-title{font-size:clamp(46px,5.2vw,82px);line-height:.95;font-weight:320;letter-spacing:-.04em;text-transform:uppercase;margin-bottom:20px;color:#111314}
+    .modal-desc{max-width:580px;font-size:17px;line-height:1.72;color:rgba(17,19,20,.66);margin-bottom:36px}
+    .tech-table{border-top:1px solid rgba(17,19,20,.16)}
+    .tech-row{display:grid;grid-template-columns:170px 1fr;gap:24px;padding:20px 0;border-bottom:1px solid rgba(17,19,20,.16)}
+    .tech-row small{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:#8a735f;font-weight:650}
+    .tech-row span{font-size:17px;line-height:1.55;color:rgba(17,19,20,.74)}
+    .drawer-note{margin-top:34px;padding-top:22px;border-top:1px solid rgba(17,19,20,.12);font-size:13px;line-height:1.7;color:rgba(17,19,20,.56)}
+
+    .cta{position:relative;padding:120px 56px;text-align:center;background:radial-gradient(circle at 50% 20%,rgba(200,185,167,.10),transparent 34%),#0a0b0b;color:var(--ink);overflow:hidden}
+    .cta::before{content:"ABRAHAM PEYRET";position:absolute;left:50%;bottom:-22px;transform:translateX(-50%);font-size:clamp(80px,12vw,220px);line-height:.8;font-weight:220;letter-spacing:-.08em;color:rgba(247,244,238,.035);pointer-events:none}
+    .cta h2{font-size:clamp(42px,5.5vw,92px);font-weight:310;letter-spacing:-.06em;line-height:.96;margin-bottom:26px;text-transform:uppercase;position:relative;z-index:2}
+    .cta p{max-width:760px;margin:0 auto 40px;color:rgba(247,244,238,.68);font-size:18px;line-height:1.75;position:relative;z-index:2}
+    .cta .actions{justify-content:center;position:relative;z-index:2}
+    footer{padding:28px 56px;display:flex;justify-content:space-between;gap:20px;background:#070808;color:rgba(247,244,238,.62);font-size:10px;letter-spacing:.24em;text-transform:uppercase;flex-wrap:wrap}
+
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .85s ease, transform .85s var(--ease)}
+    .in-view .reveal,.reveal.in-view{opacity:1;transform:translateY(0)}
+    .delay-1{transition-delay:.08s}.delay-2{transition-delay:.16s}.delay-3{transition-delay:.24s}
+
+    @media(max-width:1180px){
+      .author-hero{grid-template-columns:1fr;padding:84px 32px 42px}.hero-visual{min-height:auto;max-width:940px}.collection-intro{grid-template-columns:1fr;padding:70px 32px}.product-chapter{grid-template-columns:1fr;min-height:auto;padding:72px 32px;gap:44px}.image-stage{height:600px;min-height:460px}.chapter-divider{padding:52px 32px}.product-title{font-size:clamp(66px,12vw,122px)}
+    }
+    @media(max-width:720px){
+      .topbar{min-height:76px;align-items:flex-start;display:flex;flex-direction:column;justify-content:center;gap:14px;padding:16px 24px}.brand{font-size:12px;letter-spacing:.26em}.nav{width:100%;overflow-x:auto;padding-bottom:8px;gap:28px}.quote-btn{display:none}.author-hero{min-height:auto;padding:66px 24px 36px;gap:42px}.hero-title{font-size:clamp(48px,15vw,76px)}.hero-lead{font-size:18px}.hero-visual{grid-template-columns:1fr}.hero-frame.primary,.hero-frame.secondary{height:330px;transform:none}.hero-note{position:relative;right:auto;bottom:auto;width:100%;text-align:center}.collection-intro{padding:58px 24px}.product-tabs{display:grid;grid-template-columns:1fr}.product-tab{width:100%}.product-chapter{padding:56px 24px 64px}.product-eyebrow{font-size:10px;letter-spacing:.34em}.product-title{font-size:clamp(54px,17vw,88px);letter-spacing:.08em;line-height:1.08}.product-lead{font-size:19px}.editorial-points{grid-template-columns:1fr;gap:12px}.actions{width:100%;flex-direction:column}.btn{width:100%}.image-stage{height:430px;min-height:360px}.image-stage img{padding:18px}.image-stage:hover img{transform:scale(1.08)}.zoom-hint{display:none}.media-caption{left:18px;right:18px;bottom:18px;font-size:9px;letter-spacing:.20em}.carousel-controls{grid-template-columns:1fr}.arrows{justify-content:space-between}.arrow{width:49%}.thumbs{grid-template-columns:repeat(4,1fr);overflow:visible}.thumb{height:54px}.chapter-divider{grid-template-columns:1fr;padding:46px 24px}.divider-number{display:none}.drawer{padding:38px 24px}.tech-row{grid-template-columns:1fr;gap:8px}.cta{padding:88px 24px}footer{padding:26px 24px;line-height:1.8}
+    }
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html">Abraham Peyret</a>
+    <nav class="nav" aria-label="Navegación principal">
+      <a href="index.html">Inicio</a>
+      <a href="living_contract_abraham1.html">Living Contract</a>
+      <a href="diseno_autor_abraham_premium.html">Diseño de autor</a>
+      <a href="galeria_abraham.html">Galería</a>
+      <a class="quote-btn" href="mailto:contacto@abrahampeyret.art?subject=Consulta%20Diseño%20de%20Autor">Consultar</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="author-hero observe-section" aria-label="Presentación Diseño de Autor">
+      <div class="hero-copy">
+        <p class="kicker reveal">Diseño de Autor</p>
+        <h1 class="hero-title reveal delay-1">Piezas con firma,<span>identidad y narrativa.</span></h1>
+        <p class="hero-lead reveal delay-2">
+          Una colección de objetos funcionales tratados como piezas de autor:
+          presencia escultórica, materialidad visible y una lectura editorial para
+          interiores, galerías y proyectos con carácter.
+        </p>
+      </div>
+
+      <div class="hero-visual reveal delay-3" aria-label="Vista editorial de piezas de autor">
+        <figure class="hero-frame primary" data-parallax="0.08">
+          <img src="./assets/images/autor/MUEVE/Mueve%201.jpg" alt="Mueve vista principal">
+        </figure>
+        <figure class="hero-frame secondary" data-parallax="-0.06">
+          <img src="./assets/images/autor/grillo/grillo-05-frontal.jpg" alt="Grillo vista frontal">
+        </figure>
+        <span class="hero-note">Collectible furniture · Abraham Peyret</span>
+      </div>
+    </section>
+
+    <section class="collection-intro observe-section">
+      <div>
+        <p class="kicker reveal">Colección Diseño de Autor</p>
+        <h2 class="intro-title reveal delay-1">Objetos funcionales con presencia de pieza.</h2>
+      </div>
+
+      <p class="intro-copy reveal delay-2">
+        Esta línea no se presenta desde la lógica de catálogo. Cada producto se
+        construye como capítulo visual: primero la forma, después el detalle, y
+        finalmente la información técnica bajo consulta.
+      </p>
+
+      <nav class="product-tabs reveal delay-3" aria-label="Productos de Diseño de Autor">
+        <a href="#producto-mueve" class="product-tab active">Producto 01 · Mueve</a>
+        <a href="#producto-grillo" class="product-tab">Producto 02 · Grillo</a>
+        <a href="#producto-half" class="product-tab">Producto 03 · Half</a>
+        <a href="#producto-ciudad" class="product-tab">Producto 04 · Ciudad</a>
+        <a href="#contacto" class="product-tab">Consultar pieza</a>
+      </nav>
+    </section>
+
+    <section class="product-chapter observe-section" id="producto-mueve" data-watermark="MUEVE">
+      <div class="product-copy">
+        <p class="product-eyebrow reveal">Producto 01 · Pieza / diseño de autor</p>
+        <h2 class="product-title reveal delay-1">Mueve</h2>
+        <p class="product-lead reveal delay-2">
+          Pieza de autor con lectura dinámica, presencia ligera y composición visual en movimiento.
+          Mueve funciona como objeto protagonista: una pieza que transforma el espacio por su gesto,
+          materialidad y equilibrio formal.
+        </p>
+        <div class="editorial-points reveal delay-3" aria-label="Atributos editoriales de Mueve">
+          <span>Lenguaje dinámico y composición en tensión</span>
+          <span>Pieza con presencia escultórica</span>
+          <span>Objeto funcional con identidad visual</span>
+          <span>Producción bajo consulta o edición limitada</span>
+        </div>
+        <div class="actions reveal delay-3">
+          <button class="btn primary open-tech" type="button" data-product="mueve">Ver ficha técnica</button>
+          <a class="btn secondary" href="#producto-grillo">Siguiente pieza</a>
+        </div>
+      </div>
+
+      <aside class="hero-media reveal delay-2" aria-label="Galería de imágenes Mueve">
+        <div class="carousel-shell">
+          <div class="image-stage" id="mueveImageStage">
+            <span class="counter-badge" id="mueveImageCounter">01 / 10</span>
+            <span class="view-badge" id="mueveViewType">Vista completa</span>
+            <span class="zoom-hint">Acerca el mouse para ver detalles</span>
+            <img id="mueveMainImage" src="./assets/images/autor/MUEVE/Mueve%201.jpg" alt="Mueve vista principal" />
+            <figcaption class="media-caption"><span id="mueveImageCaption">Mueve · Vista principal</span><span>Diseño de Autor</span></figcaption>
+          </div>
+          <div class="carousel-controls">
+            <div class="arrows">
+              <button class="arrow" id="muevePrevBtn" type="button" aria-label="Imagen anterior">‹</button>
+              <button class="arrow" id="mueveNextBtn" type="button" aria-label="Imagen siguiente">›</button>
+            </div>
+            <div class="thumbs" id="mueveThumbs" aria-label="Miniaturas de Mueve"></div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="chapter-divider observe-section" aria-label="Transición a Grillo">
+      <div><p class="divider-kicker reveal">Siguiente capítulo</p><p class="divider-text reveal delay-1">Del movimiento visual a una silueta escultórica reconocible.</p></div>
+      <span class="divider-number reveal delay-2">02</span>
+    </section>
+
+    <section class="product-chapter observe-section" id="producto-grillo" data-watermark="GRILLO">
+      <div class="product-copy">
+        <p class="product-eyebrow reveal">Producto 02 · Silla / pieza de autor</p>
+        <h2 class="product-title reveal delay-1">Grillo</h2>
+        <p class="product-lead reveal delay-2">
+          Silla de autor con postura escultórica, estructura visible y lenguaje propio.
+          Una pieza funcional que se presenta como objeto con presencia, diseñada
+          para interiores, galerías y colecciones privadas.
+        </p>
+        <div class="editorial-points reveal delay-3" aria-label="Atributos editoriales de Grillo">
+          <span>Silueta escultórica y reconocible</span>
+          <span>Ensamble visible con lectura artesanal</span>
+          <span>Objeto funcional con presencia de pieza</span>
+          <span>Producción bajo consulta o edición limitada</span>
+        </div>
+        <div class="actions reveal delay-3">
+          <button class="btn primary open-tech" type="button" data-product="grillo">Ver ficha técnica</button>
+          <a class="btn secondary" href="#producto-half">Siguiente pieza</a>
+        </div>
+      </div>
+      <aside class="hero-media reveal delay-2" aria-label="Galería de imágenes Grillo">
+        <div class="carousel-shell">
+          <div class="image-stage" id="grilloImageStage">
+            <span class="counter-badge" id="grilloImageCounter">01 / 07</span>
+            <span class="view-badge" id="grilloViewType">Vista completa</span>
+            <span class="zoom-hint">Acerca el mouse para ver detalles</span>
+            <img id="grilloMainImage" src="./assets/images/autor/grillo/grillo-03-lateral.jpeg" alt="Grillo vista lateral" />
+            <figcaption class="media-caption"><span id="grilloImageCaption">Grillo · Vista lateral</span><span>Diseño de Autor</span></figcaption>
+          </div>
+          <div class="carousel-controls"><div class="arrows"><button class="arrow" id="grilloPrevBtn" type="button" aria-label="Imagen anterior">‹</button><button class="arrow" id="grilloNextBtn" type="button" aria-label="Imagen siguiente">›</button></div><div class="thumbs" id="grilloThumbs" aria-label="Miniaturas de Grillo"></div></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="chapter-divider observe-section" aria-label="Transición a Half">
+      <div><p class="divider-kicker reveal">Siguiente capítulo</p><p class="divider-text reveal delay-1">De la tensión triangular a la proporción geométrica.</p></div>
+      <span class="divider-number reveal delay-2">03</span>
+    </section>
+
+    <section class="product-chapter observe-section" id="producto-half" data-watermark="HALF">
+      <div class="product-copy">
+        <p class="product-eyebrow reveal">Producto 03 · Mesa / pieza de autor</p>
+        <h2 class="product-title reveal delay-1">Half</h2>
+        <p class="product-lead reveal delay-2">
+          Pieza de autor con lectura geométrica, presencia contenida y detalle
+          constructivo visible. Half se presenta como un objeto funcional de
+          proporción precisa, pensado para espacios donde la forma, el material
+          y el gesto estructural comunican identidad.
+        </p>
+        <div class="editorial-points reveal delay-3" aria-label="Atributos editoriales de Half">
+          <span>Proporción limpia con gesto geométrico</span>
+          <span>Estructura visible y lectura material</span>
+          <span>Objeto funcional con carácter de autor</span>
+          <span>Producción bajo consulta o edición limitada</span>
+        </div>
+        <div class="actions reveal delay-3">
+          <button class="btn primary open-tech" type="button" data-product="half">Ver ficha técnica</button>
+          <a class="btn secondary" href="#producto-ciudad">Siguiente pieza</a>
+        </div>
+      </div>
+      <aside class="hero-media reveal delay-2" aria-label="Galería de imágenes Half">
+        <div class="carousel-shell">
+          <div class="image-stage" id="halfImageStage">
+            <span class="counter-badge" id="halfImageCounter">01 / 07</span>
+            <span class="view-badge" id="halfViewType">Vista completa</span>
+            <span class="zoom-hint">Acerca el mouse para ver detalles</span>
+            <img id="halfMainImage" src="./assets/images/autor/HALF/half-01-frontal.jpg" alt="Half vista frontal" />
+            <figcaption class="media-caption"><span id="halfImageCaption">Half · Vista frontal</span><span>Diseño de Autor</span></figcaption>
+          </div>
+          <div class="carousel-controls"><div class="arrows"><button class="arrow" id="halfPrevBtn" type="button" aria-label="Imagen anterior">‹</button><button class="arrow" id="halfNextBtn" type="button" aria-label="Imagen siguiente">›</button></div><div class="thumbs" id="halfThumbs" aria-label="Miniaturas de Half"></div></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="chapter-divider observe-section" aria-label="Transición a Ciudad">
+      <div><p class="divider-kicker reveal">Siguiente capítulo</p><p class="divider-text reveal delay-1">Del objeto geométrico a una composición habitable.</p></div>
+      <span class="divider-number reveal delay-2">04</span>
+    </section>
+
+    <section class="product-chapter observe-section" id="producto-ciudad" data-watermark="CIUDAD">
+      <div class="product-copy">
+        <p class="product-eyebrow reveal">Producto 04 · Objeto / pieza de autor</p>
+        <h2 class="product-title reveal delay-1">Ciudad</h2>
+        <p class="product-lead reveal delay-2">
+          Pieza de autor concebida como composición funcional: contenedor, banco,
+          jardinera y objeto escultórico. Ciudad integra madera, vidrio, metal y
+          vegetación en una lectura urbana donde cada módulo funciona como parte
+          de un sistema visual y habitable.
+        </p>
+        <div class="editorial-points reveal delay-3" aria-label="Atributos editoriales de Ciudad">
+          <span>Composición modular con lectura urbana</span>
+          <span>Integración de madera, vidrio, metal y vegetación</span>
+          <span>Objeto funcional con presencia escultórica</span>
+          <span>Pieza de edición limitada o bajo consulta</span>
+        </div>
+        <div class="actions reveal delay-3">
+          <button class="btn primary open-tech" type="button" data-product="ciudad">Ver ficha técnica</button>
+          <a class="btn secondary" href="#contacto">Consultar pieza</a>
+        </div>
+      </div>
+      <aside class="hero-media reveal delay-2" aria-label="Galería de imágenes Ciudad">
+        <div class="carousel-shell">
+          <div class="image-stage" id="ciudadImageStage">
+            <span class="counter-badge" id="ciudadImageCounter">01 / 07</span>
+            <span class="view-badge" id="ciudadViewType">Vista completa</span>
+            <span class="zoom-hint">Acerca el mouse para ver detalles</span>
+            <img id="ciudadMainImage" src="./assets/images/autor/CIUDAD/ciudad-01-frontal.jpg" alt="Ciudad vista frontal" />
+            <figcaption class="media-caption"><span id="ciudadImageCaption">Ciudad · Vista frontal</span><span>Diseño de Autor</span></figcaption>
+          </div>
+          <div class="carousel-controls"><div class="arrows"><button class="arrow" id="ciudadPrevBtn" type="button" aria-label="Imagen anterior">‹</button><button class="arrow" id="ciudadNextBtn" type="button" aria-label="Imagen siguiente">›</button></div><div class="thumbs" id="ciudadThumbs" aria-label="Miniaturas de Ciudad"></div></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="cta observe-section" id="contacto">
+      <h2 class="reveal">Consultar piezas</h2>
+      <p class="reveal delay-1">
+        Solicita información sobre disponibilidad, edición, acabados, documentación
+        de Mueve, Grillo, Half, Ciudad o adaptación para un proyecto específico.
+      </p>
+      <div class="actions reveal delay-2">
+        <a href="mailto:contacto@abrahampeyret.art?subject=Consulta%20Diseño%20de%20Autor" class="btn primary">Solicitar información</a>
+        <a href="index.html" class="btn secondary">Volver al inicio</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>© Abraham Peyret</span>
+    <span>Diseño de Autor</span>
+    <span>Mueve · Grillo · Half · Ciudad</span>
+  </footer>
+
+  <div class="modal-overlay" id="techModal" aria-hidden="true">
+    <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" type="button" aria-label="Cerrar ficha técnica">×</button>
+      <p class="modal-kicker">Ficha técnica breve</p>
+      <h2 class="modal-title" id="modalTitle">Producto</h2>
+      <p class="modal-desc" id="modalDescription">Ficha rápida para presentar la pieza con claridad.</p>
+      <div class="tech-table" id="modalTable"></div>
+      <p class="drawer-note">
+        Nota editorial: ficha orientativa para presentación comercial y curatorial.
+        Medidas, acabados, disponibilidad y documentación pueden ajustarse bajo consulta directa.
+      </p>
+    </aside>
+  </div>
+
+  <script>
+    const placeholderSvg = (label) => {
+      const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='900' viewBox='0 0 1200 900'><rect width='1200' height='900' fill='%23151515'/><rect x='72' y='72' width='1056' height='756' fill='none' stroke='%23c8b9a7' stroke-width='2' opacity='.45'/><text x='600' y='420' text-anchor='middle' font-family='Helvetica, Arial, sans-serif' font-size='48' fill='%23c8b9a7' letter-spacing='10'>${label}</text><text x='600' y='486' text-anchor='middle' font-family='Helvetica, Arial, sans-serif' font-size='18' fill='%23f7f4ee' opacity='.65' letter-spacing='5'>COLOCAR IMAGEN EN ASSETS</text></svg>`;
+      return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+    };
+
+    const galleries = {
+      mueve: {
+        label: 'MUEVE',
+        elements: {stage:'mueveImageStage', main:'mueveMainImage', caption:'mueveImageCaption', counter:'mueveImageCounter', type:'mueveViewType', thumbs:'mueveThumbs', prev:'muevePrevBtn', next:'mueveNextBtn'},
+        images: [
+          {src:'./assets/images/autor/MUEVE/Mueve%201.jpg', caption:'Mueve · Vista principal', alt:'Mueve vista principal', type:'Vista completa'},
+          {src:'./assets/images/autor/MUEVE/Mueve%202.jpg', caption:'Mueve · Vista 02', alt:'Mueve vista 02', type:'Vista completa'},
+          {src:'./assets/images/autor/MUEVE/Mueve%203.jpg', caption:'Mueve · Vista 03', alt:'Mueve vista 03', type:'Vista completa'},
+          {src:'./assets/images/autor/MUEVE/Mueve%204.jpg', caption:'Mueve · Vista 04', alt:'Mueve vista 04', type:'Vista editorial'},
+          {src:'./assets/images/autor/MUEVE/Mueve%205.jpg', caption:'Mueve · Vista 05', alt:'Mueve vista 05', type:'Vista editorial'},
+          {src:'./assets/images/autor/MUEVE/img-01.jpg', caption:'Mueve · Detalle 01', alt:'Mueve detalle 01', type:'Detalle editorial'},
+          {src:'./assets/images/autor/MUEVE/img-02.jpg', caption:'Mueve · Detalle 02', alt:'Mueve detalle 02', type:'Detalle editorial'},
+          {src:'./assets/images/autor/MUEVE/img-03.jpg', caption:'Mueve · Detalle 03', alt:'Mueve detalle 03', type:'Detalle editorial'},
+          {src:'./assets/images/autor/MUEVE/img-04.jpg', caption:'Mueve · Detalle 04', alt:'Mueve detalle 04', type:'Detalle editorial'},
+          {src:'./assets/images/autor/MUEVE/practica2---Editar.jpg', caption:'Mueve · Fotografía editorial', alt:'Mueve fotografía editorial', type:'Contexto editorial'}
+        ]
+      },
+      grillo: {
+        label: 'GRILLO',
+        elements: {stage:'grilloImageStage', main:'grilloMainImage', caption:'grilloImageCaption', counter:'grilloImageCounter', type:'grilloViewType', thumbs:'grilloThumbs', prev:'grilloPrevBtn', next:'grilloNextBtn'},
+        images: [
+          {src:'./assets/images/autor/grillo/grillo-03-lateral.jpeg', caption:'Grillo · Vista lateral', alt:'Grillo vista lateral', type:'Vista completa'},
+          {src:'./assets/images/autor/grillo/grillo-04-tres-cuartos.jpg', fallbacks:['./assets/images/autor/grillo/grillo-04---uartos.jpg'], caption:'Grillo · Vista tres cuartos', alt:'Grillo vista tres cuartos', type:'Vista completa'},
+          {src:'./assets/images/autor/grillo/grillo-05-frontal.jpg', caption:'Grillo · Vista frontal', alt:'Grillo vista frontal', type:'Vista completa'},
+          {src:'./assets/images/autor/grillo/grillo-01---texto.jpeg', fallbacks:['./assets/images/autor/grillo/grillo-01-contexto.jpeg'], caption:'Grillo · Contexto / texto', alt:'Grillo en contexto', type:'Vista editorial'},
+          {src:'./assets/images/autor/grillo/grillo-02-ensamble.jpeg', fallbacks:['./assets/images/autor/grillo/grillo-02---mble.jpeg','./assets/images/autor/grillo/grillo-02-detalle-ensamble.jpeg'], caption:'Grillo · Detalle de ensamble', alt:'Detalle de ensamble Grillo', type:'Detalle editorial'},
+          {src:'./assets/images/autor/grillo/grillo-06-detalle-madera.jpg', fallbacks:['./assets/images/autor/grillo/grillo-06-d...adera.jpg'], caption:'Grillo · Detalle de madera', alt:'Detalle de madera Grillo', type:'Detalle editorial'},
+          {src:'./assets/images/autor/grillo/grillo-07-firma.jpg', caption:'Grillo · Firma / detalle autoral', alt:'Firma o detalle autoral Grillo', type:'Detalle editorial'}
+        ]
+      },
+      half: {
+        label: 'HALF',
+        elements: {stage:'halfImageStage', main:'halfMainImage', caption:'halfImageCaption', counter:'halfImageCounter', type:'halfViewType', thumbs:'halfThumbs', prev:'halfPrevBtn', next:'halfNextBtn'},
+        images: [
+          {src:'./assets/images/autor/HALF/half-01-frontal.jpg', caption:'Half · Vista frontal', alt:'Half vista frontal', type:'Vista completa'},
+          {src:'./assets/images/autor/HALF/half-02-lateral.jpg', caption:'Half · Vista lateral', alt:'Half vista lateral', type:'Vista completa'},
+          {src:'./assets/images/autor/HALF/half-03-tres-cuartos.jpg', caption:'Half · Vista tres cuartos', alt:'Half vista tres cuartos', type:'Vista completa'},
+          {src:'./assets/images/autor/HALF/half-04-superior.jpg', caption:'Half · Vista superior', alt:'Half vista superior', type:'Vista superior'},
+          {src:'./assets/images/autor/HALF/half-05-detalle.jpg', caption:'Half · Detalle de ensamble', alt:'Half detalle de ensamble', type:'Detalle editorial'},
+          {src:'./assets/images/autor/HALF/half-06-ensamble.jpg', caption:'Half · Detalle de material', alt:'Half detalle de material', type:'Detalle editorial'},
+          {src:'./assets/images/autor/HALF/half-07-contexto.jpg', caption:'Half · Vista posterior / detalle', alt:'Half vista posterior y detalle', type:'Vista editorial'}
+        ]
+      },
+      ciudad: {
+        label: 'CIUDAD',
+        elements: {stage:'ciudadImageStage', main:'ciudadMainImage', caption:'ciudadImageCaption', counter:'ciudadImageCounter', type:'ciudadViewType', thumbs:'ciudadThumbs', prev:'ciudadPrevBtn', next:'ciudadNextBtn'},
+        images: [
+          {src:'./assets/images/autor/CIUDAD/ciudad-01-frontal.jpg', fallbacks:['./assets/images/autor/ciudad/ciudad-01-frontal.jpg'], caption:'Ciudad · Vista frontal', alt:'Ciudad vista frontal', type:'Vista completa'},
+          {src:'./assets/images/autor/CIUDAD/ciudad-02-lateral.jpg', fallbacks:['./assets/images/autor/ciudad/ciudad-02-lateral.jpg'], caption:'Ciudad · Vista lateral', alt:'Ciudad vista lateral', type:'Vista lateral'},
+          {src:'./assets/images/autor/CIUDAD/ciudad-03-contexto-persona.jpg', fallbacks:['./assets/images/autor/ciudad/ciudad-03-contexto-persona.jpg'], caption:'Ciudad · Escala humana', alt:'Ciudad con persona para mostrar escala', type:'Contexto editorial'},
+          {src:'./assets/images/autor/CIUDAD/ciudad-04-contexto-movimiento.jpg', fallbacks:['./assets/images/autor/ciudad/ciudad-04-contexto-movimiento.jpg'], caption:'Ciudad · Contexto editorial', alt:'Ciudad en contexto con movimiento', type:'Contexto editorial'},
+          {src:'./assets/images/autor/CIUDAD/ciudad-05-detalle-firma.jpg', fallbacks:['./assets/images/autor/ciudad/ciudad-05-detalle-firma.jpg'], caption:'Ciudad · Firma y edición', alt:'Detalle de firma y edición limitada de Ciudad', type:'Detalle editorial'},
+          {src:'./assets/images/autor/CIUDAD/ciudad-06-posterior.jpg', fallbacks:['./assets/images/autor/ciudad/ciudad-06-posterior.jpg'], caption:'Ciudad · Vista posterior', alt:'Ciudad vista posterior', type:'Vista posterior'},
+          {src:'./assets/images/autor/CIUDAD/ciudad-07-detalle-material.jpg', fallbacks:['./assets/images/autor/ciudad/ciudad-07-detalle-material.jpg'], caption:'Ciudad · Detalle material', alt:'Detalle material de Ciudad', type:'Detalle material'}
+        ]
+      }
+    };
+
+    function initCarousel(config){
+      let currentIndex = 0;
+      const els = config.elements;
+      const mainImage = document.getElementById(els.main);
+      const imageCaption = document.getElementById(els.caption);
+      const imageCounter = document.getElementById(els.counter);
+      const viewType = document.getElementById(els.type);
+      const imageStage = document.getElementById(els.stage);
+      const thumbsWrap = document.getElementById(els.thumbs);
+      if(!mainImage || !thumbsWrap) return;
+
+      function candidatesFor(item){ return [item.src, ...(item.fallbacks || [])]; }
+      function applyImageWithFallback(img, item, fallbackLabel){
+        const candidates = candidatesFor(item);
+        let attempt = 0;
+        img.onerror = () => {
+          attempt += 1;
+          if(attempt < candidates.length){ img.src = candidates[attempt]; }
+          else{ img.onerror = null; img.src = placeholderSvg(fallbackLabel); }
+        };
+        img.src = candidates[0];
+      }
+
+      config.images.forEach((item, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'thumb' + (index === 0 ? ' active' : '');
+        btn.type = 'button';
+        btn.dataset.index = String(index);
+        btn.innerHTML = `<img alt="Miniatura ${index + 1}"><span>${String(index + 1).padStart(2,'0')}</span>`;
+        btn.addEventListener('click', () => updateCarousel(index));
+        applyImageWithFallback(btn.querySelector('img'), item, config.label);
+        thumbsWrap.appendChild(btn);
+      });
+
+      const thumbs = thumbsWrap.querySelectorAll('.thumb');
+      function updateCarousel(index){
+        currentIndex = (index + config.images.length) % config.images.length;
+        const data = config.images[currentIndex];
+        mainImage.style.opacity = '0';
+        setTimeout(() => {
+          mainImage.alt = data.alt;
+          applyImageWithFallback(mainImage, data, config.label);
+          imageCaption.textContent = data.caption;
+          imageCounter.textContent = `${String(currentIndex + 1).padStart(2,'0')} / ${String(config.images.length).padStart(2,'0')}`;
+          viewType.textContent = data.type;
+          const type = data.type.toLowerCase();
+          imageStage.classList.toggle('editorial-detail', type.includes('detalle'));
+          imageStage.classList.toggle('context-view', type.includes('contexto'));
+          thumbs.forEach((thumb) => thumb.classList.toggle('active', Number(thumb.dataset.index) === currentIndex));
+          mainImage.style.opacity = '1';
+        }, 150);
+      }
+      document.getElementById(els.prev).addEventListener('click', () => updateCarousel(currentIndex - 1));
+      document.getElementById(els.next).addEventListener('click', () => updateCarousel(currentIndex + 1));
+      imageStage.addEventListener('mousemove', (event) => {
+        const rect = imageStage.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width) * 100;
+        const y = ((event.clientY - rect.top) / rect.height) * 100;
+        mainImage.style.transformOrigin = `${x}% ${y}%`;
+      });
+      imageStage.addEventListener('mouseleave', () => { mainImage.style.transformOrigin = 'center center'; });
+      updateCarousel(0);
+    }
+
+    initCarousel(galleries.mueve);
+    initCarousel(galleries.grillo);
+    initCarousel(galleries.half);
+    initCarousel(galleries.ciudad);
+
+    const techData = {
+      mueve: {
+        title:'Mueve',
+        description:'Ficha rápida para presentar Mueve dentro de la colección Diseño de Autor.',
+        rows:[
+          ['Producto','Mueve · Pieza de diseño de autor.'],
+          ['Categoría','Objeto funcional / pieza escultórica con lectura dinámica.'],
+          ['Lenguaje','Movimiento visual, tensión formal, equilibrio compositivo y presencia ligera.'],
+          ['Materialidad','Materiales y acabados sujetos a edición, disponibilidad o encargo.'],
+          ['Uso sugerido','Interior residencial, galería, espacio editorial, colección privada o proyecto con enfoque autoral.'],
+          ['Producción','Disponibilidad, edición, acabados y documentación bajo consulta directa.']
+        ]
+      },
+      grillo: {
+        title:'Grillo',
+        description:'Ficha rápida para presentar la pieza con claridad sin perder el carácter editorial de Diseño de Autor.',
+        rows:[
+          ['Producto','Grillo · Pieza de diseño de autor.'],
+          ['Categoría','Silla / objeto funcional con presencia escultórica.'],
+          ['Lenguaje','Estructura triangular, tensión visual, ensamble expuesto y silueta reconocible.'],
+          ['Materialidad','Madera aparente con detalles constructivos visibles. Acabado final sujeto a edición o encargo.'],
+          ['Uso sugerido','Interior residencial, galería, espacio editorial, colección privada o proyecto con enfoque autoral.'],
+          ['Producción','Disponibilidad, edición, acabados y documentación bajo consulta directa.']
+        ]
+      },
+      half: {
+        title:'Half',
+        description:'Ficha rápida para presentar Half dentro de la colección Diseño de Autor.',
+        rows:[
+          ['Producto','Half · Pieza de diseño de autor.'],
+          ['Categoría','Mesa / objeto funcional con presencia escultórica y lectura geométrica.'],
+          ['Lenguaje','Proporción horizontal, contraste material, estructura visible y gesto constructivo reconocible.'],
+          ['Materialidad','Madera aparente con ensambles y detalles estructurales visibles. Acabado final sujeto a edición o encargo.'],
+          ['Uso sugerido','Interior residencial, galería, espacio editorial, colección privada o proyecto con enfoque autoral.'],
+          ['Producción','Disponibilidad, edición, acabados y documentación bajo consulta directa.']
+        ]
+      },
+      ciudad: {
+        title:'Ciudad',
+        description:'Ficha rápida para presentar la pieza con claridad sin perder el carácter editorial de Diseño de Autor.',
+        rows:[
+          ['Producto','Ciudad · Objeto funcional / pieza de diseño de autor.'],
+          ['Categoría','Objeto híbrido: banco, contenedor, jardinera y pieza escultórica.'],
+          ['Lenguaje','Composición modular, contraste material, gesto urbano y lectura objetual.'],
+          ['Materialidad','Madera aparente, estructura metálica, vidrio curvo, contenedor cerámico o esmaltado y elemento vegetal. Acabados sujetos a edición o encargo.'],
+          ['Uso sugerido','Interior residencial, galería, lobby, espacio editorial, colección privada o proyecto conceptual.'],
+          ['Producción','Disponibilidad, edición, acabados, dimensiones y documentación bajo consulta directa.']
+        ]
+      }
+    };
+
+    const modal = document.getElementById('techModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalTable = document.getElementById('modalTable');
+    const modalClose = modal.querySelector('.modal-close');
+
+    function openTechModal(product){
+      const data = techData[product];
+      if(!data) return;
+      modalTitle.textContent = data.title;
+      modalDescription.textContent = data.description;
+      modalTable.innerHTML = data.rows.map(row => `<div class="tech-row"><small>${row[0]}</small><span>${row[1]}</span></div>`).join('');
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeTechModal(){
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+    }
+    document.querySelectorAll('.open-tech').forEach(button => button.addEventListener('click', () => openTechModal(button.dataset.product)));
+    modalClose.addEventListener('click', closeTechModal);
+    modal.addEventListener('click', event => { if(event.target === modal) closeTechModal(); });
+    document.addEventListener('keydown', event => { if(event.key === 'Escape') closeTechModal(); });
+
+    const sections = document.querySelectorAll('.observe-section, .reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => { if(entry.isIntersecting){ entry.target.classList.add('in-view'); } });
+    }, {threshold:.16});
+    sections.forEach(section => observer.observe(section));
+
+    const parallaxItems = document.querySelectorAll('[data-parallax]');
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      parallaxItems.forEach(item => {
+        const speed = parseFloat(item.dataset.parallax || 0);
+        item.style.transform = `translateY(${y * speed}px)`;
+      });
+    }, {passive:true});
+
+    const productSections = document.querySelectorAll('.product-chapter');
+    const productTabs = document.querySelectorAll('.product-tab');
+    const tabObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          const id = entry.target.id;
+          productTabs.forEach(tab => tab.classList.toggle('active', tab.getAttribute('href') === `#${id}`));
+        }
+      });
+    }, {threshold:.45});
+    productSections.forEach(section => tabObserver.observe(section));
+  </script>
+</body>
+</html>
